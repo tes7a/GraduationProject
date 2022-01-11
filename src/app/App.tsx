@@ -19,7 +19,7 @@ function App() {
             <Route path="/registration" element={<Registration/>}/>
             <Route path="/test" element={<TestComponent/>}/>
             <Route path="/404" element={<Err404/>}/>
-            <Route path="*" element={<Navigate to='/404'/>}/>
+            <Route path="/*" element={<Navigate to='/404'/>}/>
         </Routes>
     );
 }
