@@ -1,11 +1,17 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from "redux-thunk";
-import { appReducer } from "./app-reducer";
+import { AppReducer } from "./app-reducer";
 import {ProfileReducer} from "../faetures/profile-reducer";
+import {RegReducer} from "../faetures/reg/reg-reducer";
+import {SigninReducer} from "../faetures/signin/signin-reducer";
+import {LoginReducer} from "../faetures/login/login-reducer";
 
 const rootReducer = combineReducers({
-    app: appReducer,
+    app: AppReducer,
     profile: ProfileReducer,
+    reg: RegReducer,
+    signin: SigninReducer,
+    login: LoginReducer
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
