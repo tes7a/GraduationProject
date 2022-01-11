@@ -5,7 +5,7 @@ import {Err404} from "../utils/Err404";
 import {Profile} from "../faetures/Profile";
 import {Login} from "../faetures/login/Login";
 import {Signin} from "../faetures/signin/Signin";
-import {PasswordRecovery} from "../faetures/passwordRecovery/PasswordRecovery";
+import {ForgotPassword} from "../faetures/passwordRecovery/ForgotPassword";
 import {Registration} from "../faetures/reg/Registration";
 import {TestComponent} from "../trash/TestComponent";
 
@@ -15,7 +15,7 @@ function App() {
             <Route path="/" element={<Profile/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/signin" element={<Signin/>}/>
-            <Route path="/passrecovery" element={<PasswordRecovery/>}/>
+            <Route path="/forgot" element={<ForgotPassword/>}/>
             <Route path="/registration" element={<Registration/>}/>
             <Route path="/test" element={<TestComponent/>}/>
             <Route path="/404" element={<Err404/>}/>
