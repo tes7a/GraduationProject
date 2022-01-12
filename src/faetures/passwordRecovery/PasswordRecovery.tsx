@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const Login = () => {
+export const PasswordRecovery = () => {
     return <>
         <div><Link to={'/'}>Profile</Link></div>
         <div><Link to={'/test'}>Test</Link></div>
@@ -11,6 +11,6 @@ export const Login = () => {
         <div><Link to={'/registration'}>Reg</Link></div>
         <div><Link to={'/404'}>404</Link></div>
 
-        <h1>LOGIN</h1>
+        <h1>PASSWORD RECOVERY</h1>
     </>
 }
