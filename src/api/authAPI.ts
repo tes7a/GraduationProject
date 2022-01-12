@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 
 //const DEV_VERSION = false;
 //! DEV_VERSION ? "http://localhost:7542/2.0/" : "https://neko-back.herokuapp.com/2.0/";
@@ -10,13 +10,17 @@ export const instance = axios.create({
 
 // dal
 export const authAPI = {
-    checkUserInfo(date: CheckUserInfoType){
-        return instance.post(`auth/me`, date)
+    checkUserInfo(){
+        return instance.post<{},AxiosResponse<UserDataInfo>>(`auth/me`,{})
     }
 }
 
 //type
-export type CheckUserInfoType = {
-    name: string,
-    avatar: string,
+export type UserDataInfo = {
+    _id: string;
+    email: string;
+    name: string;
+    avatar?: string;
+    publicCardPacksCount: number;
 }
+

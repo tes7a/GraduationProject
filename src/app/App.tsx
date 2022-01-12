@@ -5,7 +5,7 @@ import './App.css';
 import {NavigationApp} from './NavigationApp';
 
 
-function App() {
+export function App() {
     return (
         <div>
             <Header/>
@@ -14,4 +14,4 @@ function App() {
     );
 }
 
-export default App;
+
