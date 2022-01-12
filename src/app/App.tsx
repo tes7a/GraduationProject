@@ -8,6 +8,7 @@ import {Signin} from "../faetures/signin/Signin";
 import {ForgotPassword} from "../faetures/passwordRecovery/ForgotPassword";
 import {Registration} from "../faetures/reg/Registration";
 import {TestComponent} from "../trash/TestComponent";
+import { NewPassword } from '../faetures/newPassword/NewPassword';
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/login" element={<Login/>}/>
             <Route path="/signin" element={<Signin/>}/>
             <Route path="/forgot" element={<ForgotPassword/>}/>
+            <Route path="/newPassword" element={<NewPassword/>}/>
             <Route path="/registration" element={<Registration/>}/>
             <Route path="/test" element={<TestComponent/>}/>
             <Route path="/404" element={<Err404/>}/>
