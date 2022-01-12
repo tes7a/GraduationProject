@@ -1,18 +1,22 @@
-const initialStateReg: any = {
+import {stat} from "fs";
 
+type StateType = any;
+
+const initialStateReg: StateType = {
 }
 
-export const RegReducer = (state = initialStateReg, action: ActionsTypeReducer):any => {
+export const RegReducer = (state = initialStateReg, action: ActionsTypeReducer) => {
     switch (action.type) {
         default:
             return state
     }
 }
 
-// action
+// actionCreator
+
 
 // thunk
 
 // type
 
-type ActionsTypeReducer = any
+type ActionsTypeReducer = any;
