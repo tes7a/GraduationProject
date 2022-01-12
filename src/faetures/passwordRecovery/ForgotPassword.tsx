@@ -15,8 +15,6 @@ export const ForgotPassword = () => {
         setEmail(value);
     };
 
-    const { token } = useParams<"token" | "id">();
-
     const message = `
         <div style="background-color: #f4ffd4; padding: 15px">
             password recovery link: 
@@ -31,15 +29,24 @@ export const ForgotPassword = () => {
 
     return (
         <>
+            <div>
+                <Link to={'/'}>Profile</Link>
+                <Link to={'/test'}>Test</Link>
+                <Link to={'/login'}>Login</Link>
+                <Link to={'/signin'}>Signin</Link>
+                <Link to={'/passrecovery'}>PassRec</Link>
+                <Link to={'/registration'}>Reg</Link>
+                <Link to={'/404'}>404</Link>
+            </div>
             <form className={styles.formForgotPassword}>
                 <div className={styles.title}>It-incubator</div>
                 <div className={styles.subtitle}>Forgot your password?</div>
-                <div className={"formControl formGroupInput"}>
+                <div className={styles.formEmail}>
+                    <label className={styles.labelInput} htmlFor="email">Email</label>
                     <SuperInputText onChangeText={changeEmail} error={error} id="email"/>
-                    <label className={"labelInput"} htmlFor="email">Email</label>
                 </div>
                 <div className={styles.blockBtn}>
-                    <SuperButton onClick={sendDataForPasswordRecovery} type="submit" className={"primaryBtn"}>Send Instructions</SuperButton>
+                    <SuperButton onClick={sendDataForPasswordRecovery} type="submit">Send Instructions</SuperButton>
                 </div>
                 <div>Did you remember your password?</div>
                 <div><Link to={"/login"}>Try logging in</Link></div>
