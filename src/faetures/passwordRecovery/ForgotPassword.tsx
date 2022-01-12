@@ -18,7 +18,7 @@ export const ForgotPassword = () => {
     const message = `
         <div style="background-color: #f4ffd4; padding: 15px">
             password recovery link: 
-            <a href="tes7a.github.io/GraduationProject/#/forgot-password/$token$" style="color: #913ab7;">link</a>
+            <a href="http://localhost:3000/#/newPassword/$token$" style="color: #913ab7;">link</a>
         </div>
     `;
 
