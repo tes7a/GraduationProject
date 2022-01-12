@@ -5,13 +5,15 @@ import {ProfileReducer} from "../faetures/profile-reducer";
 import {RegReducer} from "../faetures/reg/reg-reducer";
 import {SigninReducer} from "../faetures/signin/signin-reducer";
 import {LoginReducer} from "../faetures/login/login-reducer";
+import { newPasswordReducer } from "../faetures/newPassword/newPasswordReducer";
 
 const rootReducer = combineReducers({
     app: AppReducer,
     profile: ProfileReducer,
     reg: RegReducer,
     signin: SigninReducer,
-    login: LoginReducer
+    login: LoginReducer,
+    newPassword: newPasswordReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
