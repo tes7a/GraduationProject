@@ -1,6 +1,5 @@
 import React, {FC} from "react";
 import { Login } from "../faetures/login/Login";
-import { PasswordRecovery } from "../faetures/passwordRecovery/PasswordRecovery";
 import { Profile } from "../faetures/profile/Profile";
 import { Registration } from "../faetures/reg/Registration";
 import { Signin } from "../faetures/signin/Signin";
