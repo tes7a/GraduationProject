@@ -2,7 +2,7 @@ const initialStateApp: any = {
 
 }
 
-export const appReducer = (state = initialStateApp, action: ActionsTypeApp): any => {
+export const AppReducer = (state = initialStateApp, action: ActionsTypeReducer): any => {
     switch (action.type){
         default:
             return state
@@ -15,4 +15,4 @@ export const appReducer = (state = initialStateApp, action: ActionsTypeApp): any
 
 // type
 
-type ActionsTypeApp = any
+type ActionsTypeReducer = any

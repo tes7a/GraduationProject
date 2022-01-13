@@ -10,7 +10,6 @@ import {Registration} from "../faetures/reg/Registration";
 import {TestComponent} from "../trash/TestComponent";
 
 function App() {
-    // did not change
     return (
         <Routes>
             <Route path="/" element={<Profile/>}/>
