@@ -6,6 +6,7 @@ import { Registration } from "../faetures/reg/Registration";
 import { Signin } from "../faetures/signin/Signin";
 import { TestComponent } from "../trash/TestComponent";
 import { Err404 } from "../utils/Err404";
+import {LoginContainer} from "../faetures/login/LoginContainer";
 
 export enum PATH_ {
     EMPTY = '',
@@ -37,7 +38,7 @@ type RoutesType = {
 export const publicRoutes: RoutesType[] = [
     {path: PATH.PROFILE, component: Profile},
     {path: PATH.REGISTRATION, component: Registration},
-    {path: PATH.LOGIN, component: Login},
+    {path: PATH.LOGIN, component: LoginContainer},
     {path: PATH.SIGNIN, component: Signin},
     {path: PATH.PASSWORD_RECOVERY, component: PasswordRecovery},
     {path: PATH.ERROR, component: Err404},
