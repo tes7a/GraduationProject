@@ -1,7 +1,7 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from "redux-thunk";
 import { AppReducer } from "./app-reducer";
-import {ProfileReducer} from "../faetures/profile-reducer";
+import {ProfileReducer} from "../faetures/profile/profile-reducer";
 import {RegReducer} from "../faetures/reg/reg-reducer";
 import {SigninReducer} from "../faetures/signin/signin-reducer";
 import {LoginReducer} from "../faetures/login/login-reducer";
