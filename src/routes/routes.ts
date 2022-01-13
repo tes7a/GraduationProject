@@ -6,6 +6,7 @@ import { Registration } from "../faetures/reg/Registration";
 import { Signin } from "../faetures/signin/Signin";
 import { TestComponent } from "../trash/TestComponent";
 import { Err404 } from "../utils/Err404";
+import {ForgotPassword} from "../faetures/passwordRecovery/ForgotPassword";
 
 export enum PATH_ {
     EMPTY = '',
@@ -13,7 +14,7 @@ export enum PATH_ {
     PROFILE = '/',
     LOGIN = '/login',
     REGISTRATION = '/registration',
-    PASSWORD_RECOVERY = '/passrecovery',
+    FORGOT_PASSWORD = '/forgot-password',
     SIGNIN = '/signin',
     TEST = '/test'
 }
@@ -24,7 +25,7 @@ export const PATH = {
     PROFILE: '/',
     LOGIN: '/login',
     REGISTRATION: '/registration',
-    PASSWORD_RECOVERY: '/passrecovery',
+    FORGOT_PASSWORD: '/forgot-password',
     SIGNIN: '/signin',
     TEST: '/test'
 }
@@ -39,7 +40,7 @@ export const publicRoutes: RoutesType[] = [
     {path: PATH.REGISTRATION, component: Registration},
     {path: PATH.LOGIN, component: Login},
     {path: PATH.SIGNIN, component: Signin},
-    {path: PATH.PASSWORD_RECOVERY, component: PasswordRecovery},
+    {path: PATH.FORGOT_PASSWORD, component: ForgotPassword},
     {path: PATH.ERROR, component: Err404},
     {path: PATH.TEST, component: TestComponent}
 ]
