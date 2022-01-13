@@ -5,7 +5,7 @@ import { Registration } from "../faetures/reg/Registration";
 import { Signin } from "../faetures/signin/Signin";
 import { TestComponent } from "../trash/TestComponent";
 import { Err404 } from "../utils/Err404";
-import {ForgotPassword} from "../faetures/passwordRecovery/ForgotPassword";
+import {ForgotPassword} from "../faetures/forgotPassword/ForgotPassword";
 
 export enum PATH_ {
     EMPTY = '',

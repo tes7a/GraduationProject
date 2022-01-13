@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, {useState} from "react";
+import {useDispatch} from "react-redux";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import styles from "./ForgotPassword.module.css"
 import SuperButton from "../../components/SuperButton/SuperButton";
-import {Link, useParams} from "react-router-dom";
-import { createRequestRecoveryPasswordTC } from "./password-recovery-reducer";
-import {AppRootStateType} from "../../app/store";
+import {Link} from "react-router-dom";
+import {createForgotPasswordRequestTC} from "./forgot-password-reducer";
 
 export const ForgotPassword = () => {
     const dispatch = useDispatch();
@@ -23,21 +22,12 @@ export const ForgotPassword = () => {
     `;
 
     const sendDataForPasswordRecovery = () => {
-        dispatch(createRequestRecoveryPasswordTC({email, message}))
+        dispatch(createForgotPasswordRequestTC({email, message}))
     };
 
 
     return (
         <>
-            <div>
-                <Link to={'/'}>Profile</Link>
-                <Link to={'/test'}>Test</Link>
-                <Link to={'/login'}>Login</Link>
-                <Link to={'/signin'}>Signin</Link>
-                <Link to={'/passrecovery'}>PassRec</Link>
-                <Link to={'/registration'}>Reg</Link>
-                <Link to={'/404'}>404</Link>
-            </div>
             <form className={styles.formForgotPassword}>
                 <div className={styles.title}>It-incubator</div>
                 <div className={styles.subtitle}>Forgot your password?</div>

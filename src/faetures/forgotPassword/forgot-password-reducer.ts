@@ -1,10 +1,10 @@
-import {recoveryPasswordAPI} from "./password-recovery-api";
+import {forgotPasswordAPI} from "./forgot-password-api";
 
 export const initialRecoveryPasswordState = {
     status: "idle",
 };
 
-export const passwordRecoveryReducer = (state:initialRecoveryPasswordStateType = initialRecoveryPasswordState, action: ActionsTypeReducer): initialRecoveryPasswordStateType => {
+export const forgotPasswordReducer = (state:initialRecoveryPasswordStateType = initialRecoveryPasswordState, action: ActionsTypeReducer): initialRecoveryPasswordStateType => {
     switch (action.type) {
         case "PASSWORD-RECOVERY/SET-STATUS":
             return {...state, status: action.status};
@@ -14,18 +14,17 @@ export const passwordRecoveryReducer = (state:initialRecoveryPasswordStateType =
 };
 
 //action
-// const createRequestRecoveryPasswordAC = (data: DataRecoveryPasswordType) => ({type: "PASSWORD-RECOVERY/CREATE-REQUEST-RECOVERY-PASSWORD"} as const);
 const setStatusAC = (status: RequestStatusType) => ({type: "PASSWORD-RECOVERY/SET-STATUS", status} as const);
 
 //thunk
-export const createRequestRecoveryPasswordTC = (data: DataRecoveryPasswordType) => (dispatch: any) => {
-    recoveryPasswordAPI.createRequestRecoveryPassword(data)
-        .then(res => {
-
-        })
-        .catch(error => {
-
-        })
+export const createForgotPasswordRequestTC = (data: DataRecoveryPasswordType) => (dispatch: any) => {
+    forgotPasswordAPI.createForgotPasswordRequest(data)
+        // .then(res => {
+        //
+        // })
+        // .catch(error => {
+        //
+        // })
 };
 
 
