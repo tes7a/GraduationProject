@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const Login = () => {
     return <>
-        Login
+        <h1>LOGIN</h1>
     </>
 }

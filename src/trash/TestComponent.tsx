@@ -1,8 +1,9 @@
-import React, {ChangeEvent, useState } from "react";
+import React, {ChangeEvent, useState} from "react";
 import SuperInputText from "../components/SuperInputText/SuperInputText";
 import SuperCheckbox from "../components/SuperCheckbox/SuperCheckbox";
 import SuperButton from "../components/SuperButton/SuperButton";
 import s from './TestComponent.module.css'
+import {Link} from "react-router-dom";
 
 export const TestComponent = () => {
     const [text, setText] = useState<string>('')
@@ -21,6 +22,7 @@ export const TestComponent = () => {
 
     return (
         <div>
+            <h1>TEST</h1>
             <hr/>
             <div className={s.column}>
                 <SuperInputText

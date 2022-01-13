@@ -1,0 +1,15 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+}
+
+.active{
+    color: black;
+    margin: 10px
+}

@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const PasswordRecovery = () => {
     return <>
-        Password Recovery
+        <h1>PASSWORD RECOVERY</h1>
     </>
 }
