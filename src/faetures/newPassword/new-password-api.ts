@@ -1,5 +1,5 @@
 import axios from "axios";
-import {DataNewPasswordType} from "./newPasswordReducer";
+import {DataNewPasswordType} from "./new-password-reducer";
 
 
 const instance = axios.create({

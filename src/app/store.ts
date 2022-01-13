@@ -5,7 +5,7 @@ import {ProfileReducer} from "../faetures/profile/profile-reducer";
 import {RegReducer} from "../faetures/reg/reg-reducer";
 import {SigninReducer} from "../faetures/signin/signin-reducer";
 import {LoginReducer} from "../faetures/login/login-reducer";
-import { newPasswordReducer } from "../faetures/newPassword/newPasswordReducer";
+import { newPasswordReducer } from "../faetures/newPassword/new-password-reducer";
 import {forgotPasswordReducer} from "../faetures/forgotPassword/forgot-password-reducer";
 
 const rootReducer = combineReducers({
