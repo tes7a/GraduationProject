@@ -22,7 +22,7 @@ export const setIsChangedPasswordAC = (isChangedPassword: boolean) =>
     ({type: "newPasswordReducer/SET-IS-CHANGED-PASSWORD", isChangedPassword} as const);
 
 //thunk
-export const createRequestRecoveryPasswordTC = (data: any) => (dispatch: any) => {
+export const createNewPasswordTC = (data: any) => (dispatch: any) => {
     newPasswordAPI.createRequestRecoveryPassword(data)
         // .then(res => {
         //     dispatch(setStatusAC('succeeded'));
