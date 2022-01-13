@@ -2,7 +2,7 @@ import axios from "axios";
 import {DataNewPasswordType} from "./new-password-reducer";
 
 
-const instance = axios.create({
+const instance3 = axios.create({
     // baseURL: "https://neko-back.herokuapp.com/2.0"
     baseURL: "http://localhost:7542/2.0/",
     withCredentials: true
@@ -10,6 +10,6 @@ const instance = axios.create({
 
 export const newPasswordAPI = {
     createRequestRecoveryPassword(data: DataNewPasswordType){
-        return instance.post("auth/set-new-password", data);
+        return instance3.post("auth/set-new-password", data);
     }
 };

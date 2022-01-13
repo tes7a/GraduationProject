@@ -5,6 +5,7 @@ import styles from "./NewPassword.module.css"
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {Link, Navigate, useParams} from "react-router-dom";
 import {AppRootStateType} from "../../app/store";
+import {createNewPasswordTC} from "./new-password-reducer";
 
 export const NewPassword = () => {
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export const NewPassword = () => {
     };
 
     const createNewPassword = () => {
-        // dispatch(createNewPasswordTC({password, token}));
+        dispatch(createNewPasswordTC({password, token}));
     };
 
     if (isChangedPassword) {
@@ -29,15 +30,6 @@ export const NewPassword = () => {
 
     return (
         <>
-            <div>
-                <Link to={'/'}>Profile</Link>
-                <Link to={'/test'}>Test</Link>
-                <Link to={'/login'}>Login</Link>
-                <Link to={'/signin'}>Signin</Link>
-                <Link to={'/passrecovery'}>PassRec</Link>
-                <Link to={'/registration'}>Reg</Link>
-                <Link to={'/404'}>404</Link>
-            </div>
             <form className={styles.formNewPassword}>
                 <div className={styles.title}>It-incubator</div>
                 <div className={styles.subtitle}>Create new password</div>
