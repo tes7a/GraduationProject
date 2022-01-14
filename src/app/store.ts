@@ -18,6 +18,7 @@ const rootReducer = combineReducers({
     forgotPassword: forgotPasswordReducer,
 });
 
+
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export type AppRootStateType = ReturnType<typeof rootReducer>;
