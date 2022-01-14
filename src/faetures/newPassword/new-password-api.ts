@@ -1,5 +1,5 @@
-import axios from "axios";
-import {DataNewPasswordType} from "./new-password-reducer";
+import axios, {AxiosResponse} from "axios";
+import {DataNewPasswordType, ResponseNewPasswordType} from "./new-password-reducer";
 
 
 const instance3 = axios.create({
@@ -10,6 +10,6 @@ const instance3 = axios.create({
 
 export const newPasswordAPI = {
     createRequestRecoveryPassword(data: DataNewPasswordType){
-        return instance3.post("auth/set-new-password", data);
+        return instance3.post<DataNewPasswordType, AxiosResponse<ResponseNewPasswordType>>("auth/set-new-password", data);
     }
 };
