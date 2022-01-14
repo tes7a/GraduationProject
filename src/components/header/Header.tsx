@@ -9,7 +9,6 @@ export const Header: FC = () => {
             <nav className={s.container}>
                 <NavLink className={s.active} to={PATH.PROFILE}>Profile</NavLink>
                 <NavLink className={s.active} to={PATH.LOGIN}>Login</NavLink>
-                <NavLink className={s.active} to={PATH.SIGNIN}>Signin</NavLink>
                 <NavLink className={s.active} to={PATH.FORGOT_PASSWORD}>Forgot password</NavLink>
                 <NavLink className={s.active} to={PATH.NEW_PASSWORD}>New password</NavLink>
                 <NavLink className={s.active} to={PATH.REGISTRATION}>Registration</NavLink>

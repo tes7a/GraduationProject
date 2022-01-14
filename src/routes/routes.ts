@@ -2,12 +2,11 @@ import React, {FC} from "react";
 import { Login } from "../faetures/login/Login";
 import { Profile } from "../faetures/profile/Profile";
 import { Registration } from "../faetures/reg/Registration";
-import { Signin } from "../faetures/signin/Signin";
 import { TestComponent } from "../trash/TestComponent";
 import { Err404 } from "../utils/Err404";
-import {LoginContainer} from "../faetures/login/LoginContainer";
 import {ForgotPassword} from "../faetures/forgotPassword/ForgotPassword";
 import {NewPassword} from "../faetures/newPassword/NewPassword";
+import { LoginContainer } from "../faetures/login/LoginContainer";
 
 export enum PATH_ {
     EMPTY = '',
@@ -42,7 +41,6 @@ export const publicRoutes: RoutesType[] = [
     {path: PATH.PROFILE, component: Profile},
     {path: PATH.REGISTRATION, component: Registration},
     {path: PATH.LOGIN, component: LoginContainer},
-    {path: PATH.SIGNIN, component: Signin},
     {path: PATH.FORGOT_PASSWORD, component: ForgotPassword},
     {path: PATH.NEW_PASSWORD, component: NewPassword},
     {path: PATH.ERROR, component: Err404},
