@@ -1,5 +1,6 @@
-import axios from "axios";
-import {DataRecoveryPasswordType} from "./forgot-password-reducer";
+import axios, {AxiosResponse} from "axios";
+import {DataForgotPasswordType, ResponseForgotPasswordType} from "./forgot-password-reducer";
+
 
 
 const instance2 = axios.create({
@@ -9,7 +10,7 @@ const instance2 = axios.create({
 });
 
 export const forgotPasswordAPI = {
-    createForgotPasswordRequest(data: DataRecoveryPasswordType){
-        return instance2.post("auth/forgot", data);
+    createForgotPasswordRequest(data: DataForgotPasswordType){
+        return instance2.post<DataForgotPasswordType, AxiosResponse<ResponseForgotPasswordType>>("auth/forgot", data);
     }
 };
