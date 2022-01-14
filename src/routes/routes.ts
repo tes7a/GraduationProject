@@ -1,12 +1,13 @@
 import React, {FC} from "react";
 import { Login } from "../faetures/login/Login";
-import { PasswordRecovery } from "../faetures/passwordRecovery/PasswordRecovery";
 import { Profile } from "../faetures/profile/Profile";
 import { Registration } from "../faetures/reg/Registration";
 import { Signin } from "../faetures/signin/Signin";
 import { TestComponent } from "../trash/TestComponent";
 import { Err404 } from "../utils/Err404";
 import {LoginContainer} from "../faetures/login/LoginContainer";
+import {ForgotPassword} from "../faetures/forgotPassword/ForgotPassword";
+import {NewPassword} from "../faetures/newPassword/NewPassword";
 
 export enum PATH_ {
     EMPTY = '',
@@ -14,7 +15,8 @@ export enum PATH_ {
     PROFILE = '/',
     LOGIN = '/login',
     REGISTRATION = '/registration',
-    PASSWORD_RECOVERY = '/passrecovery',
+    FORGOT_PASSWORD = '/forgot-password',
+    NEW_PASSWORD = '/create-new-password',
     SIGNIN = '/signin',
     TEST = '/test'
 }
@@ -25,7 +27,8 @@ export const PATH = {
     PROFILE: '/',
     LOGIN: '/login',
     REGISTRATION: '/registration',
-    PASSWORD_RECOVERY: '/passrecovery',
+    FORGOT_PASSWORD: '/forgot-password',
+    NEW_PASSWORD: '/create-new-password',
     SIGNIN: '/signin',
     TEST: '/test'
 }
@@ -40,7 +43,8 @@ export const publicRoutes: RoutesType[] = [
     {path: PATH.REGISTRATION, component: Registration},
     {path: PATH.LOGIN, component: LoginContainer},
     {path: PATH.SIGNIN, component: Signin},
-    {path: PATH.PASSWORD_RECOVERY, component: PasswordRecovery},
+    {path: PATH.FORGOT_PASSWORD, component: ForgotPassword},
+    {path: PATH.NEW_PASSWORD, component: NewPassword},
     {path: PATH.ERROR, component: Err404},
     {path: PATH.TEST, component: TestComponent}
 ]
