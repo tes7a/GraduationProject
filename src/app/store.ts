@@ -14,6 +14,7 @@ const rootReducer = combineReducers({
     login: LoginReducer
 });
 
+
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export type AppRootStateType = ReturnType<typeof rootReducer>;
