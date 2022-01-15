@@ -5,7 +5,7 @@ import SuperCheckbox from "../../components/SuperCheckbox/SuperCheckbox";
 import SuperButton from "../../components/SuperButton/SuperButton";
 
 export const Login = (
-    {email, password, rememberMe, onChangeEmail, onChangePassword, onChangeRememberMe, authorized}: LoginPropsType
+    {email, password, rememberMe, onChangeEmail, onChangePassword, onChangeRememberMe, login}: LoginPropsType
 ) => {
     return (
         <div>
@@ -23,12 +23,13 @@ export const Login = (
                     placeholder='Password'
                     value={password}
                 />
-                <SuperCheckbox onChangeChecked={onChangeRememberMe}>Remember Me</SuperCheckbox>
+                <SuperCheckbox checked={rememberMe} onChangeChecked={onChangeRememberMe}>Remember Me</SuperCheckbox>
+                <SuperButton onClick={login}>SingIn</SuperButton>
 
                 <div>
                     <NavLink to={'/passrecovery'}>Forgot password?</NavLink>
                 </div>
-                <SuperButton onClick={authorized}>SingIn</SuperButton>
+
                 <div>
                     <NavLink to={'/registration'}>Registration</NavLink>
                 </div>
@@ -44,5 +45,5 @@ type LoginPropsType = {
     onChangeEmail: (value: string) => void
     onChangePassword: (value: string) => void
     onChangeRememberMe: (value: boolean) => void
-    authorized: () => void
+    login: () => void
 }
