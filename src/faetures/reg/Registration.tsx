@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import classes from './Registration.module.css'
 import axios from "axios";
 
-const url = 'http://localhost:7542/2.0/auth/register';
+const url = 'https://neko-back.herokuapp.com/2.0';
 
 export const Registration = () => {
     const [email, setEmail] = useState('');
@@ -58,7 +58,7 @@ export const Registration = () => {
             </div>
             {err !== '' ? <div>{err}</div> : null}
             <button className={classes.signInBtn} onClick={submitBtnHandler}>Sign
-                in
+                Up
             </button>
             <button><Link to='/login'>Login</Link></button>
 

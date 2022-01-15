@@ -5,7 +5,7 @@ import SuperCheckbox from "../../components/SuperCheckbox/SuperCheckbox";
 import SuperButton from "../../components/SuperButton/SuperButton";
 
 export const Login = (
-    {email, password, rememberMe, onChangeEmail, onChangePassword, onChangeRememberMe, login}: LoginPropsType
+    {email, password, rememberMe, onChangeEmail, onChangePassword, onChangeRememberMe, authorized}: LoginPropsType
 ) => {
     return (
         <div>
