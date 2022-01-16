@@ -11,7 +11,7 @@ export const instance = axios.create({
 // dal
 export const authAPI = {
     checkUserInfo() {
-        return instance.post<{}, AxiosResponse<UserDataInfo>>(`auth/me`, {})
+        return instance.post<{}, AxiosResponse<UserAuthInfo>>(`auth/me`, {})
     },
     authorized(email: string, password: string, rememberMe: boolean) {
         return instance.post<{}, AxiosResponse<UserAuthInfo>>('auth/login', {email, password, rememberMe})
