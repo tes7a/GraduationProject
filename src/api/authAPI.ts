@@ -13,8 +13,11 @@ export const authAPI = {
     checkUserInfo() {
         return instance.post<{}, AxiosResponse<UserAuthInfo>>(`auth/me`, {})
     },
-    authorized(email: string, password: string, rememberMe: boolean) {
-        return instance.post<{}, AxiosResponse<UserAuthInfo>>('auth/login', {email, password, rememberMe})
+    login(email: string, password: string, rememberMe: boolean) {
+        return instance.post<{}, AxiosResponse<LoginUserInfo>>('auth/login', {email, password, rememberMe})
+    },
+    logout(){
+        return instance.delete('/auth/me');
     }
 }
 
@@ -28,7 +31,7 @@ export type UserDataInfo = {
 }
 
 //Пока что оставлю здесь !!!
-export type UserAuthInfo = {
+export type LoginUserInfo = {
     avatar?: string
     created: string
     deviceTokens: Array<any>
