@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {loginTC, logoutTC, setLoginErrorAC} from "./login-reducer";
 import {AppRootStateType} from "../../app/store";
 
-export const LoginContainer: React.FC = () => {
+export const LoginContainer = () => {
     const dispatch = useDispatch();
     const [email, setEmail] = useState('nya-admin@nya.nya');
     const [emailError, setEmailError] = useState('');
