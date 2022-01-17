@@ -3,6 +3,7 @@ import {NavLink} from "react-router-dom";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import SuperCheckbox from "../../components/SuperCheckbox/SuperCheckbox";
 import SuperButton from "../../components/SuperButton/SuperButton";
+import {RequestStatusType} from "../../app/app-reducer";
 
 export const Login: React.FC<LoginPropsType> = (
     {
@@ -15,12 +16,14 @@ export const Login: React.FC<LoginPropsType> = (
         login,
         error,
         emailError,
-        passError
+        passError,
+        status
     }
 ) => {
     return (
         <div>
             <h1>Login Page</h1>
+            {status !== 'idle' && <div>{status}</div>}
             <div>
                 {error && <div>{error}</div>}
                 <SuperInputText
@@ -64,4 +67,5 @@ type LoginPropsType = {
     onChangePassword: (value: string) => void
     onChangeRememberMe: (value: boolean) => void
     login: () => void
+    status: RequestStatusType
 }
