@@ -3,6 +3,8 @@ import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {loginTC, logoutTC, setLoginErrorAC} from "./login-reducer";
 import {AppRootStateType} from "../../app/store";
+import { PATH } from "../../routes/routes";
+import { Navigate } from 'react-router-dom';
 
 export const LoginContainer = () => {
     const dispatch = useDispatch();
@@ -45,17 +47,10 @@ export const LoginContainer = () => {
     const logout = () => {
         dispatch(logoutTC());
     }
-
     if (isLoggedIn) {
-        return (
-            <div>
-                <h3>Пользователь авторизован!</h3>
-                <button onClick={logout}>LogOut
-                </button>
-            </div>
-        );
+        return <Navigate to={PATH.PROFILE}/>
     }
-
+    
     return (
         <Login
             email={email}

@@ -14,7 +14,7 @@ type ProfileProps = {
 }
 
 export const Profile: React.FC<ProfileProps> = ({user}) => {
-    return <>
+    return <div>
         <div>
             <h1>Profile</h1>
 
@@ -23,5 +23,5 @@ export const Profile: React.FC<ProfileProps> = ({user}) => {
                 <div>{user.name}</div>
             </div>
         </div>
-    </>
+    </div>
 }
