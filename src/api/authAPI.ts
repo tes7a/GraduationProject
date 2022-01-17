@@ -11,7 +11,7 @@ export const instance = axios.create({
 // dal
 export const authAPI = {
     checkUserInfo() {
-        return instance.post<{}, AxiosResponse<UserAuthInfo>>(`auth/me`, {})
+        return instance.post<{}, AxiosResponse<LoginUserInfo>>(`auth/me`, {})
     },
     login(email: string, password: string, rememberMe: boolean) {
         return instance.post<{}, AxiosResponse<LoginUserInfo>>('auth/login', {email, password, rememberMe})
@@ -22,15 +22,6 @@ export const authAPI = {
 }
 
 //type
-export type UserDataInfo = {
-    _id: string;
-    email: string;
-    name: string;
-    avatar?: string;
-    publicCardPacksCount: number;
-}
-
-//Пока что оставлю здесь !!!
 export type LoginUserInfo = {
     avatar?: string
     created: string
