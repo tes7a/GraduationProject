@@ -2,7 +2,7 @@ import React from "react";
 import {PackDataType} from "../../api/packsAPI";
 import SuperButton from "../../components/SuperButton/SuperButton";
 
-export const Pack: React.FC<CardsPackPropsType> = ({pack, authID, ...props}: CardsPackPropsType) => {
+export const Pack: React.FC<PackPropsType> = ({pack, authID, ...props}: PackPropsType) => {
     return (
         <tr>
             <td>{pack.name}</td>
@@ -18,7 +18,7 @@ export const Pack: React.FC<CardsPackPropsType> = ({pack, authID, ...props}: Car
     )
 }
 
-type CardsPackPropsType = {
+type PackPropsType = {
     pack: PackDataType
     authID: string
 }

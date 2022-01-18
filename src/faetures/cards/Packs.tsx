@@ -5,15 +5,15 @@ import s from './Packs.module.css';
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import SuperButton from "../../components/SuperButton/SuperButton";
 
-export const Packs: React.FC<CardsPropsType> = (
-    {getPacks, packs, authID, ...props}
+export const Packs: React.FC<PacksPropsType> = (
+    {getPacks, packs, authID, searchValue, onChangeSearchValue, addPacks, ...props}
 ) => {
     return (
         <div>
             <h2>Cards Packs list</h2>
             <div>
-                <SuperInputText/>
-                <SuperButton>
+                <SuperInputText value={searchValue} onChangeText={onChangeSearchValue}/>
+                <SuperButton onClick={addPacks}>
                     Add new pack
                 </SuperButton>
             </div>
@@ -36,8 +36,11 @@ export const Packs: React.FC<CardsPropsType> = (
     )
 }
 
-type CardsPropsType = {
+type PacksPropsType = {
     getPacks: () => void
     packs: Array<PackDataType>
     authID: string
+    searchValue: string
+    onChangeSearchValue: (value: string) => void
+    addPacks: () => void
 }
