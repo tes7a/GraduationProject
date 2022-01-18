@@ -1,14 +1,14 @@
 import {instance} from "./authAPI";
 import {AxiosResponse} from "axios";
 
-export const CardsAPI = {
-    getCards() {
-        return instance.get<CardsPacksDataType, AxiosResponse<CardsPacksDataType>>(`/cards/pack`);
+export const PacksAPI = {
+    getPacks() {
+        return instance.get<PacksDataType, AxiosResponse<PacksDataType>>(`/cards/pack`);
     }
 }
 
-export type CardsPacksDataType = {
-    cardPacks: Array<CardPackDataType>,
+export type PacksDataType = {
+    cardPacks: Array<PackDataType>,
     cardPacksTotalCount: number
     maxCardsCount: number
     minCardsCount: number
@@ -18,7 +18,7 @@ export type CardsPacksDataType = {
     tokenDeathTime: number
 }
 
-export type CardPackDataType = {
+export type PackDataType = {
     cardsCount: number
     created: string
     grade: number
