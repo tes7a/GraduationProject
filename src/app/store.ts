@@ -5,6 +5,7 @@ import {RegReducer} from "../faetures/reg/reg-reducer";
 import { newPasswordReducer } from "../faetures/newPassword/new-password-reducer";
 import {forgotPasswordReducer} from "../faetures/forgotPassword/forgot-password-reducer";
 import {AuthReducer} from "../api/AuthReducer";
+import {CardsReducer} from "../faetures/cards/CardsReducer";
 
 const rootReducer = combineReducers({
     app: AppReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     auth: AuthReducer,
     newPassword: newPasswordReducer,
     forgotPassword: forgotPasswordReducer,
+    cards:CardsReducer
 });
 
 
