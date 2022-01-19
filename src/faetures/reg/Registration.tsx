@@ -22,7 +22,7 @@ export const Registration = () => {
     const setPasswordHandler = (value: string) => setPassword(value);
     const setSecPassHandler = (value: string) => setSecPass(value);
 
-    const registrationSubmit = async () => {
+    const registrationSubmit =  () => {
         dispatch(registerTC({email, password}));
     }
 
@@ -38,7 +38,7 @@ export const Registration = () => {
         } else if (password !== secPass) {
             setPassErr('Passwords must be the same!!!!');
         } else {
-            await registrationSubmit();
+            registrationSubmit();
         }
     };
 
