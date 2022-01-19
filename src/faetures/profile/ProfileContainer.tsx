@@ -7,14 +7,14 @@ import a from "./ava.jpg"
 import s from './profile.module.css'
 import { PATH } from "../../routes/routes";
 import { useEffect } from "react";
-import { ProfileInfo } from "./profile-reducer";
 import { Profile } from "./Profile";
-import { logoutTC } from "../login/login-reducer";
+import { logoutTC, ProfileInfo } from "../../api/AuthReducer";
+
 
 export const ProfileContainer = () => {
-    const user = useSelector<AppRootStateType,LoginUserInfo | null>(state => state.profile.user);
-    const isLoggedIn = useSelector<AppRootStateType>(state => state.profile.isLoggedIn);
-    const error: string = useSelector<AppRootStateType, string>(state => state.login.error);
+    const user = useSelector<AppRootStateType,LoginUserInfo | null>(state => state.auth.user);
+    const isLoggedIn = useSelector<AppRootStateType>(state => state.auth.isLoggedIn);
+    const error: string = useSelector<AppRootStateType, string>(state => state.auth.error);
     const dispatch = useDispatch();
 
     const logout = () => {

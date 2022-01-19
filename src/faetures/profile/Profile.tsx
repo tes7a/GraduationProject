@@ -7,10 +7,9 @@ import a from "./ava.jpg"
 import s from './profile.module.css'
 import { PATH } from "../../routes/routes";
 import { useEffect } from "react";
-import { ProfileInfo } from "./profile-reducer";
 
 type ProfileProps = {
-    user: any
+    user: LoginUserInfo
 }
 
 export const Profile: React.FC<ProfileProps> = ({user}) => {
