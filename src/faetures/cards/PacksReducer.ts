@@ -1,6 +1,6 @@
+import { setStatusAppAC } from './../../app/app-reducer';
 import {Dispatch} from "redux";
 import {PackDataType, PacksAPI} from "../../api/packsAPI";
-import {setStatusAppAC} from "../../app/app-reducer";
 
 let initialState: PacksReducerStateType = {
     packs: []
@@ -34,6 +34,38 @@ export const getPacksTC = () => (dispatch: Dispatch) => {
             dispatch(setStatusAppAC('idle'));
         })
 }
+
+export const createPackTC = (value:string) => (dispatch: Dispatch) => {
+
+    PacksAPI.addPack(value)
+    .then(res => {
+        dispatch(setStatusAppAC('succeeded'));
+    }).catch(e => {
+        console.log(e);
+        dispatch(setStatusAppAC('failed'));
+    })
+    .finally(() => {
+        dispatch(setStatusAppAC('idle'));
+    })
+
+}
+
+export const changePackTitleTC = (id: string, name: string) => (dispatch: Dispatch) => {
+
+    PacksAPI.changePack(id, name)
+    .then(res => {
+        dispatch(setStatusAppAC('succeeded'));
+    }).catch(e => {
+        console.log(e);
+        dispatch(setStatusAppAC('failed'));
+    })
+    .finally(() => {
+        dispatch(setStatusAppAC('idle'));
+    })
+
+}
+
+    
 //Types
 type PacksReducerStateType = {
     packs: Array<PackDataType>
