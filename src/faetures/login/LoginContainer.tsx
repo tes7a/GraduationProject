@@ -1,10 +1,11 @@
 import {Login} from "./Login";
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {loginTC, logoutTC, setLoginErrorAC} from "./login-reducer";
 import {AppRootStateType} from "../../app/store";
-import { PATH } from "../../routes/routes";
-import { Navigate } from 'react-router-dom';
+import {Navigate} from "react-router-dom";
+import {RequestStatusType} from "../../app/app-reducer";
+import {loginTC, logoutTC, setLoginErrorAC} from "../../api/AuthReducer";
+import {PATH} from "../../routes/routes";
 
 export const LoginContainer = () => {
     const dispatch = useDispatch();
@@ -13,8 +14,9 @@ export const LoginContainer = () => {
     const [password, setPassword] = useState('1qazxcvBG');
     const [passError, setPassError] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-    const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn);
-    const error: string = useSelector<AppRootStateType, string>(state => state.login.error);
+    const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
+    const error: string = useSelector<AppRootStateType, string>(state => state.auth.error);
+    const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
 
     const onChangeEmail = (value: string) => {
         setEmail(value);
@@ -44,13 +46,10 @@ export const LoginContainer = () => {
         }
     }
 
-    const logout = () => {
-        dispatch(logoutTC());
-    }
     if (isLoggedIn) {
         return <Navigate to={PATH.PROFILE}/>
     }
-    
+
     return (
         <Login
             email={email}
@@ -63,6 +62,7 @@ export const LoginContainer = () => {
             error={error}
             emailError={emailError}
             passError={passError}
+            status={status}
         />
     )
 }

@@ -1,5 +1,5 @@
 const initialStateApp: any = {
-    isInitialized: false,
+
 }
 
 export const AppReducer = (state = initialStateApp, action: ActionsTypeReducer): any => {
@@ -16,6 +16,3 @@ export const AppReducer = (state = initialStateApp, action: ActionsTypeReducer):
 // type
 
 type ActionsTypeReducer = any
-type initialStateApp = {
-
-}

@@ -1,6 +1,6 @@
-import { Dispatch } from "redux";
-import {authAPI, LoginUserInfo} from "../../api/authAPI";
-import a from "./ava.jpg"
+import {Dispatch} from "redux";
+import {authAPI, LoginUserInfo} from './authAPI';
+import {setStatusAppAC} from "../app/app-reducer";
 
 // export const SomeUser: LoginUserInfo = {
 //     _id: "0",
@@ -31,12 +31,10 @@ const initialStateProfile: initialStateType = {
     user: {} as LoginUserInfo
 }
 
-export const ProfileReducer = (state = initialStateProfile, action: ActionsTypeReducer): initialStateType => {
+export const AuthReducer = (state = initialStateProfile, action: ActionsTypeReducer): initialStateType => {
     switch (action.type) {
         case "profile/TAKE-PROFILE-INFO":
             return {...state, user: action.data}
-        case "profile/IS-LOGGED-IN":
-            return {...state, isLoggedIn: action.status}
         case "auth/LOGIN":
             return {...state, user: {...action.user}};
         case "auth/SET-LOGGED-IN":
@@ -51,57 +49,73 @@ export const ProfileReducer = (state = initialStateProfile, action: ActionsTypeR
 }
 
 // action
+
 const loginAC = (user: LoginUserInfo) => ({type: 'auth/LOGIN', user} as const);
 const logoutAC = () => ({type: 'auth/LOGOUT'} as const);
 const setLoggedInAC = (isLoggedIn: boolean) => ({type: 'auth/SET-LOGGED-IN', isLoggedIn} as const);
 export const setLoginErrorAC = (error: string) => ({type: 'auth/SET-ERROR', error} as const);
 const takeProfileInfo = (data: LoginUserInfo) => ({type: 'profile/TAKE-PROFILE-INFO', data} as const);
-const isLoggedIn = (status: boolean) => ({type: 'profile/IS-LOGGED-IN', status} as const)
 
 // thunk
 
 export const ProfileInfo = () => (dispatch: Dispatch) => {
+    dispatch(setStatusAppAC('loading'));
     authAPI.checkUserInfo()
         .then(res => {
-            dispatch(isLoggedIn(true));
+            dispatch(setLoggedInAC(true));
             dispatch(takeProfileInfo(res.data));
+            dispatch(setLoginErrorAC(''));
+            dispatch(setStatusAppAC('succeeded'));
         })
         .catch(e => {
-            console.log(e.response.data.emailRegExp)
             const error = e.response ? e.response.data.error : e.message + ' more details in the console';
             dispatch(setLoginErrorAC(error));
+            dispatch(setStatusAppAC('failed'));
+        })
+        .finally(() => {
+            dispatch(setStatusAppAC('idle'));
         })
 }
 export const loginTC = (email: string, password: string, rememberMe: boolean) => (dispatch: Dispatch) => {
+    dispatch(setStatusAppAC('loading'));
     authAPI.login(email, password, rememberMe)
         .then(res => {
             dispatch(loginAC(res.data));
             dispatch(setLoggedInAC(true));
             dispatch(setLoginErrorAC(''));
+            dispatch(setStatusAppAC('succeeded'));
         })
         .catch(e => {
-            console.log(e.response.data.emailRegExp)
             const error = e.response ? e.response.data.error : e.message + ' more details in the console';
             dispatch(setLoginErrorAC(error));
+            dispatch(setStatusAppAC('failed'));
+        })
+        .finally(() => {
+            dispatch(setStatusAppAC('idle'));
         })
 }
 export const logoutTC = () => (dispatch: Dispatch) => {
+    dispatch(setStatusAppAC('loading'));
     authAPI.logout()
         .then(res => {
             dispatch(logoutAC());
             dispatch(setLoggedInAC(false));
             dispatch(setLoginErrorAC(''));
+            dispatch(setStatusAppAC('succeeded'));
         })
         .catch(e => {
             const error = e.response ? e.response.data.error : e.message + ' more details in the console';
             dispatch(setLoginErrorAC(e.response.data));
+            dispatch(setStatusAppAC('failed'));
+        })
+        .finally(() => {
+            dispatch(setStatusAppAC('idle'));
         })
 }
 
 // type
 type ActionsTypeReducer =
     | ReturnType<typeof takeProfileInfo>
-    | ReturnType<typeof isLoggedIn>
     | ReturnType<typeof loginAC>
     | ReturnType<typeof setLoggedInAC>
     | ReturnType<typeof setLoginErrorAC>

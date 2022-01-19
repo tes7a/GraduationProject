@@ -1,19 +1,21 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from "redux-thunk";
 import { AppReducer } from "./app-reducer";
-import {ProfileReducer} from "../faetures/profile/profile-reducer";
 import {RegReducer} from "../faetures/reg/reg-reducer";
-import {LoginReducer} from "../faetures/login/login-reducer";
 import { newPasswordReducer } from "../faetures/newPassword/new-password-reducer";
 import {forgotPasswordReducer} from "../faetures/forgotPassword/forgot-password-reducer";
+import {AuthReducer} from "../api/AuthReducer";
+import {PacksReducer} from "../faetures/cards/PacksReducer";
+import {searchReducer} from "../faetures/search/search-reducer";
 
 const rootReducer = combineReducers({
     app: AppReducer,
-    profile: ProfileReducer,
     reg: RegReducer,
-    login: LoginReducer,
+    auth: AuthReducer,
     newPassword: newPasswordReducer,
     forgotPassword: forgotPasswordReducer,
+    packs:PacksReducer,
+    searchReducer: searchReducer
 });
 
 
