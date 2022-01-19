@@ -28,13 +28,15 @@ export const ProfileContainer = () => {
     if (!isLoggedIn) return <Navigate to={PATH.LOGIN}/>
 
     if(user != null ){
-        return <div>
+        return <div className={s.wrapper}>
             <Profile user={user}/>
-            <span>Пользователь авторизован!</span>
-            <button onClick={logout}>LogOut
-            </button>
+            <div className={s.logOut}>
+                <span>Пользователь авторизован!</span>
+                <button onClick={logout} className={s.btnLogOut}>Log Out
+                </button>
+            </div>
         </div>
-    }else {
+    } else {
         return <div>{error}</div>
     }
 }

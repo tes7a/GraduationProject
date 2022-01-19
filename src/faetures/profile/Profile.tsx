@@ -13,12 +13,11 @@ type ProfileProps = {
 }
 
 export const Profile: React.FC<ProfileProps> = ({user}) => {
-    return <div>
+    return <div className={s.ava}>
         <div>
-            <h1>Profile</h1>
-
+            <h2 className={s.profileStyle}>Profile</h2>
             <div>
-                <img src={user.avatar} className={s.ava} alt={user.name}/>
+                <img src={user.avatar} alt={user.name} className={s.img}/>
                 <div>{user.name}</div>
             </div>
         </div>
