@@ -4,7 +4,22 @@ import {AxiosResponse} from "axios";
 export const PacksAPI = {
     getPacks() {
         return instance.get<PacksDataType, AxiosResponse<PacksDataType>>(`/cards/pack`);
-    }
+    },
+    addPack(name: string) {
+        return instance.post<any>("/cards/pack", {
+            cardsPack: {
+                name
+            }
+        })
+    },
+    changePack(id: string, name: string) {
+        return instance.put<any>("/cards/pack",{
+            cardsPack: {
+                _id: id,
+                name
+            }
+        })
+    },
 }
 
 export type PacksDataType = {
