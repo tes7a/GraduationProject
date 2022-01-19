@@ -59,16 +59,21 @@ const takeProfileInfo = (data: LoginUserInfo) => ({type: 'profile/TAKE-PROFILE-I
 // thunk
 
 export const ProfileInfo = () => (dispatch: Dispatch) => {
+    dispatch(setStatusAppAC('loading'));
     authAPI.checkUserInfo()
         .then(res => {
             dispatch(setLoggedInAC(true));
             dispatch(takeProfileInfo(res.data));
             dispatch(setLoginErrorAC(''));
+            dispatch(setStatusAppAC('succeeded'));
         })
         .catch(e => {
-            console.log(e.response.data.emailRegExp)
             const error = e.response ? e.response.data.error : e.message + ' more details in the console';
             dispatch(setLoginErrorAC(error));
+            dispatch(setStatusAppAC('failed'));
+        })
+        .finally(() => {
+            dispatch(setStatusAppAC('idle'));
         })
 }
 export const loginTC = (email: string, password: string, rememberMe: boolean) => (dispatch: Dispatch) => {

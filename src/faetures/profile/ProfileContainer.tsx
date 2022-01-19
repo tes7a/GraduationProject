@@ -19,9 +19,7 @@ export const ProfileContainer = () => {
     }
 
     useEffect(() => {
-        if (!isLoggedIn) {
-            dispatch(ProfileInfo())
-        }
+        dispatch(ProfileInfo())
     }, [dispatch])
 
     if (!isLoggedIn) return <Navigate to={PATH.LOGIN}/>
