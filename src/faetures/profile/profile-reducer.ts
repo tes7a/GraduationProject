@@ -22,7 +22,7 @@ import a from "./ava.jpg"
 type initialStateType = {
     isLoggedIn: boolean
     user: LoginUserInfo
-    error: string
+    error: string,
 }
 
 const initialStateProfile: initialStateType = {
