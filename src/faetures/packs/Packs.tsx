@@ -4,9 +4,23 @@ import {Pack} from "./Pack";
 import s from './Packs.module.css';
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import SuperButton from "../../components/SuperButton/SuperButton";
+import {MyPagination} from "../../hooks/MyPagination";
 
 export const Packs: React.FC<PacksPropsType> = (
-    {getPacks, removePack, packs, authID, searchValue, onChangeSearchValue, addPacks, editHandler, ...props}
+    {
+        getPacks,
+        totalCount,
+        currentPage,
+        removePack,
+        packs,
+        authID,
+        searchValue,
+        onChangeSearchValue,
+        addPacks,
+        editHandler,
+        changeNumberPage,
+        ...props
+    }
 ) => {
     return (
         <div>
@@ -28,10 +42,12 @@ export const Packs: React.FC<PacksPropsType> = (
                 </tr>
                 </thead>
                 <tbody>
-                {packs.map(m => <Pack key={m._id} pack={m} authID={authID} editHandler={editHandler} removePack={removePack}/>)}
+                {packs.map(m => <Pack key={m._id} pack={m} authID={authID} editHandler={editHandler}
+                                      removePack={removePack}/>)}
                 </tbody>
             </table>
             <button onClick={getPacks}>get Cards Packs</button>
+            <MyPagination totalCount={totalCount} currentPage={currentPage} onClickHandler={changeNumberPage}/>
         </div>
     )
 }
@@ -45,4 +61,7 @@ type PacksPropsType = {
     addPacks: () => void
     editHandler: (id: string, name: string) => void
     removePack: (id: string) => void
+    totalCount: number
+    currentPage: number
+    changeNumberPage: (value: number) => void
 }

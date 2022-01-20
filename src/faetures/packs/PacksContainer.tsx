@@ -10,8 +10,11 @@ import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import classes from "./PacksContainer.module.css"
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {useOnClickOutside} from "../../hooks/useOnClickOutside";
+import {MyPagination} from "../../hooks/MyPagination";
 
 export const PacksContainer = () => {
+    const page: number = useSelector<AppRootStateType, number>(state => state.packs.page);
+    const [currentPage,setCurrantPage] = useState(1);
     const [searchValue, setSearchValue] = useState('');
     const [cardName, setCardName] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
@@ -22,12 +25,17 @@ export const PacksContainer = () => {
     const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
     const packs: Array<PackDataType> = useSelector<AppRootStateType, Array<PackDataType>>(state => state.packs.packs);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
+    const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
+    const changeNumberPage = (value:number) => {
+        setCurrantPage(value);
+        dispatch(getPacksTC(value));
+    }
 
     const ref: any = useRef();
 
 
     const getPacks = () => {
-        dispatch(getPacksTC());
+        dispatch(getPacksTC(currentPage));
     }
 
     const onChangeSearchValue = (value: string) => {
@@ -35,9 +43,7 @@ export const PacksContainer = () => {
     }
 
     const addPacks = () => {
-
         setShowAddModal(true);
-
     }
 
     const addPack = () => {
@@ -65,25 +71,25 @@ export const PacksContainer = () => {
     }
 
     const removePack = (id: string) => {
-        dispatch(removePackTC(id))
+        dispatch(removePackTC(id,currentPage))
     }
 
 
     useOnClickOutside(ref, closeModal);
+    useEffect(()=>{
+        setCurrantPage(page);
+    },[page]);
 
     useEffect(() => {
         if (isLoggedIn) {
-            dispatch(getPacksTC());
+            dispatch(getPacksTC(currentPage));
         }
-    }, [dispatch, isLoggedIn]);
-
-    // useEffect(()=>{
-    //     dispatch(getPacksTC());
-    // },[packs]);
+    }, [dispatch, isLoggedIn,currentPage]);
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
     }
+
 
     const onChangePackNameHandler = (value: string) => setCardName(value);
     const onChangeEditNameHandler = (value: string) => setEditName(value);
@@ -145,6 +151,9 @@ export const PacksContainer = () => {
                 searchValue={searchValue}
                 editHandler={editHandler}
                 removePack={removePack}
+                totalCount={totalCount}
+                currentPage={currentPage}
+                changeNumberPage={changeNumberPage}
             />
         </div>
     )
