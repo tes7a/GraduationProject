@@ -1,67 +1,93 @@
-import React, {ChangeEvent, useState} from "react";
+import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import classes from './Registration.module.css'
-import axios from "axios";
+import classes from './Registration.module.css';
+import {useDispatch, useSelector} from "react-redux";
+import {registerTC} from "./reg-reducer";
+import SuperInputText from "../../components/SuperInputText/SuperInputText";
+import { AppRootStateType } from "../../app/store";
 
-const url = 'https://neko-back.herokuapp.com/2.0';
 
 export const Registration = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [secPass, setSecPass] = useState('');
-    const [err, setErr] = useState('');
-    const [pending, setPending] = useState(false);
+    const [emailErr, setEmailErr] = useState('')
+    const [passErr, setPassErr] = useState('')
 
-    const setEmailHandler = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
-    const setPasswordHandler = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
-    const setSecPassHandler = (e: ChangeEvent<HTMLInputElement>) => setSecPass(e.target.value);
 
-    const registrationSubmit = async () => {
-        setPending(true);
-        let registrationResponse = await axios.post(url,{email, password}, {withCredentials: true});
-        setPending(false);
-        return registrationResponse;
+    const dispatch = useDispatch();
+    //@ts-ignore
+    const toggleReg: boolean = useSelector<AppRootStateType, boolean>(state => state.reg.toggleRegistration);
+
+    useEffect(() => {
+        if(toggleReg){
+            setEmail('');
+            setPassword('');
+            setSecPass('');
+        }
+    }, [toggleReg])
+
+
+    const setEmailHandler = (value: string) => setEmail(value);
+    const setPasswordHandler = (value: string) => setPassword(value);
+    const setSecPassHandler = (value: string) => setSecPass(value);
+
+    const registrationSubmit =  () => {
+        dispatch(registerTC({email, password}));
     }
 
     const submitBtnHandler = async () => {
-        setErr('');
-        if (email !== '' && password !== '' && secPass !== '') {
-            if (password === secPass) {
-                await registrationSubmit();
-            } else {
-                setErr('Passwords must be the same!!!!');
-            }
-        } else {
-            setErr('Fill the fields!!!');
+        setPassErr('');
+        setEmailErr('');
+        const validation = new RegExp(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/);
+        if (!validation.test(email)) {
+            setEmailErr('Email is not correct!');
+        } else if (password.length < 8) {
+            setPassErr('Passwords must be minimum 7 characters !!!!');
+        } else if (password !== secPass) {
+            setPassErr('Passwords must be the same!!!!');
+        } else if(emailErr === '' && passErr === ''){
+            registrationSubmit();
         }
     };
+
 
     return <>
         <h1>REGISTRATION</h1>
         <div>
-
             <div>
                 <div>Email</div>
-                <input type='email' placeholder='Enter email' value={email}
-                       onChange={(e) => setEmailHandler(e)}/>
+                <SuperInputText
+                    onChangeText={setEmailHandler}
+                    type='email' name='email'
+                    placeholder='Email'
+                    value={email}
+                    error={emailErr}/>
             </div>
             <div>
                 <div>Password</div>
-                <input type='password' placeholder='Enter your password'
-                       value={password}
-                       onChange={(e) => setPasswordHandler(e)}/>
+                <SuperInputText
+                    onChangeText={setPasswordHandler}
+                    type='password' name='password'
+                    placeholder='Password'
+                    value={password}
+                    error={passErr}/>
             </div>
             <div>
                 <div>Confirm password</div>
-                <input type='password' placeholder='Repeat your password'
-                       value={secPass} onChange={(e) => setSecPassHandler(e)}/>
+                <SuperInputText
+                    onChangeText={setSecPassHandler}
+                    type='password' name='password'
+                    placeholder='Repeat your password'
+                    value={secPass}
+                    error={passErr}/>
             </div>
-            {err !== '' ? <div>{err}</div> : null}
-            <button className={classes.signInBtn} onClick={submitBtnHandler}>Sign
+            <button className={classes.signInBtn}
+                    onClick={() => submitBtnHandler()}>Sign
                 Up
             </button>
             <button><Link to='/login'>Login</Link></button>
-
+            {toggleReg && <div>You have been successfully registered =^_^=</div>}
         </div>
     </>
 }

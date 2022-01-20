@@ -1,6 +1,66 @@
+.wrapper{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(180deg, #ff008f 0%, #2300fd 100%);
+}
+
 .ava {
+    position: absolute;
+    width: 413px;
+    height: 540px;
+    left: 620px;
+    top: 84px;
+
+    background: #F9F9FE;
+    border-radius: 8px;
+}
+
+.logOut{
+    justify-content: space-between;
     display: flex;
-    flex-wrap: initial;
-    height: 140px;
-    width: 200px;
+}
+
+.profileStyle{
+    position: absolute;
+    width: 236px;
+    height: 33px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 33px;
+    text-align: right;
+    color: #2D2E46;
+    top: auto;
+}
+
+.img{
+    position: absolute;
+    width: 96px;
+    height: 96px;
+    top: 70px;
+    left: 155px;
+}
+
+.btnLogOut{
+    background: #bf07f3;
+    box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+}
+
+.btnLogOut:hover .action {
+    font-family: SF UI Display;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+
+    text-align: center;
+    letter-spacing: 0.01em;
+
+    color: #7b04fa;
+
+    text-shadow: 0px 1px 1px rgba(19, 19, 19, 0.25);
 }

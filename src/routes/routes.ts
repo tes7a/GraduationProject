@@ -8,7 +8,6 @@ import {ForgotPassword} from "../faetures/forgotPassword/ForgotPassword";
 import {NewPassword} from "../faetures/newPassword/NewPassword";
 import { LoginContainer } from "../faetures/login/LoginContainer";
 import { ProfileContainer } from "../faetures/profile/ProfileContainer";
-import {PacksContainer} from "../faetures/cards/PacksContainer";
 
 export enum PATH_ {
     EMPTY = '',
@@ -18,6 +17,7 @@ export enum PATH_ {
     REGISTRATION = '/registration',
     FORGOT_PASSWORD = '/forgot-password',
     NEW_PASSWORD = '/create-new-password',
+    SIGNIN = '/signin',
     TEST = '/test'
 }
 
@@ -29,8 +29,8 @@ export const PATH = {
     REGISTRATION: '/registration',
     FORGOT_PASSWORD: '/forgot-password',
     NEW_PASSWORD: '/create-new-password',
-    TEST: '/test',
-    PACKS:'/packs'
+    SIGNIN: '/signin',
+    TEST: '/test'
 }
 
 type RoutesType = {
@@ -44,7 +44,6 @@ export const publicRoutes: RoutesType[] = [
     {path: PATH.LOGIN, component: LoginContainer},
     {path: PATH.FORGOT_PASSWORD, component: ForgotPassword},
     {path: PATH.NEW_PASSWORD, component: NewPassword},
-    {path: PATH.PACKS, component: PacksContainer},
     {path: PATH.ERROR, component: Err404},
     {path: PATH.TEST, component: TestComponent}
 ]

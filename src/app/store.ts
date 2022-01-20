@@ -6,6 +6,7 @@ import { newPasswordReducer } from "../faetures/newPassword/new-password-reducer
 import {forgotPasswordReducer} from "../faetures/forgotPassword/forgot-password-reducer";
 import {AuthReducer} from "../api/AuthReducer";
 import {PacksReducer} from "../faetures/cards/PacksReducer";
+import {searchReducer} from "../faetures/search/search-reducer";
 
 const rootReducer = combineReducers({
     app: AppReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     auth: AuthReducer,
     newPassword: newPasswordReducer,
     forgotPassword: forgotPasswordReducer,
-    packs:PacksReducer
+    packs:PacksReducer,
+    searchReducer: searchReducer
 });
 
 

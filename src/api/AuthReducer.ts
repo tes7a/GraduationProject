@@ -22,7 +22,7 @@ import {setStatusAppAC} from "../app/app-reducer";
 type initialStateType = {
     isLoggedIn: boolean
     user: LoginUserInfo
-    error: string
+    error: string,
 }
 
 const initialStateProfile: initialStateType = {
