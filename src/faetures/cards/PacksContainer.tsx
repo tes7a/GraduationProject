@@ -13,7 +13,7 @@ export const PacksContainer = () => {
     const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
     const packs: Array<PackDataType> = useSelector<AppRootStateType, Array<PackDataType>>(state => state.packs.packs);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
-    
+
     const getPacks = () => {
         dispatch(getPacksTC());
     }
