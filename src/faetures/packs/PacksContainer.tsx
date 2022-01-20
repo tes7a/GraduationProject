@@ -4,12 +4,12 @@ import {AppRootStateType} from "../../app/store";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../routes/routes";
 import React, {useEffect, useRef, useState} from "react";
-import {getPacksTC, createPackTC, changePackTitleTC} from "./PacksReducer";
+import {getPacksTC, createPackTC, changePackTitleTC, removePackTC} from "./PacksReducer";
 import {PackDataType} from "../../api/packsAPI";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import classes from "./PacksContainer.module.css"
 import SuperButton from "../../components/SuperButton/SuperButton";
-import { useOnClickOutside } from "../../hooks/useOnClickOutside";
+import {useOnClickOutside} from "../../hooks/useOnClickOutside";
 
 export const PacksContainer = () => {
     const [searchValue, setSearchValue] = useState('');
@@ -24,7 +24,6 @@ export const PacksContainer = () => {
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
 
     const ref: any = useRef();
-
 
 
     const getPacks = () => {
@@ -55,24 +54,32 @@ export const PacksContainer = () => {
     }
 
     const closeModal = () => {
-        if(showAddModal){
+        if (showAddModal) {
             setShowAddModal(false);
             setCardName('');
-        } else if(showEditModal){
+        } else if (showEditModal) {
             setShowEditModal(false);
             setEditName('');
             setPackId('');
         }
     }
 
+    const removePack = (id: string) => {
+        dispatch(removePackTC(id))
+    }
 
-    useOnClickOutside(ref, closeModal );
+
+    useOnClickOutside(ref, closeModal);
 
     useEffect(() => {
         if (isLoggedIn) {
             dispatch(getPacksTC());
         }
     }, [dispatch, isLoggedIn]);
+
+    // useEffect(()=>{
+    //     dispatch(getPacksTC());
+    // },[packs]);
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -92,36 +99,36 @@ export const PacksContainer = () => {
     return (
         <div className={classes.packsContainer}>
             {
-            showAddModal &&
-            <div className={classes.modal} ref={ref}>
-                { showAddModal
-                ? <SuperInputText
-                onChangeText={onChangePackNameHandler}
-                type='text' name='name'
-                placeholder='Name'
-                value={cardName}
-                />
-                : <SuperInputText
-                onChangeText={onChangeEditNameHandler}
-                type='text' name='name'
-                placeholder='Name'
-                value={editName}
-                />
-                }
-                <div className={classes.btnsWrapper}>
-                    <SuperButton className={classes.btnStyle} onClick={addPack}>Add</SuperButton>
-                    <SuperButton className={classes.btnStyle} onClick={closeModal}>Close</SuperButton>
+                showAddModal &&
+                <div className={classes.modal} ref={ref}>
+                    {showAddModal
+                        ? <SuperInputText
+                            onChangeText={onChangePackNameHandler}
+                            type='text' name='name'
+                            placeholder='Name'
+                            value={cardName}
+                        />
+                        : <SuperInputText
+                            onChangeText={onChangeEditNameHandler}
+                            type='text' name='name'
+                            placeholder='Name'
+                            value={editName}
+                        />
+                    }
+                    <div className={classes.btnsWrapper}>
+                        <SuperButton className={classes.btnStyle} onClick={addPack}>Add</SuperButton>
+                        <SuperButton className={classes.btnStyle} onClick={closeModal}>Close</SuperButton>
+                    </div>
                 </div>
-            </div>
             }
             {
                 showEditModal &&
                 <div className={classes.modal} ref={ref}>
                     <SuperInputText
-                    onChangeText={onChangeEditNameHandler}
-                    type='text' name='name'
-                    placeholder='Name'
-                    value={editName}
+                        onChangeText={onChangeEditNameHandler}
+                        type='text' name='name'
+                        placeholder='Name'
+                        value={editName}
                     />
                     <div className={classes.btnsWrapper}>
                         <SuperButton className={classes.btnStyle} onClick={changeTitle}>Edit</SuperButton>
@@ -137,6 +144,7 @@ export const PacksContainer = () => {
                 authID={authID}
                 searchValue={searchValue}
                 editHandler={editHandler}
+                removePack={removePack}
             />
         </div>
     )

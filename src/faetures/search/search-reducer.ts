@@ -98,7 +98,7 @@ let initialState = {
 
 export type InitialStateType = typeof initialState;
 
-export const searchReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const searchReducer = (state: InitialStateType = initialState, action: SearchReducerActionsType): InitialStateType => {
     switch (action.type) {
         case "SET-FIND-CARDS":
             return {...state, cards: action.cards};
@@ -150,5 +150,5 @@ export type CardType = {
 
 
 export type setFoundCardsType = ReturnType<typeof setFoundCardsAC>;
-type ActionsType = setFoundCardsType
-type ThunkDispatch = Dispatch<ActionsType>
+export type SearchReducerActionsType = setFoundCardsType
+type ThunkDispatch = Dispatch<SearchReducerActionsType>

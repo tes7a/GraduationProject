@@ -6,20 +6,23 @@ export const PacksAPI = {
         return instance.get<PacksDataType, AxiosResponse<PacksDataType>>(`/cards/pack`);
     },
     addPack(name: string) {
-        return instance.post<any>("/cards/pack", {
+        return instance.post<ResponseForAddedPackDate, AxiosResponse<ResponseForAddedPackDate>>("/cards/pack", {
             cardsPack: {
                 name
             }
         })
     },
     changePack(id: string, name: string) {
-        return instance.put<any>("/cards/pack",{
+        return instance.put<any>("/cards/pack", {
             cardsPack: {
                 _id: id,
                 name
             }
         })
     },
+    removePack(id: string) {
+        return instance.delete<ResponseForDeletedPackDate, AxiosResponse<ResponseForDeletedPackDate>>(`/cards/pack?id=${id}`);
+    }
 }
 
 export type PacksDataType = {
@@ -49,4 +52,16 @@ export type PackDataType = {
     user_name: string
     __v: number
     _id: string
+}
+
+export type ResponseForAddedPackDate = {
+    newCardsPack: PackDataType
+    token: string
+    tokenDeathTime: number
+}
+
+export type ResponseForDeletedPackDate ={
+    deletedCardsPack: PackDataType
+    token: string
+    tokenDeathTime: number
 }
