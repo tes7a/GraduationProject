@@ -6,7 +6,7 @@ import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import SuperButton from "../../components/SuperButton/SuperButton";
 
 export const Packs: React.FC<PacksPropsType> = (
-    {getPacks, packs, authID, searchValue, onChangeSearchValue, addPacks, editHandler, ...props}
+    {getPacks, removePack, packs, authID, searchValue, onChangeSearchValue, addPacks, editHandler, ...props}
 ) => {
     return (
         <div>
@@ -28,7 +28,7 @@ export const Packs: React.FC<PacksPropsType> = (
                 </tr>
                 </thead>
                 <tbody>
-                {packs.map(m => <Pack key={m._id} pack={m} authID={authID} editHandler={editHandler}/>)}
+                {packs.map(m => <Pack key={m._id} pack={m} authID={authID} editHandler={editHandler} removePack={removePack}/>)}
                 </tbody>
             </table>
             <button onClick={getPacks}>get Cards Packs</button>
@@ -44,4 +44,5 @@ type PacksPropsType = {
     onChangeSearchValue: (value: string) => void
     addPacks: () => void
     editHandler: (id: string, name: string) => void
+    removePack: (id: string) => void
 }

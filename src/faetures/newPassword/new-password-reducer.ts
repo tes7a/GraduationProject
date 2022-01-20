@@ -7,7 +7,7 @@ export const initialNewPasswordState = {
     error: ""
 };
 
-export const newPasswordReducer = (state:initialNewPasswordStateType = initialNewPasswordState, action: ActionsTypeReducer): initialNewPasswordStateType => {
+export const newPasswordReducer = (state:initialNewPasswordStateType = initialNewPasswordState, action: NewPasswordReducerActionsType): initialNewPasswordStateType => {
     switch (action.type) {
         case "newPasswordReducer/SET-STATUS":
             return {...state, status: action.status};
@@ -53,7 +53,7 @@ export type DataNewPasswordType = {
     resetPasswordToken: string
 }
 
-export type ThunkDispatch = Dispatch<ActionsTypeReducer>
+export type ThunkDispatch = Dispatch<NewPasswordReducerActionsType>
 
 export type setStatusType = ReturnType<typeof setStatusAC>
 export type setIsChangedPasswordType = ReturnType<typeof setIsChangedPasswordAC>
@@ -64,6 +64,6 @@ export type ResponseNewPasswordType = {
     error: string
 }
 
-type ActionsTypeReducer = setStatusType
+export type NewPasswordReducerActionsType = setStatusType
     | setIsChangedPasswordType
     | setNewPasswordErrorType
