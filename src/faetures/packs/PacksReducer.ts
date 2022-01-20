@@ -1,17 +1,23 @@
 import {setStatusAppAC} from './../../app/app-reducer';
 import {Dispatch} from "redux";
-import {PackDataType, PacksAPI} from "../../api/packsAPI";
-import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {getDateType, PackDataType, PacksAPI} from "../../api/packsAPI";
+import {ThunkAction} from "redux-thunk";
 import {AppRootActionsType, AppRootStateType} from "../../app/store";
 
 let initialState: PacksReducerStateType = {
-    packs: []
+    packs: [],
+    totalCount: 0,
+    page: 1
 }
 
 export const PacksReducer = (state: PacksReducerStateType = initialState, action: PacksReducerActionsType) => {
     switch (action.type) {
         case "packs/GET-PACKS":
             return {...state, packs: action.packs};
+        case "packs/SET-TOTAL-COUNT":
+            return {...state, totalCount: action.totalCount};
+        case "packs/SET-PAGE":
+            return {...state, page: action.page}
         case "packs/CHANGE-PACK-TITLE":
             return {...state, packs: state.packs.map(p => p._id === action.id ? {...p, name: action.name} : p)};
         default:
@@ -21,16 +27,20 @@ export const PacksReducer = (state: PacksReducerStateType = initialState, action
 
 //Actions
 const getPacksAC = (packs: Array<PackDataType>) => ({type: 'packs/GET-PACKS', packs} as const);
+const setPacksTotalCountAC = (totalCount: number) => ({type: 'packs/SET-TOTAL-COUNT', totalCount} as const);
+const setPacksPageAC = (page: number) => ({type: 'packs/SET-PAGE', page} as const);
 const addPackAC = (pack: PackDataType) => ({type: 'packs/ADD-PACK', pack} as const);
 const changePackTitleAC = (id: string, name: string) => ({type: 'packs/CHANGE-PACK-TITLE', id, name} as const);
 const removePackAC = (id: string) => ({type: 'packs/REMOVE-PACK', id} as const);
 
 //Thunks
-export const getPacksTC = () => (dispatch: Dispatch) => {
+export const getPacksTC = (currentPage?: number) => (dispatch: Dispatch) => {
     dispatch(setStatusAppAC('loading'));
-    PacksAPI.getPacks()
+    PacksAPI.getPacks(currentPage)
         .then(res => {
             dispatch(getPacksAC(res.data.cardPacks));
+            dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount));
+            dispatch(setPacksPageAC(res.data.page));
             dispatch(setStatusAppAC('succeeded'));
         })
         .catch(e => {
@@ -47,7 +57,7 @@ export const createPackTC = (value: string): ThunkAction<void, AppRootStateType,
     PacksAPI.addPack(value)
         .then(res => {
             // dispatch(addPackAC(res.data.newCardsPack));
-            dispatch(getPacksTC());
+            dispatch(getPacksTC(1));
             dispatch(setStatusAppAC('succeeded'));
         }).catch(e => {
         console.log(e);
@@ -75,11 +85,11 @@ export const changePackTitleTC = (id: string, name: string) => (dispatch: Dispat
 
 }
 
-export const removePackTC = (id: string):ThunkAction<void, AppRootStateType, unknown, AppRootActionsType> => (dispatch) => {
+export const removePackTC = (id: string, currentPage: number): ThunkAction<void, AppRootStateType, unknown, AppRootActionsType> => (dispatch) => {
     dispatch(setStatusAppAC('loading'));
     PacksAPI.removePack(id)
         .then(res => {
-            dispatch(getPacksTC());
+            dispatch(getPacksTC(currentPage));
             dispatch(setStatusAppAC('succeeded'));
         })
         .catch(e => {
@@ -95,8 +105,12 @@ export const removePackTC = (id: string):ThunkAction<void, AppRootStateType, unk
 //Types
 type PacksReducerStateType = {
     packs: Array<PackDataType>
+    totalCount: number
+    page: number
 }
 export type PacksReducerActionsType = ReturnType<typeof getPacksAC>
     | ReturnType<typeof addPackAC>
+    | ReturnType<typeof setPacksTotalCountAC>
+    | ReturnType<typeof setPacksPageAC>
     | ReturnType<typeof changePackTitleAC>
     | ReturnType<typeof removePackAC>;
