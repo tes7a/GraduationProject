@@ -7,7 +7,6 @@ import {NavigationApp} from './NavigationApp';
 
 export function App() {
     return (
-        //main
         <div>
             <Header/>
             <NavigationApp/>
