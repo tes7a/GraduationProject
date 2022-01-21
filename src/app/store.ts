@@ -10,6 +10,8 @@ import {
 import {AuthReducer, AuthReducerActionsType} from "../api/AuthReducer";
 import {PacksReducer, PacksReducerActionsType} from "../faetures/packs/PacksReducer";
 import {searchReducer, SearchReducerActionsType} from "../faetures/search/search-reducer";
+import {searchPackReducer, SearchParckReducerActionsType} from "../faetures/search/search-pack-reducer";
+
 
 const rootReducer = combineReducers({
     app: AppReducer,
@@ -18,7 +20,8 @@ const rootReducer = combineReducers({
     newPassword: newPasswordReducer,
     forgotPassword: forgotPasswordReducer,
     packs:PacksReducer,
-    searchReducer: searchReducer
+    searchReducer: searchReducer,
+    searchPackReducer: searchPackReducer
 });
 
 
@@ -31,7 +34,8 @@ export type AppRootActionsType = AppReducerActionsType
     | NewPasswordReducerActionsType
     | PacksReducerActionsType
     | RegistrationReducerActionsType
-    | SearchReducerActionsType;
+    | SearchReducerActionsType
+    | SearchParckReducerActionsType;
 
 // @ts-ignore
 window.store = store;
