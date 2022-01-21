@@ -1,21 +1,31 @@
-import React, {useState} from "react";
+import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import classes from './Registration.module.css';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {registerTC} from "./reg-reducer";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
+import { AppRootStateType } from "../../app/store";
 
 
 export const Registration = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [secPass, setSecPass] = useState('');
-    const [err, setErr] = useState('');
     const [emailErr, setEmailErr] = useState('')
     const [passErr, setPassErr] = useState('')
 
 
     const dispatch = useDispatch();
+    //@ts-ignore
+    const toggleReg: boolean = useSelector<AppRootStateType, boolean>(state => state.reg.toggleRegistration);
+
+    useEffect(() => {
+        if(toggleReg){
+            setEmail('');
+            setPassword('');
+            setSecPass('');
+        }
+    }, [toggleReg])
 
 
     const setEmailHandler = (value: string) => setEmail(value);
@@ -27,9 +37,8 @@ export const Registration = () => {
     }
 
     const submitBtnHandler = async () => {
-        setErr('');
         setPassErr('');
-        setEmail('');
+        setEmailErr('');
         const validation = new RegExp(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/);
         if (!validation.test(email)) {
             setEmailErr('Email is not correct!');
@@ -37,7 +46,7 @@ export const Registration = () => {
             setPassErr('Passwords must be minimum 7 characters !!!!');
         } else if (password !== secPass) {
             setPassErr('Passwords must be the same!!!!');
-        } else {
+        } else if(emailErr === '' && passErr === ''){
             registrationSubmit();
         }
     };
@@ -73,13 +82,12 @@ export const Registration = () => {
                     value={secPass}
                     error={passErr}/>
             </div>
-            {err !== '' ? <div>{err}</div> : null}
             <button className={classes.signInBtn}
                     onClick={() => submitBtnHandler()}>Sign
                 Up
             </button>
             <button><Link to='/login'>Login</Link></button>
-
+            {toggleReg && <div>You have been successfully registered =^_^=</div>}
         </div>
     </>
 }

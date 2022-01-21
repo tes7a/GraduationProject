@@ -7,7 +7,7 @@ export const initialForgotPasswordState = {
     error: ""
 };
 
-export const forgotPasswordReducer = (state:initialForgotPasswordStateType = initialForgotPasswordState, action: ActionsTypeReducer): initialForgotPasswordStateType => {
+export const forgotPasswordReducer = (state:initialForgotPasswordStateType = initialForgotPasswordState, action: ForgotPasswordReducerActionsType): initialForgotPasswordStateType => {
     switch (action.type) {
         case "forgotPasswordReducer/SET-STATUS":
             return {...state, status: action.status};
@@ -54,7 +54,7 @@ export type DataForgotPasswordType = {
     message: string
 }
 
-export type ThunkDispatch = Dispatch<ActionsTypeReducer>
+export type ThunkDispatch = Dispatch<ForgotPasswordReducerActionsType>
 
 export type setStatusType = ReturnType<typeof setStatusAC>
 export type setIsCreateForgotPasswordRequestType = ReturnType<typeof setIsCreateForgotPasswordRequestAC>
@@ -66,6 +66,6 @@ export type ResponseForgotPasswordType = {
 }
 
 
-type ActionsTypeReducer = setStatusType
+export type ForgotPasswordReducerActionsType = setStatusType
     | setIsCreateForgotPasswordRequestType
     | setForgotPasswordErrorType

@@ -2,7 +2,7 @@ import React from "react";
 import {PackDataType} from "../../api/packsAPI";
 import SuperButton from "../../components/SuperButton/SuperButton";
 
-export const Pack: React.FC<PackPropsType> = ({pack, authID, ...props}: PackPropsType) => {
+export const Pack: React.FC<PackPropsType> = ({pack, authID, editHandler,removePack, ...props}: PackPropsType) => {
     return (
         <tr>
             <td>{pack.name}</td>
@@ -10,8 +10,9 @@ export const Pack: React.FC<PackPropsType> = ({pack, authID, ...props}: PackProp
             <td>{pack.updated}</td>
             <td>{pack.user_name}</td>
             <td>
-                {authID === pack.user_id && <SuperButton red>Delete</SuperButton>}
-                {authID === pack.user_id && <SuperButton>Edit</SuperButton>}
+                {authID === pack.user_id && <SuperButton red onClick={() => removePack(pack._id)}>Delete</SuperButton>}
+                {authID === pack.user_id &&
+                <SuperButton onClick={() => editHandler(pack._id, pack.name)}>Edit</SuperButton>}
                 <SuperButton>Learn</SuperButton>
             </td>
         </tr>
@@ -21,4 +22,6 @@ export const Pack: React.FC<PackPropsType> = ({pack, authID, ...props}: PackProp
 type PackPropsType = {
     pack: PackDataType
     authID: string
+    editHandler: (id: string, name: string) => void
+    removePack: (id: string) => void
 }
