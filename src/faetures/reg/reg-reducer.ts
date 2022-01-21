@@ -11,7 +11,7 @@ const initialStateReg: StateType = {
     errMsg: '',
 }
 
-export const RegReducer = (state = initialStateReg, action: ActionsTypeReducer) => {
+export const RegReducer = (state = initialStateReg, action: RegistrationReducerActionsType) => {
     switch (action.type) {
         case "TOGGLE_IS_REGISTRATION":
             return {...state, toggleRegistration: action.value}
@@ -46,4 +46,4 @@ export const registerTC = (data: RegisterRequestType) => (dispatch: any) => {
 
 // type
 
-type ActionsTypeReducer = ToggleIsRegistrationAT | SetErrRequestAT;
+export type RegistrationReducerActionsType = ToggleIsRegistrationAT | SetErrRequestAT;

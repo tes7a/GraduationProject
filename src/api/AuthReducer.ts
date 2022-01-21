@@ -22,7 +22,7 @@ import {setStatusAppAC} from "../app/app-reducer";
 type initialStateType = {
     isLoggedIn: boolean
     user: LoginUserInfo
-    error: string
+    error: string,
 }
 
 const initialStateProfile: initialStateType = {
@@ -31,7 +31,7 @@ const initialStateProfile: initialStateType = {
     user: {} as LoginUserInfo
 }
 
-export const AuthReducer = (state = initialStateProfile, action: ActionsTypeReducer): initialStateType => {
+export const AuthReducer = (state = initialStateProfile, action: AuthReducerActionsType): initialStateType => {
     switch (action.type) {
         case "profile/TAKE-PROFILE-INFO":
             return {...state, user: action.data}
@@ -114,7 +114,7 @@ export const logoutTC = () => (dispatch: Dispatch) => {
 }
 
 // type
-type ActionsTypeReducer =
+export type AuthReducerActionsType =
     | ReturnType<typeof takeProfileInfo>
     | ReturnType<typeof loginAC>
     | ReturnType<typeof setLoggedInAC>
