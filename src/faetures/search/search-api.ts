@@ -11,9 +11,9 @@ const instance = axios.create({
 
 export const searchAPI = {
     searchCards(question: string){
-        return instance.get<ResponseGetCardsType>(`cards/card?${question}`);
+        return instance.get<ResponseGetCardsType>(`cards/card?cardAnswer=${question}`);
     },
     searchPacks(parkName: string) {
-        return instance.get<ResponseGetPacksType>(`cards/pack?${parkName}`);
+        return instance.get<ResponseGetPacksType>(`cards/pack?packName=${parkName}`);
     }
 };
