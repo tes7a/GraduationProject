@@ -30,7 +30,7 @@ export const SearchPack = () => {
     };
 
     const searchPackSend = () => {
-        dispatch(searchCards(textSearch));
+        dispatch(searchPacks(textSearch));
     };
 
     const onChangeRange = (newValue: [number, number]) => {

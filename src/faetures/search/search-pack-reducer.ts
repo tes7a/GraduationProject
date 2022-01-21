@@ -6,7 +6,7 @@ let initialState = {
         {
             _id: "",
             user_id: "",
-            name: "n",
+            name: "",
             path: "",
             cardsCount: 0,
             grade: 0,
@@ -27,9 +27,9 @@ let initialState = {
 
 export type InitialStateType = typeof initialState;
 
-export const searchReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const searchPackReducer = (state: InitialStateType = initialState, action: SearchParckReducerActionsType): InitialStateType => {
     switch (action.type) {
-        case "search/SET-FIND-PACKS":
+        case "searchPack/SET-FIND-PACKS":
             return {...state, cardPacks: action.packs};
         default:
             return state;
@@ -37,7 +37,7 @@ export const searchReducer = (state: InitialStateType = initialState, action: Ac
 };
 
 //actions
-export const setFoundPacksAC = (packs: PackType[]) => ({type: 'search/SET-FIND-PACKS', packs} as const);
+export const setFoundPacksAC = (packs: PackType[]) => ({type: 'searchPack/SET-FIND-PACKS', packs} as const);
 
 
 //thunks
@@ -78,5 +78,5 @@ export type PackType = {
 
 
 export type setFoundPacksType = ReturnType<typeof setFoundPacksAC>;
-type ActionsType = setFoundPacksType
-type ThunkDispatch = Dispatch<ActionsType>
+export type SearchParckReducerActionsType = setFoundPacksType
+type ThunkDispatch = Dispatch<SearchParckReducerActionsType>
