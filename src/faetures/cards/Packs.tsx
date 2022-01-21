@@ -4,6 +4,7 @@ import {Pack} from "./Pack";
 import s from './Packs.module.css';
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import SuperButton from "../../components/SuperButton/SuperButton";
+import {SearchPack} from "../search/SearchPack";
 
 export const Packs: React.FC<PacksPropsType> = (
     {getPacks, packs, authID, searchValue, onChangeSearchValue, addPacks, ...props}
@@ -17,6 +18,7 @@ export const Packs: React.FC<PacksPropsType> = (
                     Add new pack
                 </SuperButton>
             </div>
+            <SearchPack/>
             <table className={s.packs}>
                 <thead className={s.thead}>
                 <tr>
