@@ -13,6 +13,7 @@ import {useOnClickOutside} from "../../hooks/useOnClickOutside";
 import {MyPagination} from "../../hooks/MyPagination";
 
 export const PacksContainer = () => {
+    // @ts-ignore
     const page: number = useSelector<AppRootStateType, number>(state => state.packs.page);
     const [currentPage,setCurrantPage] = useState(1);
     const [searchValue, setSearchValue] = useState('');
@@ -23,8 +24,10 @@ export const PacksContainer = () => {
     const [packId, setPackId] = useState('');
     const dispatch = useDispatch();
     const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
+    // @ts-ignore
     const packs: Array<PackDataType> = useSelector<AppRootStateType, Array<PackDataType>>(state => state.packs.packs);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
+    // @ts-ignore
     const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
     const changeNumberPage = (value:number) => {
         setCurrantPage(value);

@@ -5,6 +5,7 @@ import s from './Packs.module.css';
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {MyPagination} from "../../hooks/MyPagination";
+import { Search } from "../search/Search";
 
 export const Packs: React.FC<PacksPropsType> = (
     {
@@ -27,6 +28,7 @@ export const Packs: React.FC<PacksPropsType> = (
             <h2>Cards Packs list</h2>
             <div>
                 <SuperInputText value={searchValue} onChangeText={onChangeSearchValue}/>
+                <Search/>
                 <SuperButton onClick={addPacks}>
                     Add new pack
                 </SuperButton>

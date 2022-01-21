@@ -20,6 +20,16 @@ export const PacksReducer = (state: PacksReducerStateType = initialState, action
             return {...state, page: action.page}
         case "packs/CHANGE-PACK-TITLE":
             return {...state, packs: state.packs.map(p => p._id === action.id ? {...p, name: action.name} : p)};
+        case "sort/SORT-PACKS": {
+            const newState = {
+                ...state.packs.sort((a, b) => {
+                    if (a.name > b.name) return 1
+                    else if (a.name < b.name) return -1
+                    else return 0
+                })
+            }
+            return action.payload === "up" ? newState : newState.reverse()
+        }
         default:
             return state;
     }
@@ -32,6 +42,7 @@ const setPacksPageAC = (page: number) => ({type: 'packs/SET-PAGE', page} as cons
 const addPackAC = (pack: PackDataType) => ({type: 'packs/ADD-PACK', pack} as const);
 const changePackTitleAC = (id: string, name: string) => ({type: 'packs/CHANGE-PACK-TITLE', id, name} as const);
 const removePackAC = (id: string) => ({type: 'packs/REMOVE-PACK', id} as const);
+export const sortPacks = (payload: 'up' | 'down') => ({type: 'sort/SORT-PACKS', payload}as const)
 
 //Thunks
 export const getPacksTC = (currentPage?: number) => (dispatch: Dispatch) => {
@@ -113,4 +124,5 @@ export type PacksReducerActionsType = ReturnType<typeof getPacksAC>
     | ReturnType<typeof setPacksTotalCountAC>
     | ReturnType<typeof setPacksPageAC>
     | ReturnType<typeof changePackTitleAC>
-    | ReturnType<typeof removePackAC>;
+    | ReturnType<typeof removePackAC>
+    | ReturnType<typeof sortPacks>
