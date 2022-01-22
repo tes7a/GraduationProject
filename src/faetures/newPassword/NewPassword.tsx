@@ -12,7 +12,6 @@ export const NewPassword = () => {
     const [password, setPassword] = useState<string>("");
     const { token } = useParams<"token">();
     const status = useSelector<AppRootStateType, string>((state) => state.newPassword.status);
-    // const error = useSelector<AppRootStateType, string>(state => state.newPassword.error);
     const isChangedPassword = useSelector<AppRootStateType, boolean>(state => state.newPassword.isChangedPassword);
 
     const changePassword = (value: string) => {

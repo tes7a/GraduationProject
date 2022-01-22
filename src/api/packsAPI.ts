@@ -2,9 +2,13 @@ import {instance} from "./authAPI";
 import {AxiosResponse} from "axios";
 
 export const PacksAPI = {
-    getPacks(currentPage?:number) {
-        const page = currentPage ? currentPage : 1;
-        return instance.get<PacksDataType, AxiosResponse<PacksDataType>>(`/cards/pack?pageCount=${packsPageCount}&page=${page}`);
+    getPacks(date:GetDateType) {
+        const page = date && date.currentPage ? date.currentPage : 1;
+        const pageCount = date && date.pageCount ?  date.pageCount : defaultPacksPageCount;
+        const id = date && date.id ? date.id : '';
+        return instance.get<PacksDataType, AxiosResponse<PacksDataType>>(
+            `/cards/pack?user_id=${id}&pageCount=${pageCount}&page=${page}`
+        );
     },
     addPack(name: string) {
         return instance.post<ResponseForAddedPackDate, AxiosResponse<ResponseForAddedPackDate>>("/cards/pack", {
@@ -64,10 +68,11 @@ export type ResponseForDeletedPackDate ={
     token: string
     tokenDeathTime: number
 }
-export type getDateType = {
+export type GetDateType = {
+    id?:string
+    currentPage?:number
     pageCount?:number
-    page?:number
 }
 
 //date
-export const packsPageCount = 10;
+export const defaultPacksPageCount = 10;

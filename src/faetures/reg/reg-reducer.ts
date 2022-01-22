@@ -1,4 +1,7 @@
 import {registerApi, RegisterRequestType} from "../../api/registerApi";
+import {ThunkActionType} from "../../app/store";
+import {loginTC} from "../../api/AuthReducer";
+import {setStatusAppAC} from "../../app/app-reducer";
 
 
 type StateType = {
@@ -23,27 +26,29 @@ export const RegReducer = (state = initialStateReg, action: RegistrationReducerA
 }
 
 // actionCreator
-type ToggleIsRegistrationAT = {type: "TOGGLE_IS_REGISTRATION", value: boolean};
-const toggleIsRegistration = (value: boolean) => ({type: "TOGGLE_IS_REGISTRATION", value});
-
-type SetErrRequestAT = {type: "SET_ERR_REQUEST", value: boolean};
-const setErrRequest = (value: string) => ({type: 'SET_ERR_REQUEST' , value});
+const toggleIsRegistration = (value: boolean) => ({type: "TOGGLE_IS_REGISTRATION", value} as const);
+const setErrRequest = (value: string) => ({type: 'SET_ERR_REQUEST', value} as const);
 
 // thunk
 
-export const registerTC = (data: RegisterRequestType) => (dispatch: any) => {
-    registerApi.register(data)
-        .then(() => {
-            dispatch(toggleIsRegistration(true))
-        })
-        .catch(e => {
-            dispatch(setErrRequest(e.response.data.error))
-        })
-        .finally(() => {
-
-    })
-}
+export const registerTC = (data: RegisterRequestType): ThunkActionType =>
+    (dispatch) => {
+        dispatch(setStatusAppAC('loading'));
+        registerApi.register(data)
+            .then(res => {
+                dispatch(toggleIsRegistration(true));
+                dispatch(loginTC(data.email, data.password, false));
+                dispatch(setStatusAppAC('succeeded'));
+            })
+            .catch(e => {
+                dispatch(setErrRequest(e.response.data.error));
+                dispatch(setStatusAppAC('failed'));
+            })
+            .finally(() => {
+                dispatch(setStatusAppAC('idle'));
+            })
+    }
 
 // type
 
-export type RegistrationReducerActionsType = ToggleIsRegistrationAT | SetErrRequestAT;
+export type RegistrationReducerActionsType = ReturnType<typeof toggleIsRegistration> | ReturnType<typeof setErrRequest>;
