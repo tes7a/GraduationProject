@@ -7,9 +7,11 @@ import SuperButton from "../../components/SuperButton/SuperButton";
 import {MyPagination} from "../../hooks/MyPagination";
 import {SearchPack} from "../search/SearchPack";
 
-export const Packs: React.FC<PacksPropsType> = (
+
+export const Packs = React.memo(function (
     {
         getPacks,
+        getMyPacks,
         totalCount,
         currentPage,
         removePack,
@@ -21,10 +23,16 @@ export const Packs: React.FC<PacksPropsType> = (
         editHandler,
         changeNumberPage,
         ...props
-    }
-) => {
+    }:PacksPropsType
+){
+
+    console.log('Packs');
     return (
         <div>
+            <div>
+                <button onClick={getPacks}>All Packs</button>
+                <button onClick={getMyPacks}>My Packs</button>
+            </div>
             <h2>Cards Packs list</h2>
             <div>
                 <SuperInputText value={searchValue} onChangeText={onChangeSearchValue}/>
@@ -48,14 +56,14 @@ export const Packs: React.FC<PacksPropsType> = (
                                       removePack={removePack}/>)}
                 </tbody>
             </table>
-            <button onClick={getPacks}>get Cards Packs</button>
             <MyPagination totalCount={totalCount} currentPage={currentPage} onClickHandler={changeNumberPage}/>
         </div>
     )
-}
+})
 
 type PacksPropsType = {
     getPacks: () => void
+    getMyPacks: () => void
     packs: Array<PackDataType>
     authID: string
     searchValue: string

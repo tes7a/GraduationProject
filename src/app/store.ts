@@ -37,5 +37,7 @@ export type AppRootActionsType = AppReducerActionsType
     | SearchReducerActionsType
     | SearchParckReducerActionsType;
 
+export type ThunkActionType = ThunkAction<void, AppRootStateType, unknown, AppRootActionsType>;
+
 // @ts-ignore
 window.store = store;
