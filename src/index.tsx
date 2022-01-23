@@ -8,6 +8,7 @@ import {store} from "./app/store";
 import { App } from './app/App';
 
 ReactDOM.render(
+    //add hash
     <React.StrictMode>
         <HashRouter>
             <Provider store={store}>
