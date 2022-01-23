@@ -1,18 +1,20 @@
-import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, Navigate} from "react-router-dom";
 import classes from './Registration.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {registerTC} from "./reg-reducer";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import { AppRootStateType } from "../../app/store";
+import {PATH} from "../../routes/routes";
 
 
 export const Registration = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [secPass, setSecPass] = useState('');
-    const [emailErr, setEmailErr] = useState('')
-    const [passErr, setPassErr] = useState('')
+    const [emailErr, setEmailErr] = useState('');
+    const [passErr, setPassErr] = useState('');
+    const isLoggedIn = useSelector<AppRootStateType,boolean>(state => state.auth.isLoggedIn);
 
 
     const dispatch = useDispatch();
@@ -51,6 +53,9 @@ export const Registration = () => {
         }
     };
 
+    if (isLoggedIn) {
+        return <Navigate to={PATH.PROFILE}/>
+    }
 
     return <>
         <h1>REGISTRATION</h1>

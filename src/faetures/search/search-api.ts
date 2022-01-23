@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ResponseGetPacksType } from "./search-pack-reducer";
 import {ResponseGetCardsType} from "./search-reducer";
 
 
@@ -10,6 +11,9 @@ const instance = axios.create({
 
 export const searchAPI = {
     searchCards(question: string){
-        return instance.get<ResponseGetCardsType>(`cards/card?${question}`);
+        return instance.get<ResponseGetCardsType>(`cards/card?cardAnswer=${question}`);
+    },
+    searchPacks(parkName: string) {
+        return instance.get<ResponseGetPacksType>(`cards/pack?packName=${parkName}`);
     }
 };

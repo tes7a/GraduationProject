@@ -1,23 +1,6 @@
 import {Dispatch} from "redux";
 import {authAPI, LoginUserInfo} from './authAPI';
-import {setStatusAppAC} from "../app/app-reducer";
-
-// export const SomeUser: LoginUserInfo = {
-//     _id: "0",
-//     email: "fake",
-//     name: "fake",
-//     avatar: a,
-//     publicCardPacksCount: 0,
-//     deviceTokens: [],
-//     tokenDeathTime: 42000,
-//     token: '',
-//     created: new Date().toJSON(),
-//     updated: new Date().toJSON(),
-//     isAdmin: false,
-//     verified: false,
-//     rememberMe: false,
-//     __v: 1
-// };
+import {setInitialized, setStatusAppAC} from "../app/app-reducer";
 
 type initialStateType = {
     isLoggedIn: boolean
@@ -58,7 +41,7 @@ const takeProfileInfo = (data: LoginUserInfo) => ({type: 'profile/TAKE-PROFILE-I
 
 // thunk
 
-export const ProfileInfo = () => (dispatch: Dispatch) => {
+export const profileInfoTC = () => (dispatch: Dispatch) => {
     dispatch(setStatusAppAC('loading'));
     authAPI.checkUserInfo()
         .then(res => {
@@ -73,6 +56,7 @@ export const ProfileInfo = () => (dispatch: Dispatch) => {
             dispatch(setStatusAppAC('failed'));
         })
         .finally(() => {
+            dispatch(setInitialized(true));
             dispatch(setStatusAppAC('idle'));
         })
 }

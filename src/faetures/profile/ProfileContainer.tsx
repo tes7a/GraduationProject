@@ -8,7 +8,7 @@ import s from './profile.module.css'
 import { PATH } from "../../routes/routes";
 import { useEffect } from "react";
 import { Profile } from "./Profile";
-import { logoutTC, ProfileInfo } from "../../api/AuthReducer";
+import { logoutTC, profileInfoTC } from "../../api/AuthReducer";
 
 
 export const ProfileContainer = () => {
@@ -22,7 +22,7 @@ export const ProfileContainer = () => {
     }
 
     useEffect(() => {
-        dispatch(ProfileInfo())
+        dispatch(profileInfoTC())
     },[dispatch])
 
     if (!isLoggedIn) return <Navigate to={PATH.LOGIN}/>
