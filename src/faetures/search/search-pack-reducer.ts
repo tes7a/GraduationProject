@@ -1,23 +1,9 @@
 import {Dispatch} from "redux";
 import {searchAPI} from "./search-api";
+import {getPacksAC, PacksReducerActionsType} from "../packs/PacksReducer";
 
 let initialState = {
-    cardPacks: [
-        {
-            _id: "",
-            user_id: "",
-            name: "",
-            path: "",
-            cardsCount: 0,
-            grade: 0,
-            shots: 0,
-            rating: 0,
-            type: "",
-            created: "",
-            updated: "",
-            __v: 0
-        },
-    ],
+    packs: [],
     cardPacksTotalCount: 0,
     maxCardsCount: 0,
     minCardsCount: 0,
@@ -27,32 +13,30 @@ let initialState = {
 
 export type InitialStateType = typeof initialState;
 
-export const searchPackReducer = (state: InitialStateType = initialState, action: SearchParckReducerActionsType): InitialStateType => {
+export const searchPackReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
     switch (action.type) {
-        case "searchPack/SET-FIND-PACKS":
-            return {...state, cardPacks: action.packs};
+        case "packs/GET-PACKS":
+            return {...state, packs: action.packs};
         default:
             return state;
     }
 };
-
-//actions
-export const setFoundPacksAC = (packs: PackType[]) => ({type: 'searchPack/SET-FIND-PACKS', packs} as const);
 
 
 //thunks
 export const searchPacks = (text: any) => (dispatch: ThunkDispatch) => {
     searchAPI.searchPacks(text)
         .then(response => {
-            dispatch(setFoundPacksAC(response.data.cardPacks));
+            dispatch(getPacksAC(response.data.cardPacks));
         })
         .catch(error => {
             return "some error"
         });
 };
 
+//types
 export type ResponseGetPacksType = {
-    cardPacks: PackType[],
+    cardPacks: ResponsePackType[],
     cardPacksTotalCount: number
     maxCardsCount: number
     minCardsCount: number
@@ -60,23 +44,33 @@ export type ResponseGetPacksType = {
     pageCount: number
 }
 
-export type PackType = {
-    _id: string
-    user_id: string
+export type ResponsePackType = {
+    cardsCount: number
+    created: string
+    grade: number
+    more_id: string
     name: string
     path: string
-    cardsCount: number
-    grade: number
-    shots: number
+    private: boolean
     rating: number
+    shots: number
     type: string
-    created: string
     updated: string
-    __v:number
+    user_id: string
+    user_name: string
+    __v: number
+    _id: string
 }
 
+export type PackType = {
+    packName?: string
+    min?: number
+    max?: number
+    sortPacks?: number
+    page?: number
+    pageCount?: number
+    user_id?: string
+}
 
-
-export type setFoundPacksType = ReturnType<typeof setFoundPacksAC>;
-export type SearchParckReducerActionsType = setFoundPacksType
-type ThunkDispatch = Dispatch<SearchParckReducerActionsType>
+export type SearchPackReducerActionsType = PacksReducerActionsType
+type ThunkDispatch = Dispatch<SearchPackReducerActionsType>
