@@ -7,7 +7,9 @@ import {AppRootActionsType, AppRootStateType, ThunkActionType} from "../../app/s
 let initialState: PacksReducerStateType = {
     packs: [],
     totalCount: 0,
-    page: 1
+    page: 1,
+    maxCardsCount: 0,
+    minCardsCount: 0,
 }
 
 export const PacksReducer = (state: PacksReducerStateType = initialState, action: PacksReducerActionsType) => {
@@ -26,7 +28,7 @@ export const PacksReducer = (state: PacksReducerStateType = initialState, action
 }
 
 //Actions
-const getPacksAC = (packs: Array<PackDataType>) => ({type: 'packs/GET-PACKS', packs} as const);
+export const getPacksAC = (packs: Array<PackDataType>) => ({type: 'packs/GET-PACKS', packs} as const);
 const setPacksTotalCountAC = (totalCount: number) => ({type: 'packs/SET-TOTAL-COUNT', totalCount} as const);
 export const setPacksPageAC = (page: number) => ({type: 'packs/SET-PAGE', page} as const);
 const addPackAC = (pack: PackDataType) => ({type: 'packs/ADD-PACK', pack} as const);
@@ -117,6 +119,8 @@ type PacksReducerStateType = {
     packs: Array<PackDataType>
     totalCount: number
     page: number
+    maxCardsCount: number
+    minCardsCount: number
 }
 export type PacksReducerActionsType = ReturnType<typeof getPacksAC>
     | ReturnType<typeof addPackAC>
