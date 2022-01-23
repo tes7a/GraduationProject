@@ -3,6 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../routes/routes";
+import React, {useEffect, useRef, useState} from "react";
+import {getPacksTC, createPackTC, changePackTitleTC, removePackTC, setSortPacks} from "./PacksReducer";
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {getPacksTC, createPackTC, changePackTitleTC, removePackTC, setPacksPageAC} from "./PacksReducer";
 import {PackDataType} from "../../api/packsAPI";
@@ -10,10 +12,11 @@ import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import classes from "./PacksContainer.module.css"
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {useOnClickOutside} from "../../hooks/useOnClickOutside";
+import {MyPagination} from "../../hooks/MyPagination";
 
-const PacksMemo = React.memo(function(){
-    const [showMyPacksPage, setShowMyPacksPage] = useState(false);
-    const currentPage: number = useSelector<AppRootStateType, number>(state => state.packs.page);
+export const PacksContainer = () => {
+    const page: number = useSelector<AppRootStateType, number>(state => state.packs.page);
+    const [currentPage,setCurrantPage] = useState(1);
     const [searchValue, setSearchValue] = useState('');
     const [cardName, setCardName] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
@@ -25,6 +28,11 @@ const PacksMemo = React.memo(function(){
     const packs: Array<PackDataType> = useSelector<AppRootStateType, Array<PackDataType>>(state => state.packs.packs);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
+    const sortMethod = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod)
+    const changeNumberPage = (value:number) => {
+        setCurrantPage(value);
+        dispatch(getPacksTC(value));
+    }
 
     const changeNumberPage = useCallback((value: number) => {
         dispatch(setPacksPageAC(value));
@@ -75,6 +83,13 @@ const PacksMemo = React.memo(function(){
         }
     },[showAddModal,cardName,showEditModal,editName,packId])
 
+    const removePack = (id: string) => {
+        dispatch(removePackTC(id,currentPage))
+    }
+    
+    const sortCallBack = (sort: string) => {
+        dispatch(setSortPacks(sort))
+    }
     const removePack = useCallback((id: string) => {
         dispatch(removePackTC(id, currentPage, showMyPacksPage, authID))
     }, [currentPage, showMyPacksPage, authID]);
@@ -89,8 +104,10 @@ const PacksMemo = React.memo(function(){
             } else {
                 dispatch(getPacksTC({currentPage}));
             }
+            dispatch(getPacksTC(currentPage, sortMethod));
         }
     }, [dispatch, isLoggedIn, currentPage]);
+    }, [dispatch, isLoggedIn,currentPage, sortMethod]);
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -149,6 +166,9 @@ const PacksMemo = React.memo(function(){
             }
             <Packs
                 getPacks={getAllPacks}
+                sortCallback={sortCallBack}
+                getPacks={getPacks}
+                sortMethod={sortMethod}
                 addPacks={addPacks}
                 onChangeSearchValue={onChangeSearchValue}
                 packs={packs}
