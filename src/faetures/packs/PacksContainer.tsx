@@ -4,17 +4,17 @@ import {AppRootStateType} from "../../app/store";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../routes/routes";
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import {getPacksTC, createPackTC, changePackTitleTC, removePackTC, setPacksPageAC} from "./PacksReducer";
+import {getPacksTC, createPackTC, changePackTitleTC, removePackTC, setPacksPageAC, setSortPacks} from "./PacksReducer";
 import {PackDataType} from "../../api/packsAPI";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import classes from "./PacksContainer.module.css"
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {useOnClickOutside} from "../../hooks/useOnClickOutside";
 
-const PacksMemo = React.memo(function(){
-    const [showMyPacksPage, setShowMyPacksPage] = useState(false);
+export const PacksContainer = () => {
     const currentPage: number = useSelector<AppRootStateType, number>(state => state.packs.page);
     const [searchValue, setSearchValue] = useState('');
+    const [showMyPacksPage, setShowMyPacksPage] = useState(false);
     const [cardName, setCardName] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -25,13 +25,13 @@ const PacksMemo = React.memo(function(){
     const packs: Array<PackDataType> = useSelector<AppRootStateType, Array<PackDataType>>(state => state.packs.packs);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
+    const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod)
 
     const changeNumberPage = useCallback((value: number) => {
         dispatch(setPacksPageAC(value));
     },[currentPage]);
 
     const ref: any = useRef();
-
 
     const getAllPacks = useCallback(() => {
         setShowMyPacksPage(false);
@@ -75,6 +75,9 @@ const PacksMemo = React.memo(function(){
         }
     },[showAddModal,cardName,showEditModal,editName,packId])
 
+    const sortCallBack = (sort: string) => {
+        dispatch(setSortPacks(sort))
+    }
     const removePack = useCallback((id: string) => {
         dispatch(removePackTC(id, currentPage, showMyPacksPage, authID))
     }, [currentPage, showMyPacksPage, authID]);
@@ -87,10 +90,11 @@ const PacksMemo = React.memo(function(){
             if (showMyPacksPage) {
                 dispatch(getPacksTC({id: authID, currentPage}));
             } else {
-                dispatch(getPacksTC({currentPage}));
+                dispatch(getPacksTC({currentPage,sortType}));
             }
+         
         }
-    }, [dispatch, isLoggedIn, currentPage]);
+    }, [dispatch, isLoggedIn,currentPage, sortType]);
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -149,6 +153,8 @@ const PacksMemo = React.memo(function(){
             }
             <Packs
                 getPacks={getAllPacks}
+                sortCallback={sortCallBack}
+                sortMethod={sortType}
                 addPacks={addPacks}
                 onChangeSearchValue={onChangeSearchValue}
                 packs={packs}
@@ -162,11 +168,6 @@ const PacksMemo = React.memo(function(){
                 getMyPacks={getMyPacks}
             />
         </div>
-    )
-});
-export const PacksContainer = () => {
-    return(
-        <PacksMemo/>
     )
 }
 

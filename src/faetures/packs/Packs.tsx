@@ -5,12 +5,15 @@ import s from './Packs.module.css';
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {MyPagination} from "../../hooks/MyPagination";
+import {Search} from "../search/Search";
+import {Sort} from "../../utils/Sort";
 import {SearchPack} from "../search/SearchPack";
 
 
 export const Packs = React.memo(function (
     {
         getPacks,
+        sortMethod,
         getMyPacks,
         totalCount,
         currentPage,
@@ -22,6 +25,7 @@ export const Packs = React.memo(function (
         addPacks,
         editHandler,
         changeNumberPage,
+        sortCallback,
         ...props
     }:PacksPropsType
 ){
@@ -36,6 +40,7 @@ export const Packs = React.memo(function (
             <h2>Cards Packs list</h2>
             <div>
                 <SuperInputText value={searchValue} onChangeText={onChangeSearchValue}/>
+                <Search/>
                 <SuperButton onClick={addPacks}>
                     Add new pack
                 </SuperButton>
@@ -44,10 +49,12 @@ export const Packs = React.memo(function (
             <table className={s.packs}>
                 <thead className={s.thead}>
                 <tr>
-                    <td>Name</td>
-                    <td>Cards</td>
-                    <td>Last Updated</td>
-                    <td>Created by</td>
+                    <td><Sort name={'name'} sortCallback={sortCallback} sortMethod={sortMethod}>Name</Sort></td>
+                    <td><Sort name={'cardsCount'} sortCallback={sortCallback} sortMethod={sortMethod}>Cards</Sort></td>
+                    <td><Sort name={'updated'} sortCallback={sortCallback} sortMethod={sortMethod}>Last
+                        Updated</Sort></td>
+                    <td><Sort name={'created'} sortCallback={sortCallback} sortMethod={sortMethod}>Created by</Sort>
+                    </td>
                     <td>Actions</td>
                 </tr>
                 </thead>
@@ -56,6 +63,7 @@ export const Packs = React.memo(function (
                                       removePack={removePack}/>)}
                 </tbody>
             </table>
+            <button onClick={getPacks}>get Cards Packs</button>
             <MyPagination totalCount={totalCount} currentPage={currentPage} onClickHandler={changeNumberPage}/>
         </div>
     )
@@ -74,4 +82,6 @@ type PacksPropsType = {
     totalCount: number
     currentPage: number
     changeNumberPage: (value: number) => void
+    sortCallback: (sort: string) => void,
+    sortMethod: string | undefined
 }

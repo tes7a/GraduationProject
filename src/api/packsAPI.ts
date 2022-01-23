@@ -6,8 +6,9 @@ export const PacksAPI = {
         const page = date && date.currentPage ? date.currentPage : 1;
         const pageCount = date && date.pageCount ?  date.pageCount : defaultPacksPageCount;
         const id = date && date.id ? date.id : '';
+        const sortType = date && date.sortType? date.sortType : '';
         return instance.get<PacksDataType, AxiosResponse<PacksDataType>>(
-            `/cards/pack?user_id=${id}&pageCount=${pageCount}&page=${page}`
+            `/cards/pack?user_id=${id}&pageCount=${pageCount}&page=${page}&sortPacks=${sortType}`
         );
     },
     addPack(name: string) {
@@ -40,6 +41,7 @@ export type PacksDataType = {
     pageCount: number
     token: string
     tokenDeathTime: number
+    sortPacks: string
 }
 export type PackDataType = {
     cardsCount: number
@@ -72,6 +74,8 @@ export type GetDateType = {
     id?:string
     currentPage?:number
     pageCount?:number
+    page?:number
+    sortType?: string
 }
 
 //date

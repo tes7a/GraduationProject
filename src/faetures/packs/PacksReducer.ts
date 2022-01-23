@@ -8,6 +8,7 @@ let initialState: PacksReducerStateType = {
     packs: [],
     totalCount: 0,
     page: 1,
+    sortMethod: undefined,
     maxCardsCount: 0,
     minCardsCount: 0,
 }
@@ -22,6 +23,8 @@ export const PacksReducer = (state: PacksReducerStateType = initialState, action
             return {...state, page: action.page}
         case "packs/CHANGE-PACK-TITLE":
             return {...state, packs: state.packs.map(p => p._id === action.id ? {...p, name: action.name} : p)};
+        case "sort/SORT-PACKS":
+            return {...state,sortMethod: action.sortMethod}
         default:
             return state;
     }
@@ -34,12 +37,14 @@ export const setPacksPageAC = (page: number) => ({type: 'packs/SET-PAGE', page} 
 const addPackAC = (pack: PackDataType) => ({type: 'packs/ADD-PACK', pack} as const);
 const changePackTitleAC = (id: string, name: string) => ({type: 'packs/CHANGE-PACK-TITLE', id, name} as const);
 const removePackAC = (id: string) => ({type: 'packs/REMOVE-PACK', id} as const);
+export const setSortPacks = (sortMethod: string) => ({type: 'sort/SORT-PACKS', sortMethod}as const)
 
 //Thunks
 export const getPacksTC = (date: GetDateType) => (dispatch: Dispatch) => {
     dispatch(setStatusAppAC('loading'));
     PacksAPI.getPacks(date)
         .then(res => {
+            console.log(res.data.cardPacks)
             dispatch(getPacksAC(res.data.cardPacks));
             dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount));
             dispatch(setPacksPageAC(res.data.page));
@@ -118,7 +123,8 @@ export const removePackTC = (id: string, currentPage: number, showMyPacksPage: b
 type PacksReducerStateType = {
     packs: Array<PackDataType>
     totalCount: number
-    page: number
+    page: number,
+    sortMethod: string | undefined,
     maxCardsCount: number
     minCardsCount: number
 }
@@ -127,5 +133,7 @@ export type PacksReducerActionsType = ReturnType<typeof getPacksAC>
     | ReturnType<typeof setPacksTotalCountAC>
     | ReturnType<typeof setPacksPageAC>
     | ReturnType<typeof changePackTitleAC>
+    | ReturnType<typeof removePackAC>
+    | ReturnType<typeof setSortPacks>
     | ReturnType<typeof removePackAC>;
 

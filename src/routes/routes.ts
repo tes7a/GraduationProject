@@ -9,18 +9,7 @@ import {NewPassword} from "../faetures/newPassword/NewPassword";
 import { LoginContainer } from "../faetures/login/LoginContainer";
 import { ProfileContainer } from "../faetures/profile/ProfileContainer";
 import {PacksContainer} from "../faetures/packs/PacksContainer";
-
-export enum PATH_ {
-    EMPTY = '',
-    ERROR = '/404',
-    PROFILE = '/',
-    LOGIN = '/login',
-    REGISTRATION = '/registration',
-    FORGOT_PASSWORD = '/forgot-password',
-    NEW_PASSWORD = '/create-new-password',
-    SIGNIN = '/signin',
-    TEST = '/test'
-}
+import { Search } from "../faetures/search/Search";
 
 export const PATH = {
     EMPTY: '/',
@@ -31,7 +20,7 @@ export const PATH = {
     FORGOT_PASSWORD: '/forgot-password',
     NEW_PASSWORD: '/create-new-password',
     PACKS:'/packs',
-    TEST: '/test'
+    TEST: '/test',
 }
 
 type RoutesType = {
