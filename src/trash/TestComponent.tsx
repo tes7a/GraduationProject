@@ -5,7 +5,6 @@ import SuperButton from "../components/SuperButton/SuperButton";
 import s from './TestComponent.module.css'
 import {Link} from "react-router-dom";
 import { Loading } from "../utils/Loading";
-import { Sorting } from "../faetures/sorting/Sorting";
 
 export const TestComponent = () => {
     const [text, setText] = useState<string>('')
@@ -67,7 +66,6 @@ export const TestComponent = () => {
                 <SuperCheckbox checked={checked} onChange={testOnChange}/>
                 
                {/*<Loading/>*/}
-                <Sorting/>
             </div>
         </div>
     )

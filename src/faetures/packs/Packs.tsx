@@ -5,11 +5,13 @@ import s from './Packs.module.css';
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {MyPagination} from "../../hooks/MyPagination";
-import { Search } from "../search/Search";
+import {Search} from "../search/Search";
+import {Sort} from "../../utils/Sort";
 
 export const Packs: React.FC<PacksPropsType> = (
     {
         getPacks,
+        sortMethod,
         totalCount,
         currentPage,
         removePack,
@@ -20,6 +22,7 @@ export const Packs: React.FC<PacksPropsType> = (
         addPacks,
         editHandler,
         changeNumberPage,
+        sortCallback,
         ...props
     }
 ) => {
@@ -36,10 +39,12 @@ export const Packs: React.FC<PacksPropsType> = (
             <table className={s.packs}>
                 <thead className={s.thead}>
                 <tr>
-                    <td>Name</td>
-                    <td>Cards</td>
-                    <td>Last Updated</td>
-                    <td>Created by</td>
+                    <td><Sort name={'name'} sortCallback={sortCallback} sortMethod={sortMethod}>Name</Sort></td>
+                    <td><Sort name={'cardsCount'} sortCallback={sortCallback} sortMethod={sortMethod}>Cards</Sort></td>
+                    <td><Sort name={'updated'} sortCallback={sortCallback} sortMethod={sortMethod}>Last
+                        Updated</Sort></td>
+                    <td><Sort name={'created'} sortCallback={sortCallback} sortMethod={sortMethod}>Created by</Sort>
+                    </td>
                     <td>Actions</td>
                 </tr>
                 </thead>
@@ -66,4 +71,6 @@ type PacksPropsType = {
     totalCount: number
     currentPage: number
     changeNumberPage: (value: number) => void
+    sortCallback: (sort: string) => void,
+    sortMethod: string | undefined
 }

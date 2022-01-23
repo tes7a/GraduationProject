@@ -7,7 +7,8 @@ import {AppRootActionsType, AppRootStateType} from "../../app/store";
 let initialState: PacksReducerStateType = {
     packs: [],
     totalCount: 0,
-    page: 1
+    page: 1,
+    sortMethod: undefined
 }
 
 export const PacksReducer = (state: PacksReducerStateType = initialState, action: PacksReducerActionsType) => {
@@ -20,16 +21,8 @@ export const PacksReducer = (state: PacksReducerStateType = initialState, action
             return {...state, page: action.page}
         case "packs/CHANGE-PACK-TITLE":
             return {...state, packs: state.packs.map(p => p._id === action.id ? {...p, name: action.name} : p)};
-        case "sort/SORT-PACKS": {
-            const newState = {
-                ...state.packs.sort((a, b) => {
-                    if (a.name > b.name) return 1
-                    else if (a.name < b.name) return -1
-                    else return 0
-                })
-            }
-            return action.payload === "up" ? newState : newState.reverse()
-        }
+        case "sort/SORT-PACKS":
+            return {...state,sortMethod: action.sortMethod}
         default:
             return state;
     }
@@ -42,13 +35,14 @@ const setPacksPageAC = (page: number) => ({type: 'packs/SET-PAGE', page} as cons
 const addPackAC = (pack: PackDataType) => ({type: 'packs/ADD-PACK', pack} as const);
 const changePackTitleAC = (id: string, name: string) => ({type: 'packs/CHANGE-PACK-TITLE', id, name} as const);
 const removePackAC = (id: string) => ({type: 'packs/REMOVE-PACK', id} as const);
-export const sortPacks = (payload: 'up' | 'down') => ({type: 'sort/SORT-PACKS', payload}as const)
+export const setSortPacks = (sortMethod: string) => ({type: 'sort/SORT-PACKS', sortMethod}as const)
 
 //Thunks
-export const getPacksTC = (currentPage?: number) => (dispatch: Dispatch) => {
+export const getPacksTC = (currentPage?: number, sortType?: string) => (dispatch: Dispatch) => {
     dispatch(setStatusAppAC('loading'));
-    PacksAPI.getPacks(currentPage)
+    PacksAPI.getPacks(currentPage, sortType)
         .then(res => {
+            console.log(res.data.cardPacks)
             dispatch(getPacksAC(res.data.cardPacks));
             dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount));
             dispatch(setPacksPageAC(res.data.page));
@@ -117,7 +111,8 @@ export const removePackTC = (id: string, currentPage: number): ThunkAction<void,
 type PacksReducerStateType = {
     packs: Array<PackDataType>
     totalCount: number
-    page: number
+    page: number,
+    sortMethod: string | undefined,
 }
 export type PacksReducerActionsType = ReturnType<typeof getPacksAC>
     | ReturnType<typeof addPackAC>
@@ -125,4 +120,4 @@ export type PacksReducerActionsType = ReturnType<typeof getPacksAC>
     | ReturnType<typeof setPacksPageAC>
     | ReturnType<typeof changePackTitleAC>
     | ReturnType<typeof removePackAC>
-    | ReturnType<typeof sortPacks>
+    | ReturnType<typeof setSortPacks>

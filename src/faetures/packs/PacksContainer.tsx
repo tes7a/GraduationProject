@@ -4,7 +4,7 @@ import {AppRootStateType} from "../../app/store";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../routes/routes";
 import React, {useEffect, useRef, useState} from "react";
-import {getPacksTC, createPackTC, changePackTitleTC, removePackTC} from "./PacksReducer";
+import {getPacksTC, createPackTC, changePackTitleTC, removePackTC, setSortPacks} from "./PacksReducer";
 import {PackDataType} from "../../api/packsAPI";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import classes from "./PacksContainer.module.css"
@@ -13,7 +13,6 @@ import {useOnClickOutside} from "../../hooks/useOnClickOutside";
 import {MyPagination} from "../../hooks/MyPagination";
 
 export const PacksContainer = () => {
-    // @ts-ignore
     const page: number = useSelector<AppRootStateType, number>(state => state.packs.page);
     const [currentPage,setCurrantPage] = useState(1);
     const [searchValue, setSearchValue] = useState('');
@@ -24,11 +23,10 @@ export const PacksContainer = () => {
     const [packId, setPackId] = useState('');
     const dispatch = useDispatch();
     const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
-    // @ts-ignore
     const packs: Array<PackDataType> = useSelector<AppRootStateType, Array<PackDataType>>(state => state.packs.packs);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
-    // @ts-ignore
     const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
+    const sortMethod = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod)
     const changeNumberPage = (value:number) => {
         setCurrantPage(value);
         dispatch(getPacksTC(value));
@@ -61,7 +59,6 @@ export const PacksContainer = () => {
         setEditName('');
         setPackId('');
     }
-
     const closeModal = () => {
         if (showAddModal) {
             setShowAddModal(false);
@@ -76,7 +73,10 @@ export const PacksContainer = () => {
     const removePack = (id: string) => {
         dispatch(removePackTC(id,currentPage))
     }
-
+    
+    const sortCallBack = (sort: string) => {
+        dispatch(setSortPacks(sort))
+    }
 
     useOnClickOutside(ref, closeModal);
     useEffect(()=>{
@@ -85,9 +85,9 @@ export const PacksContainer = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            dispatch(getPacksTC(currentPage));
+            dispatch(getPacksTC(currentPage, sortMethod));
         }
-    }, [dispatch, isLoggedIn,currentPage]);
+    }, [dispatch, isLoggedIn,currentPage, sortMethod]);
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -146,7 +146,9 @@ export const PacksContainer = () => {
                 </div>
             }
             <Packs
+                sortCallback={sortCallBack}
                 getPacks={getPacks}
+                sortMethod={sortMethod}
                 addPacks={addPacks}
                 onChangeSearchValue={onChangeSearchValue}
                 packs={packs}
