@@ -11,18 +11,6 @@ import { ProfileContainer } from "../faetures/profile/ProfileContainer";
 import {PacksContainer} from "../faetures/packs/PacksContainer";
 import { Search } from "../faetures/search/Search";
 
-export enum PATH_ {
-    EMPTY = '',
-    ERROR = '/404',
-    PROFILE = '/',
-    LOGIN = '/login',
-    REGISTRATION = '/registration',
-    FORGOT_PASSWORD = '/forgot-password',
-    NEW_PASSWORD = '/create-new-password',
-    SIGNIN = '/signin',
-    TEST = '/test'
-}
-
 export const PATH = {
     EMPTY: '/',
     ERROR: '/404',

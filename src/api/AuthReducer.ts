@@ -2,23 +2,6 @@ import {Dispatch} from "redux";
 import {authAPI, LoginUserInfo} from './authAPI';
 import {setInitialized, setStatusAppAC} from "../app/app-reducer";
 
-// export const SomeUser: LoginUserInfo = {
-//     _id: "0",
-//     email: "fake",
-//     name: "fake",
-//     avatar: a,
-//     publicCardPacksCount: 0,
-//     deviceTokens: [],
-//     tokenDeathTime: 42000,
-//     token: '',
-//     created: new Date().toJSON(),
-//     updated: new Date().toJSON(),
-//     isAdmin: false,
-//     verified: false,
-//     rememberMe: false,
-//     __v: 1
-// };
-
 type initialStateType = {
     isLoggedIn: boolean
     user: LoginUserInfo

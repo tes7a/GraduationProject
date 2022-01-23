@@ -3,10 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../routes/routes";
-import React, {useEffect, useRef, useState} from "react";
-import {getPacksTC, createPackTC, changePackTitleTC, removePackTC, setSortPacks} from "./PacksReducer";
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import {getPacksTC, createPackTC, changePackTitleTC, removePackTC, setPacksPageAC} from "./PacksReducer";
+import {getPacksTC, createPackTC, changePackTitleTC, removePackTC, setPacksPageAC, setSortPacks} from "./PacksReducer";
 import {PackDataType} from "../../api/packsAPI";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import classes from "./PacksContainer.module.css"
@@ -18,6 +16,7 @@ export const PacksContainer = () => {
     const page: number = useSelector<AppRootStateType, number>(state => state.packs.page);
     const [currentPage,setCurrantPage] = useState(1);
     const [searchValue, setSearchValue] = useState('');
+    const [showMyPacksPage, setShowMyPacksPage] = useState(false);
     const [cardName, setCardName] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -28,12 +27,7 @@ export const PacksContainer = () => {
     const packs: Array<PackDataType> = useSelector<AppRootStateType, Array<PackDataType>>(state => state.packs.packs);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
-    const sortMethod = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod)
-    const changeNumberPage = (value:number) => {
-        setCurrantPage(value);
-        dispatch(getPacksTC(value));
-    }
-
+    const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod)
     const changeNumberPage = useCallback((value: number) => {
         dispatch(setPacksPageAC(value));
     },[currentPage]);
@@ -83,10 +77,6 @@ export const PacksContainer = () => {
         }
     },[showAddModal,cardName,showEditModal,editName,packId])
 
-    const removePack = (id: string) => {
-        dispatch(removePackTC(id,currentPage))
-    }
-    
     const sortCallBack = (sort: string) => {
         dispatch(setSortPacks(sort))
     }
@@ -102,12 +92,11 @@ export const PacksContainer = () => {
             if (showMyPacksPage) {
                 dispatch(getPacksTC({id: authID, currentPage}));
             } else {
-                dispatch(getPacksTC({currentPage}));
+                dispatch(getPacksTC({currentPage,sortType}));
             }
-            dispatch(getPacksTC(currentPage, sortMethod));
+         
         }
-    }, [dispatch, isLoggedIn, currentPage]);
-    }, [dispatch, isLoggedIn,currentPage, sortMethod]);
+    }, [dispatch, isLoggedIn,currentPage, sortType]);
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -167,8 +156,7 @@ export const PacksContainer = () => {
             <Packs
                 getPacks={getAllPacks}
                 sortCallback={sortCallBack}
-                getPacks={getPacks}
-                sortMethod={sortMethod}
+                sortMethod={sortType}
                 addPacks={addPacks}
                 onChangeSearchValue={onChangeSearchValue}
                 packs={packs}
@@ -182,11 +170,6 @@ export const PacksContainer = () => {
                 getMyPacks={getMyPacks}
             />
         </div>
-    )
-});
-export const PacksContainer = () => {
-    return(
-        <PacksMemo/>
     )
 }
 
