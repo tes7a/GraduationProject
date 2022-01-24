@@ -10,11 +10,9 @@ import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import classes from "./PacksContainer.module.css"
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {useOnClickOutside} from "../../hooks/useOnClickOutside";
-import {MyPagination} from "../../hooks/MyPagination";
 
 export const PacksContainer = () => {
-    const page: number = useSelector<AppRootStateType, number>(state => state.packs.page);
-    const [currentPage,setCurrantPage] = useState(1);
+    const currentPage: number = useSelector<AppRootStateType, number>(state => state.packs.page);
     const [searchValue, setSearchValue] = useState('');
     const [showMyPacksPage, setShowMyPacksPage] = useState(false);
     const [cardName, setCardName] = useState('');
@@ -28,12 +26,12 @@ export const PacksContainer = () => {
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
     const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod)
+
     const changeNumberPage = useCallback((value: number) => {
         dispatch(setPacksPageAC(value));
     },[currentPage]);
 
     const ref: any = useRef();
-
 
     const getAllPacks = useCallback(() => {
         setShowMyPacksPage(false);

@@ -10,6 +10,7 @@ import { LoginContainer } from "../faetures/login/LoginContainer";
 import { ProfileContainer } from "../faetures/profile/ProfileContainer";
 import {PacksContainer} from "../faetures/packs/PacksContainer";
 import { Search } from "../faetures/search/Search";
+import { CardsContainer } from "../faetures/cards/CardsContainer";
 
 export const PATH = {
     EMPTY: '/',
@@ -21,6 +22,7 @@ export const PATH = {
     NEW_PASSWORD: '/create-new-password',
     PACKS:'/packs',
     TEST: '/test',
+    CARDS: '/cards',
 }
 
 type RoutesType = {
@@ -37,4 +39,5 @@ export const publicRoutes: RoutesType[] = [
     {path: PATH.ERROR, component: Err404},
     {path: PATH.TEST, component: TestComponent},
     {path: PATH.PACKS, component: PacksContainer},
+    {path: PATH.CARDS, component: CardsContainer}
 ]
