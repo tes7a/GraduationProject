@@ -30,7 +30,6 @@ export const Packs = React.memo(function (
     }:PacksPropsType
 ){
 
-    console.log('Packs');
     return (
         <div>
             <div>
@@ -39,8 +38,6 @@ export const Packs = React.memo(function (
             </div>
             <h2>Cards Packs list</h2>
             <div>
-                <SuperInputText value={searchValue} onChangeText={onChangeSearchValue}/>
-                <Search/>
                 <SuperButton onClick={addPacks}>
                     Add new pack
                 </SuperButton>

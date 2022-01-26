@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {Link, Navigate} from "react-router-dom";
-import classes from './Registration.module.css';
+import {Link, Navigate, NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {registerTC} from "./reg-reducer";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import { AppRootStateType } from "../../app/store";
 import {PATH} from "../../routes/routes";
+import classes from "../../style/Auth.module.css";
 
 
 export const Registration = () => {
@@ -57,42 +57,49 @@ export const Registration = () => {
         return <Navigate to={PATH.PROFILE}/>
     }
 
-    return <>
-        <h1>REGISTRATION</h1>
+    return <div className={classes.auth}>
+        <h2 className={classes.authTitle}>IT-INCUBATOR</h2>
+        <h3 className={classes.authSubtitle}>Sing Up</h3>
         <div>
-            <div>
-                <div>Email</div>
+            <div className={classes.authItem}>
+                <div className={classes.authLabel}>Email</div>
                 <SuperInputText
+                    className={!emailErr ? classes.authFields : `${classes.authFields} ${classes.authFieldsError}`}
                     onChangeText={setEmailHandler}
                     type='email' name='email'
                     placeholder='Email'
                     value={email}
                     error={emailErr}/>
             </div>
-            <div>
-                <div>Password</div>
+            <div className={classes.authItem}>
+                <div className={classes.authLabel}>Password</div>
                 <SuperInputText
+                    className={!passErr ? classes.authFields : `${classes.authFields} ${classes.authFieldsError}`}
                     onChangeText={setPasswordHandler}
                     type='password' name='password'
                     placeholder='Password'
                     value={password}
                     error={passErr}/>
             </div>
-            <div>
-                <div>Confirm password</div>
+            <div className={classes.authItem}>
+                <div className={classes.authLabel}>Confirm password</div>
                 <SuperInputText
+                    className={classes.authFields}
                     onChangeText={setSecPassHandler}
                     type='password' name='password'
                     placeholder='Repeat your password'
                     value={secPass}
                     error={passErr}/>
             </div>
-            <button className={classes.signInBtn}
+            <button className={classes.authButton}
                     onClick={() => submitBtnHandler()}>Sign
                 Up
             </button>
-            <button><Link to='/login'>Login</Link></button>
+            <div className={classes.linkBlock}>
+                <div>Do you have an account?</div>
+                <NavLink className={classes.authLink} to={'/login'}>Sing In</NavLink>
+            </div>
             {toggleReg && <div>You have been successfully registered =^_^=</div>}
         </div>
-    </>
+    </div>
 }

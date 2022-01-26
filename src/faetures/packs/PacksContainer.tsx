@@ -110,7 +110,6 @@ export const PacksContainer = () => {
         setShowEditModal(true);
 
     }
-    console.log('PacksContainer');
     return (
         <div className={classes.packsContainer}>
             {

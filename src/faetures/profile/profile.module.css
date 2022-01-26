@@ -1,66 +1,62 @@
-.wrapper{
-    position: fixed;
-    width: 100%;
-    height: 100%;
-
-    background: linear-gradient(180deg, #ff008f 0%, #2300fd 100%);
-}
-
-.ava {
-    position: absolute;
+.profile{
+    height: auto;
+    max-height: 540px;
     width: 413px;
-    height: 540px;
-    left: 620px;
-    top: 84px;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 20px 33px;
+    margin: auto;
     background: #F9F9FE;
     border-radius: 8px;
 }
 
-.logOut{
-    justify-content: space-between;
-    display: flex;
+.profileTitle{
+    margin: 10px 0 20px;
 }
 
-.profileStyle{
-    position: absolute;
-    width: 236px;
-    height: 33px;
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 33px;
-    text-align: right;
-    color: #2D2E46;
-    top: auto;
+.profileInfo{
+    margin-bottom: 20px;
 }
 
-.img{
-    position: absolute;
+.profilePhoto{
+    display: block;
     width: 96px;
     height: 96px;
-    top: 70px;
-    left: 155px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
 }
 
-.btnLogOut{
-    background: #bf07f3;
-    box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
-    border-radius: 30px;
-}
-
-.btnLogOut:hover .action {
-    font-family: SF UI Display;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 19px;
-
+.profileName{
+    padding: 5px 0;
     text-align: center;
-    letter-spacing: 0.01em;
+}
 
-    color: #7b04fa;
+.profileItem{
+    /*width: 200px;*/
+    padding: 0;
+    margin: 0 auto;
+}
 
-    text-shadow: 0px 1px 1px rgba(19, 19, 19, 0.25);
+.profileFields{
+    margin:0;
+    padding: 5px 0;
+    width: 100%;
+    background: rgba(0,0,0,0);
+    border:none;
+    outline: none;
+    border-bottom: 2px solid #2D2E46;
+    color:#000;
+    transition: .3s;
+}
+
+.profileFields:focus{
+    border:none;
+    outline: none;
+    border-bottom: 2px solid #21268F;
+}
+
+.profileFieldsError{
+    border-bottom: 2px solid red;
 }
