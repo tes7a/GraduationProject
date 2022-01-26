@@ -8,6 +8,8 @@ import {MyPagination} from "../../hooks/MyPagination";
 import {Search} from "../search/Search";
 import {Sort} from "../../utils/Sort";
 import {SearchPack} from "../search/SearchPack";
+import { Link } from "react-router-dom";
+import { CardsContainer } from "../cards/CardsContainer";
 
 
 export const Packs = React.memo(function (
@@ -32,12 +34,15 @@ export const Packs = React.memo(function (
 
     return (
         <div>
+            <div><Link to={'/cards'}>Cards</Link></div>
             <div>
                 <button onClick={getPacks}>All Packs</button>
                 <button onClick={getMyPacks}>My Packs</button>
             </div>
             <h2>Cards Packs list</h2>
             <div>
+                <SuperInputText value={searchValue} onChangeText={onChangeSearchValue}/>
+                <Search/>
                 <SuperButton onClick={addPacks}>
                     Add new pack
                 </SuperButton>
