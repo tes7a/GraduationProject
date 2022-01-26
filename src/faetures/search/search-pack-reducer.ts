@@ -3,36 +3,40 @@ import {searchAPI} from "./search-api";
 import {getPacksAC, PacksReducerActionsType} from "../packs/PacksReducer";
 
 let initialState = {
-    packs: [],
-    cardPacksTotalCount: 0,
-    maxCardsCount: 0,
+    maxCardsCount: 40,
     minCardsCount: 0,
-    page: 0,
-    pageCount: 0
+    packName: ""
 };
 
 export type InitialStateType = typeof initialState;
 
-export const searchPackReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
+export const searchPackReducer = (state: InitialStateType = initialState, action: SearchPackReducerActionsType): InitialStateType => {
     switch (action.type) {
-        case "packs/GET-PACKS":
-            return {...state, packs: action.packs};
+        // case "packs/GET-PACKS":
+        //     return {...state, packs: action.packs};
+        case "searchPack/SET-SOUGHT-PACK-NAMES":
+            return {...state, packName: action.packName};
+        case "searchPack/SET-SOUGHT-MIN-MAX-COUNT-CARDS":
+            return {...state, minCardsCount: action.cardsCount[0], maxCardsCount: action.cardsCount[1]};
         default:
             return state;
     }
 };
 
 
+export const setSoughtPackNameAC = (packName: string) => ({type: 'searchPack/SET-SOUGHT-PACK-NAMES', packName} as const);
+export const setSoughtMinMaxCountCardsAC = (cardsCount: [number, number]) => ({type: 'searchPack/SET-SOUGHT-MIN-MAX-COUNT-CARDS', cardsCount} as const);
+
 //thunks
-export const searchPacks = (text: any) => (dispatch: ThunkDispatch) => {
-    searchAPI.searchPacks(text)
-        .then(response => {
-            dispatch(getPacksAC(response.data.cardPacks));
-        })
-        .catch(error => {
-            return "some error"
-        });
-};
+// export const searchPacks = (data: PackType) => (dispatch: ThunkDispatch) => {
+//     searchAPI.searchPacks(data)
+//         .then(response => {
+//             dispatch(getPacksAC(response.data.cardPacks));
+//         })
+//         .catch(error => {
+//             return "some error"
+//         });
+// };
 
 //types
 export type ResponseGetPacksType = {
@@ -66,11 +70,11 @@ export type PackType = {
     packName?: string
     min?: number
     max?: number
-    sortPacks?: number
-    page?: number
-    pageCount?: number
-    user_id?: string
 }
 
+export type setSoughtPacksActionsType = ReturnType<typeof setSoughtPackNameAC>;
+export type setSoughtMinMaxCountCardsActionsType = ReturnType<typeof setSoughtMinMaxCountCardsAC>;
 export type SearchPackReducerActionsType = PacksReducerActionsType
-type ThunkDispatch = Dispatch<SearchPackReducerActionsType>
+    | setSoughtPacksActionsType
+    | setSoughtMinMaxCountCardsActionsType
+// type ThunkDispatch = Dispatch<SearchPackReducerActionsType>

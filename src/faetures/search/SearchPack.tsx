@@ -2,53 +2,49 @@ import styles from "../newPassword/NewPassword.module.css";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import React, {useState} from "react";
 import {useDebounce} from "../../hooks/useDebounce";
-import {searchCards} from "./search-reducer";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {Slider} from "antd";
 import 'antd/dist/antd.css';
-import {searchPacks} from "./search-pack-reducer";
-import {getPacksTC} from "../packs/PacksReducer";
+import {setSoughtMinMaxCountCardsAC, setSoughtPackNameAC} from "./search-pack-reducer";
 import {AppRootStateType} from "../../app/store";
 
 
 export const SearchPack = () => {
     const dispatch = useDispatch();
     const [textSearch, setTextSearch] = useState<string>("");
-    const minValueRange = useSelector<AppRootStateType, number>(state => state.packs.minCardsCount);
-    const maxValueRange = useSelector<AppRootStateType, number>(state => state.packs.maxCardsCount);
+    const minValueRange = useSelector<AppRootStateType, number>(state => state.searchPackReducer.minCardsCount);
+    const maxValueRange = useSelector<AppRootStateType, number>(state => state.searchPackReducer.maxCardsCount);
+
     const stepRange = 1;
     const [valueRange, setValueRange] = useState<[number, number]>([0, 40]);
 
-    function valueLogging(value:any) {
-        dispatch(searchPacks(value));
-        console.log("search")
+    function valueRangeDebounce(value: [number, number]) {
+        dispatch(setSoughtMinMaxCountCardsAC(value));
     }
 
-    const debouncedFunc = useDebounce(valueLogging, 2000);
+    function valueInputDebounce(value: string) {
+        dispatch(setSoughtPackNameAC(value));
+    }
+
+    const debouncedInputFunc = useDebounce(valueInputDebounce, 2000);
+    const debouncedRangeFunc = useDebounce(valueRangeDebounce, 2000);
 
     const searchPackBouncing = (text: string) => {
         setTextSearch(text);
 
-        if (text.length !== 0) {
-            debouncedFunc(text);
-        }
-
-        dispatch(getPacksTC({}));
+        debouncedInputFunc(text);
     };
 
-    const searchPackSend = () => {
-        if (textSearch.length !== 0) {
-            dispatch(searchPacks(textSearch));
-        }
-
-        dispatch(getPacksTC({}));
+    const searchPackClick = () => {
+        dispatch(setSoughtPackNameAC(textSearch));
     };
 
     const onChangeRange = (newValue: [number, number]) => {
+        console.log("NEWVALUE", newValue);
+
         setValueRange(newValue);
-        debouncedFunc(newValue);
-        dispatch(searchPacks(newValue));
+        debouncedRangeFunc(newValue);
     };
 
     const wrapSlider = {
@@ -60,13 +56,14 @@ export const SearchPack = () => {
       <div>
           <label className={styles.labelInput} htmlFor="fieldSearch">Search</label>
           <SuperInputText onChangeText={searchPackBouncing} id="fieldSearch"/>
-          <SuperButton onClick={searchPackSend} type="submit">Search</SuperButton>
+          <SuperButton onClick={searchPackClick} type="submit">Search</SuperButton>
           <div style={wrapSlider}>
               <Slider range min={minValueRange} max={maxValueRange}
-                      defaultValue={[0, 50]}
+                      defaultValue={[0, maxValueRange]}
                       step={stepRange}
                       onChange={onChangeRange}
-                      value={valueRange}/>
+                      value={valueRange}
+              />
           </div>
       </div>
   )

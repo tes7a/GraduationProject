@@ -14,7 +14,9 @@ export const searchAPI = {
         return instance.get<ResponseGetCardsType, AxiosResponse<ResponseGetCardsType>>(`cards/card?cardAnswer=${question}`);
     },
     searchPacks(data: PackType) {
-        const {packName, min, max} = data;
+        const packName = data && data.packName ? data.packName : '';
+        const min = data && data.min ? data.min : 0;
+        const max = data && data.max ? data.max : 0;
         return instance.get<ResponseGetPacksType, AxiosResponse<ResponseGetPacksType>>(`cards/pack?packName=${packName}&min=${min}&max=${max}`);
     }
 };
