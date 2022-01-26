@@ -27,11 +27,11 @@ export const Cards: React.FC<CardsType> = ({data,authID,removeCard,editHandler})
             <table className={s.cards}>
                 <thead className={s.thead}>
                 <tr>
-                    <td>Name</td>
-                    <td>Cards</td>
-                    <td>Last Updated</td>
-                    <td>Created by</td>
-                    <td>Actions</td>
+                    <td>Question</td>
+                    <td>Answer</td>
+                    <td>Grade</td>
+                    <td>Update</td>
+                    <td>URL</td>
                 </tr>
                 </thead>
                 <tbody>

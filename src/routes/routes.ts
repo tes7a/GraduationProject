@@ -13,7 +13,6 @@ import { Search } from "../faetures/search/Search";
 import { CardsContainer } from "../faetures/cards/CardsContainer";
 
 export const PATH = {
-    EMPTY: '/',
     ERROR: '/404',
     PROFILE: '/',
     LOGIN: '/login',
@@ -23,6 +22,7 @@ export const PATH = {
     PACKS:'/packs',
     TEST: '/test',
     CARDS: '/cards',
+    CARDS_WITH_ID: '/cards/:id',
 }
 
 type RoutesType = {
@@ -39,5 +39,5 @@ export const publicRoutes: RoutesType[] = [
     {path: PATH.ERROR, component: Err404},
     {path: PATH.TEST, component: TestComponent},
     {path: PATH.PACKS, component: PacksContainer},
-    {path: PATH.CARDS, component: CardsContainer}
+    {path: PATH.CARDS_WITH_ID, component: CardsContainer}
 ]

@@ -34,7 +34,6 @@ export const Packs = React.memo(function (
     
     return (
         <div>
-            <div><Link to={'/cards'}>Cards</Link></div>
             <div>
                 <button onClick={getPacks}>All Packs</button>
                 <button onClick={getMyPacks}>My Packs</button>
