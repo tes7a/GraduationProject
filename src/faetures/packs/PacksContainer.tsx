@@ -12,6 +12,9 @@ import SuperButton from "../../components/SuperButton/SuperButton";
 import {useOnClickOutside} from "../../hooks/useOnClickOutside";
 
 export const PacksContainer = () => {
+    const [rangeValue, setRangeValue] = useState<[number, number]>([0, 200]);
+    const min = rangeValue[0];
+    const max = rangeValue[1];
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const [pageCount, setPageCount] = useState(10);
     const currentPage: number = useSelector<AppRootStateType, number>(state => state.packs.page);
@@ -28,6 +31,20 @@ export const PacksContainer = () => {
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
     const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod);
+
+    const searchPacks = useCallback(() => {
+        // if (isLoggedIn) {
+        //     if (showMyPacksPage) {
+        //         dispatch(getPacksTC({id: authID, currentPage, pageCount, min, max}));
+        //     } else {
+        //         dispatch(getPacksTC({currentPage, sortType, pageCount, min, max}));
+        //     }
+        // }
+    }, [rangeValue])
+
+    const changeRangeValue = (value: [number, number]) => {
+        setRangeValue(value);
+    }
 
     const changePageCount = (value: number) => {
         setPageCount(+value);
@@ -94,13 +111,12 @@ export const PacksContainer = () => {
     useEffect(() => {
         if (isLoggedIn) {
             if (showMyPacksPage) {
-                dispatch(getPacksTC({id: authID, currentPage,pageCount}));
+                dispatch(getPacksTC({id: authID, currentPage, pageCount, min, max}));
             } else {
-                dispatch(getPacksTC({currentPage, sortType,pageCount}));
+                dispatch(getPacksTC({currentPage, sortType, pageCount, min, max}));
             }
-
         }
-    }, [dispatch, isLoggedIn, currentPage, sortType,pageCount]);
+    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount,min,max]);
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -113,7 +129,6 @@ export const PacksContainer = () => {
         setEditName(name);
         setPackId(id);
         setShowEditModal(true);
-
     }
 
     return (
@@ -175,6 +190,9 @@ export const PacksContainer = () => {
                 options={options}
                 changePageCount={changePageCount}
                 pageCount={pageCount}
+                changeRangeValue={changeRangeValue}
+                rangeValue={rangeValue}
+                searchPacks={searchPacks}
             />
         </div>
     )

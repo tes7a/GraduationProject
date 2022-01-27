@@ -1,6 +1,6 @@
 html{
   min-height: 100vh;
-  overflow-x: hidden;
+  /*overflow-x: hidden;*/
   background: linear-gradient(180deg, #E6D4DE 0%, #9890C7 100%);
 }
 *{

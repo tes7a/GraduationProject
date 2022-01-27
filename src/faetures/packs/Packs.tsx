@@ -34,13 +34,16 @@ export const Packs = React.memo(function (
         options,
         changePageCount,
         pageCount,
+        changeRangeValue,
+        rangeValue,
+        searchPacks,
         ...props
     }: PacksPropsType
 ) {
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
 
 
-    if(status === 'loading'){
+    if (status === 'loading') {
         return <Spin size={'large'} tip="Loading..."/>
     }
 
@@ -54,7 +57,7 @@ export const Packs = React.memo(function (
                     <SuperButton className={`${s.packsAsideButton} ${showMyPacksPage ? s.active : ''}`}
                                  onClick={getMyPacks}>My Packs</SuperButton>
                 </div>
-                <SearchPack/>
+                <SearchPack searchPacks={searchPacks} rangeValue={rangeValue} changeRangeValue={changeRangeValue}/>
             </div>
             <div className={s.packsMain}>
                 <h3 className={s.packsMainTitle}>Cards Packs list</h3>
@@ -111,5 +114,8 @@ type PacksPropsType = {
     showMyPacksPage: boolean
     options: number[]
     changePageCount: (value: number) => void
-    pageCount:number
+    pageCount: number
+    changeRangeValue: (value: [number, number]) => void
+    rangeValue: [number, number]
+    searchPacks: () => void
 }
