@@ -18,7 +18,7 @@ export const Pack: React.FC<PackPropsType> = ({pack, authID, editHandler, remove
                 {authID === pack.user_id &&
                 <SuperButton onClick={() => editHandler(pack._id, pack.name)}>Edit</SuperButton>}
                 <div>
-                    <SuperButton onClick={() => navigate('/cards/' + pack._id)}>Learn</SuperButton>
+                    <SuperButton onClick={() => navigate('/cards/' + pack._id)}>Cards</SuperButton>
                 </div>
             </td>
         </tr>

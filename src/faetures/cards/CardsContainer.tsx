@@ -6,7 +6,7 @@ import {Card, GetDataType} from "../../api/cards.API";
 import {AppRootStateType} from "../../app/store";
 import { PATH } from "../../routes/routes";
 import {Cards} from "./Cards";
-import {getCards} from "./cards-reducer";
+import {getCards, postCard} from "./cards-reducer";
 
 export const CardsContainer: React.FC = () => {
     //useSlector
@@ -24,7 +24,9 @@ export const CardsContainer: React.FC = () => {
     const [editName, setEditName] = useState('');
     const [packId, setPackId] = useState('');
     const [showEditModal, setShowEditModal] = useState(false);
-
+    const [cardAnswer, setCardAnswer] = useState('');
+    const [cardQuestion, setCardQuestion] = useState('')
+    
     //func
     const editHandler = (id: string, name: string) => {
         setEditName(name);
@@ -37,6 +39,11 @@ export const CardsContainer: React.FC = () => {
     const changeNumberPage = useCallback((value: number) => {
         dispatch(setCardsPage(value));
     }, [page]);
+    const addCard = () => {
+        if(id)
+        dispatch
+        setCardAnswer('')
+    }
 
 
     useEffect(() => {

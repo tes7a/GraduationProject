@@ -1,19 +1,19 @@
-import axios, { AxiosResponse } from "axios";
-import { instance } from "./authAPI";
+import axios, {AxiosResponse} from "axios";
+import {instance} from "./authAPI";
 
 //dal
 export const CardsAPI = {
     getCards(data: GetDataType) {
-       return instance.get<CardsResp>(`/cards/card`, {params: data})
+        return instance.get<CardsResp>(`/cards/card`, {params: data})
     },
-    postCard(data?: PostCardData) {
+    postCard(data: PostCardData) {
         return instance.post<PostCardData, AxiosResponse<Card>>('/cards/card', {data})
     },
     deleteCard(data: DeleteDataType) {
-        return instance.delete<Card>('/cards/card', {params:data})
+        return instance.delete<Card>('/cards/card', {params: data})
     },
     putCard(data: PutDataType) {
-        return instance.put<PutDataType,AxiosResponse<Card>>('/cards/card', {data})
+        return instance.put<PutDataType, AxiosResponse<Card>>('/cards/card', {data})
     },
     grade(data: GradeData) {
         return instance.put<GradeData, AxiosResponse<GradeResponse>>('/cards/grade', data)
@@ -47,7 +47,7 @@ export type Card = {
 }
 
 export type GetDataType = {
-    cardAnswer?:string
+    cardAnswer?: string
     cardQuestion?: string
     cardsPack_id?: string
     min?: number
