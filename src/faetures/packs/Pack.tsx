@@ -2,13 +2,14 @@ import React from "react";
 import {PackDataType} from "../../api/packsAPI";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import s from './../../style/Packs.module.css';
+import {correctionDate} from "../../utils/correctionDate";
 
 export const Pack: React.FC<PackPropsType> = ({pack, authID, editHandler,removePack, ...props}: PackPropsType) => {
     return (
         <tr>
             <td>{pack.name}</td>
             <td>{pack.cardsCount}</td>
-            <td>{pack.updated}</td>
+            <td>{correctionDate(pack.updated)}</td>
             <td>{pack.user_name}</td>
             <td>
                 {authID === pack.user_id && <SuperButton red className={s.packsButtonDelete} onClick={() => removePack(pack._id)}>Delete</SuperButton>}
