@@ -6,6 +6,7 @@ import {Navigate} from "react-router-dom";
 import {RequestStatusType} from "../../app/app-reducer";
 import {loginTC, logoutTC, setLoginErrorAC} from "../../api/AuthReducer";
 import {PATH} from "../../routes/routes";
+import {Spin} from "antd";
 
 export const LoginContainer = () => {
     const dispatch = useDispatch();
@@ -51,18 +52,25 @@ export const LoginContainer = () => {
     }
 
     return (
-        <Login
-            email={email}
-            password={password}
-            rememberMe={rememberMe}
-            onChangeEmail={onChangeEmail}
-            onChangePassword={onChangePassword}
-            onChangeRememberMe={onChangeRememberMe}
-            login={login}
-            error={error}
-            emailError={emailError}
-            passError={passError}
-            status={status}
-        />
+        <>
+            {
+                status === 'loading'
+                    ? <Spin size={'large'} tip="Loading..."/>
+                    : <Login
+                    email={email}
+                    password={password}
+                    rememberMe={rememberMe}
+                    onChangeEmail={onChangeEmail}
+                    onChangePassword={onChangePassword}
+                    onChangeRememberMe={onChangeRememberMe}
+                    login={login}
+                    error={error}
+                    emailError={emailError}
+                    passError={passError}
+                    status={status}
+                />
+            }
+        </>
+
     )
 }

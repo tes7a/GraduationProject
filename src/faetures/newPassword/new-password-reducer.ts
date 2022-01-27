@@ -33,6 +33,7 @@ export const createNewPasswordTC = (data: any) => (dispatch: ThunkDispatch) => {
             dispatch(setStatusAC('succeeded'));
         })
         .catch(error => {
+            dispatch(setNewPasswordErrorAC(error.response.data.error));
             if (!error.response) {
                 return "some error";
             }
