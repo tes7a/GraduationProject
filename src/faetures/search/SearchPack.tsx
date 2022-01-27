@@ -8,6 +8,7 @@ import {useDispatch} from "react-redux";
 import {Slider} from "antd";
 import 'antd/dist/antd.css';
 import {searchPacks} from "./search-pack-reducer";
+import s from "../../style/Packs.module.css";
 
 
 export const SearchPack = () => {
@@ -44,9 +45,12 @@ export const SearchPack = () => {
 
     return (
       <div>
-          <label className={styles.labelInput} htmlFor="fieldSearch">Search</label>
-          <SuperInputText onChangeText={searchPackBouncing} id="fieldSearch"/>
-          <SuperButton onClick={searchPackSend} type="submit">Search</SuperButton>
+          <label className={s.packsAsideTitle} htmlFor="fieldSearch">Search</label>
+          <div className={s.searchBlock}>
+              <SuperInputText className={s.searchInput} placeholder='Search' onChangeText={searchPackBouncing} id="fieldSearch"/>
+              <SuperButton className={s.searchButton} onClick={searchPackSend} type="submit">Search</SuperButton>
+          </div>
+          <h3 className={s.packsAsideTitle}>Number of cards</h3>
           <div style={wrapSlider}>
               <Slider range min={minValueRange} max={maxValueRange}
                       defaultValue={[0, 50]}

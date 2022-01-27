@@ -4,6 +4,8 @@ import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import SuperCheckbox from "../../components/SuperCheckbox/SuperCheckbox";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {RequestStatusType} from "../../app/app-reducer";
+import classes from "../../style/Auth.module.css";
+import {PATH}  from "../../routes/routes";
 
 export const Login: React.FC<LoginPropsType> = (
     {
@@ -21,35 +23,48 @@ export const Login: React.FC<LoginPropsType> = (
     }
 ) => {
     return (
-        <div>
-            <h1>Login Page</h1>
-            {status !== 'idle' && <div>{status}</div>}
+        <div className={classes.auth}>
+            <h2 className={classes.authTitle}>IT-INCUBATOR</h2>
+            <h3 className={classes.authSubtitle}>Sing In</h3>
             <div>
-                {error && <div>{error}</div>}
-                <SuperInputText
-                    onChangeText={onChangeEmail}
-                    type='text' name='email'
-                    placeholder='Email'
-                    value={email}
-                    error={emailError}
+                {error && <div className={classes.error}>{error}</div>}
+                <div className={classes.authItem}>
+                    <div className={classes.authLabel}>Email</div>
+                    <SuperInputText
+                        className={!emailError ? classes.authFields : `${classes.authFields} ${classes.authFieldsError}`}
+                        onChangeText={onChangeEmail}
+                        type='text' name='email'
+                        placeholder='Email'
+                        value={email}
+                        error={emailError}
 
-                />
-                <SuperInputText
-                    onChangeText={onChangePassword}
-                    type='password' name='password'
-                    placeholder='Password'
-                    value={password}
-                    error={passError}
-                />
-                <SuperCheckbox checked={rememberMe} onChangeChecked={onChangeRememberMe}>Remember Me</SuperCheckbox>
-                <SuperButton onClick={login}>SingIn</SuperButton>
-
-                <div>
-                    <NavLink to={'/passrecovery'}>Forgot password?</NavLink>
+                    />
+                </div>
+                <div className={classes.authItem}>
+                    <div className={classes.authLabel}>Password</div>
+                    <SuperInputText
+                        className={!passError ? classes.authFields : `${classes.authFields} ${classes.authFieldsError}`}
+                        onChangeText={onChangePassword}
+                        type='password' name='password'
+                        placeholder='Password'
+                        value={password}
+                        error={passError}
+                    />
                 </div>
 
-                <div>
-                    <NavLink to={'/registration'}>Registration</NavLink>
+                <SuperCheckbox className={classes.authCheckBox} checked={rememberMe}
+                               onChangeChecked={onChangeRememberMe}>Remember Me</SuperCheckbox>
+
+                <div className={classes.forgotLink}>
+                    <NavLink to={`${PATH.FORGOT_PASSWORD}`}>Forgot password?</NavLink>
+                </div>
+
+                <SuperButton className={classes.authButton} onClick={login}>SingIn</SuperButton>
+
+
+                <div className={classes.linkBlock}>
+                    <div>Don't have an account?</div>
+                    <NavLink className={classes.authLink} to={'/registration'}>Sing Up</NavLink>
                 </div>
             </div>
         </div>

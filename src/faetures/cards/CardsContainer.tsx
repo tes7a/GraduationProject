@@ -5,10 +5,13 @@ import {Card} from "../../api/cards.API";
 import { AppRootStateType } from "../../app/store";
 import { Cards } from "./Cards";
 import { fetchCards } from "./cards-reducer";
+import {RequestStatusType} from "../../app/app-reducer";
+import {Spin} from "antd";
 
 export const CardsContainer = () => {
-    const data = useSelector<AppRootStateType,Card[]>(state => state.cards.cards)
+    const data = useSelector<AppRootStateType,Card[]>(state => state.cards.cards);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
+    const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
     const dispatch = useDispatch();
     
     const [editName, setEditName] = useState('');
@@ -27,6 +30,10 @@ export const CardsContainer = () => {
     useEffect(() => {
         dispatch(fetchCards());
     },[data])
+
+    if(status === 'loading'){
+        return <Spin size={'large'} tip="Loading..."/>
+    }
 
     return(
         <Cards 
