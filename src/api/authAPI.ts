@@ -14,10 +14,13 @@ export const authAPI = {
     checkUserInfo() {
         return instance.post<{}, AxiosResponse<LoginUserInfo>>(`auth/me`, {})
     },
+    updateUserInfo({name, avatar}: updateUserInfoDataType) {
+        return instance.put<{}, AxiosResponse<responseUpdateUserInfoType>>('auth/me', {name, avatar});
+    },
     login(email: string, password: string, rememberMe: boolean) {
         return instance.post<{}, AxiosResponse<LoginUserInfo>>('auth/login', {email, password, rememberMe})
     },
-    logout(){
+    logout() {
         return instance.delete('/auth/me');
     }
 }
@@ -38,5 +41,15 @@ export type LoginUserInfo = {
     verified: boolean
     __v: number
     _id: string
+}
+export type responseUpdateUserInfoType = {
+    token: string
+    tokenDeathTime: number
+    updateUser:LoginUserInfo
+}
+
+export type updateUserInfoDataType = {
+    name?: string
+    avatar?: string
 }
 

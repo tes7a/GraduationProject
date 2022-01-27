@@ -1,8 +1,7 @@
-import {setStatusAppAC} from './../../app/app-reducer';
+import {setStatusAppAC} from '../../app/app-reducer';
 import {Dispatch} from "redux";
 import {GetDateType, PackDataType, PacksAPI} from "../../api/packsAPI";
-import {ThunkAction} from "redux-thunk";
-import {AppRootActionsType, AppRootStateType, ThunkActionType} from "../../app/store";
+import {ThunkActionType} from "../../app/store";
 
 let initialState: PacksReducerStateType = {
     packs: [],
@@ -22,7 +21,7 @@ export const PacksReducer = (state: PacksReducerStateType = initialState, action
         case "packs/CHANGE-PACK-TITLE":
             return {...state, packs: state.packs.map(p => p._id === action.id ? {...p, name: action.name} : p)};
         case "sort/SORT-PACKS":
-            return {...state,sortMethod: action.sortMethod}
+            return {...state, sortMethod: action.sortMethod}
         default:
             return state;
     }
@@ -35,14 +34,13 @@ export const setPacksPageAC = (page: number) => ({type: 'packs/SET-PAGE', page} 
 const addPackAC = (pack: PackDataType) => ({type: 'packs/ADD-PACK', pack} as const);
 const changePackTitleAC = (id: string, name: string) => ({type: 'packs/CHANGE-PACK-TITLE', id, name} as const);
 const removePackAC = (id: string) => ({type: 'packs/REMOVE-PACK', id} as const);
-export const setSortPacks = (sortMethod: string) => ({type: 'sort/SORT-PACKS', sortMethod}as const)
+export const setSortPacks = (sortMethod: string) => ({type: 'sort/SORT-PACKS', sortMethod} as const)
 
 //Thunks
 export const getPacksTC = (date: GetDateType) => (dispatch: Dispatch) => {
     dispatch(setStatusAppAC('loading'));
     PacksAPI.getPacks(date)
         .then(res => {
-            console.log(res.data.cardPacks)
             dispatch(getPacksAC(res.data.cardPacks));
             dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount));
             dispatch(setPacksPageAC(res.data.page));
@@ -62,7 +60,6 @@ export const createPackTC = (value: string, showMyPacksPage: boolean, userID?: s
         dispatch(setStatusAppAC('loading'));
         PacksAPI.addPack(value)
             .then(res => {
-                // dispatch(addPackAC(res.data.newCardsPack));
                 if (showMyPacksPage) {
                     dispatch(getPacksTC({id: userID, currentPage: 1}));
                 } else {
@@ -85,10 +82,11 @@ export const changePackTitleTC = (id: string, name: string) => (dispatch: Dispat
         .then(res => {
             dispatch(changePackTitleAC(id, name));
             dispatch(setStatusAppAC('succeeded'));
-        }).catch(e => {
-        console.log(e);
-        dispatch(setStatusAppAC('failed'));
-    })
+        })
+        .catch(e => {
+            console.log(e);
+            dispatch(setStatusAppAC('failed'));
+        })
         .finally(() => {
             dispatch(setStatusAppAC('idle'));
         })

@@ -1,13 +1,22 @@
-import axios from "axios";
-import { instance } from "./authAPI";
+import axios, {AxiosResponse} from "axios";
+import {instance} from "./authAPI";
 
 //dal
 export const CardsAPI = {
-    getCards(data?: GetDataType) {
-       return instance.get<CardsResp>('/cards/card', {data: data})
+    getCards(data: GetDataType) {
+        return instance.get<CardsResp>(`/cards/card`, {params: data})
+    },
+    postCard(data: PostCardData) {
+        return instance.post<PostCardData, AxiosResponse<Card>>('/cards/card', {data})
     },
     deleteCard(data: DeleteDataType) {
-        return instance.delete<Card>('/cards/card', {data: data})
+        return instance.delete<Card>('/cards/card', {params: data})
+    },
+    putCard(data: PutDataType) {
+        return instance.put<PutDataType, AxiosResponse<Card>>('/cards/card', {data})
+    },
+    grade(data: GradeData) {
+        return instance.put<GradeData, AxiosResponse<GradeResponse>>('/cards/grade', data)
     }
 }
 
@@ -38,7 +47,7 @@ export type Card = {
 }
 
 export type GetDataType = {
-    cardAnswer?:string
+    cardAnswer?: string
     cardQuestion?: string
     cardsPack_id?: string
     min?: number
@@ -50,4 +59,42 @@ export type GetDataType = {
 
 export type DeleteDataType = {
     id: string
+}
+
+export type PostCardData = {
+    card: {
+        cardsPack_id: string
+        question?: string
+        answer?: string
+        grade?: number
+        shots?: number
+        rating?: number
+        answerImg?: string
+        questionImg?: string
+        questionVideo?: string
+        answerVideo?: string
+        type?: string
+    }
+}
+
+export type PutDataType = {
+    card: {
+        _id: string,
+        question: string,
+        comments: string
+    }
+}
+
+export type GradeData = {
+    card_id: string
+    grade: number
+}
+
+export type GradeResponse = {
+    _id: string
+    cardsPack_id: string
+    card_id: string
+    user_id: string
+    grade: number
+    shots: number
 }

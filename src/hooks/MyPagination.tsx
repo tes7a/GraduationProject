@@ -1,6 +1,7 @@
 import {defaultPacksPageCount} from "../api/packsAPI";
 import SuperButton from "../components/SuperButton/SuperButton";
 import {useEffect, useState} from "react";
+import s from './../style/Pagination.module.css';
 
 export const MyPagination = ({totalCount, pageCount, currentPage, onClickHandler}: MyPaginationPropsType) => {
     //totalCount - кол-во всех элементов
@@ -46,21 +47,22 @@ export const MyPagination = ({totalCount, pageCount, currentPage, onClickHandler
 
 
     return (
-        <div>
+        <div className={s.paginationBlock}>
             {num.map(n => {
+                const active = n === page ? `${s.active}` : '';
                 if (typeof n === 'number') {
-                    return <SuperButton key={n} red={n === page} onClick={() => {
+                    return <SuperButton className={`${s.paginationButton} ${active}`} key={n} onClick={() => {
                         onClickHandler(n)
                     }}>{n}</SuperButton>
                 } else {
                     if (n === '<' && page > 2) {
-                        return <SuperButton key={n} onClick={() => {
+                        return <SuperButton className={s.paginationButton} key={n} onClick={() => {
                             onClickHandler(from - 1)
                         }}>{n}</SuperButton>
                     }
 
                     if (n === '>' && page < lastPage - 4) {
-                        return <SuperButton key={n} onClick={() => {
+                        return <SuperButton className={s.paginationButton} key={n} onClick={() => {
                             onClickHandler(to + 1)
                         }}>{n}</SuperButton>
                     }

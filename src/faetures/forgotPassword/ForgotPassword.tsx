@@ -1,16 +1,17 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
-import styles from "./ForgotPassword.module.css"
 import SuperButton from "../../components/SuperButton/SuperButton";
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {createForgotPasswordRequestTC} from "./forgot-password-reducer";
 import {AppRootStateType} from "../../app/store";
+import classes from "../../style/Auth.module.css";
+import {Spin} from "antd";
 
 export const ForgotPassword = () => {
     const dispatch = useDispatch();
     const [email, setEmail] = useState<string>("");
-    const [error, setError] = useState<string>("");
+    const error = useSelector<AppRootStateType, string>((state) => state.forgotPassword.error);
     const status = useSelector<AppRootStateType, string>((state) => state.forgotPassword.status);
     const isCreateForgotPasswordRequest = useSelector<AppRootStateType, boolean>(state => state.newPassword.isChangedPassword);
 
@@ -29,24 +30,43 @@ export const ForgotPassword = () => {
         dispatch(createForgotPasswordRequestTC({email, message}))
     };
 
+    if(status === 'loading'){
+        return <Spin size={'large'} tip="Loading..."/>
+    }
+
 
     return (
-        <>
-            <form className={styles.formForgotPassword}>
-                <div className={styles.title}>It-incubator</div>
-                <div className={styles.subtitle}>Forgot your password?</div>
-                <div className={styles.formEmail}>
-                    <label className={styles.labelInput} htmlFor="email">Email</label>
-                    <SuperInputText onChangeText={changeEmail} error={error} id="email"/>
-                </div>
-                { isCreateForgotPasswordRequest && <div style={{color: "green"}}>Success</div>}
-                <div className={styles.blockBtn}>
-                    <SuperButton onClick={sendDataForPasswordRecovery} disabled={status === "loading"} type="submit">Send Instructions</SuperButton>
-                </div>
+        <div className={`${classes.auth} ${classes.forgotPassword}`}>
+            <h2 className={classes.authTitle}>IT-INCUBATOR</h2>
+            <h3 className={classes.authSubtitle}>Forgot your password?</h3>
+            <div className={classes.authItem}>
+                <div className={classes.authLabel}>Email</div>
+                <SuperInputText
+                    id="email"
+                    className={!error ? classes.authFields : `${classes.authFields} ${classes.authFieldsError}`}
+                    onChangeText={changeEmail}
+                    type='text' name='email'
+                    placeholder='Enter email'
+                    value={email}
+                    error={error}
+
+                />
+            </div>
+            {isCreateForgotPasswordRequest && <div style={{color: "green"}}>Success</div>}
+
+            <SuperButton
+                className={classes.authButton}
+                onClick={sendDataForPasswordRecovery}
+                disabled={status === "loading"}
+                type="submit"
+            >Send Instructions
+            </SuperButton>
+
+            <div className={classes.linkBlock}>
                 <div>Did you remember your password?</div>
-                <div><Link to={"/login"}>Try logging in</Link></div>
-            </form>
-        </>
+                <NavLink className={classes.authLink} to={'/login'}>Try logging in</NavLink>
+            </div>
+        </div>
     )
 };
 

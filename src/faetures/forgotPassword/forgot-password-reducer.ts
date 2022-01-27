@@ -33,6 +33,7 @@ export const createForgotPasswordRequestTC = (data: DataForgotPasswordType) => (
             dispatch(setStatusAC('succeeded'));
         })
         .catch(error => {
+            dispatch(setForgotPasswordErrorAC(error.response.data.error));
             if (!error.response) {
                 return "some error";
             }
