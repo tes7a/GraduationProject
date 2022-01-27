@@ -6,6 +6,8 @@ import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import { AppRootStateType } from "../../app/store";
 import {PATH} from "../../routes/routes";
 import classes from "../../style/Auth.module.css";
+import {RequestStatusType} from "../../app/app-reducer";
+import {Spin} from "antd";
 
 
 export const Registration = () => {
@@ -15,6 +17,7 @@ export const Registration = () => {
     const [emailErr, setEmailErr] = useState('');
     const [passErr, setPassErr] = useState('');
     const isLoggedIn = useSelector<AppRootStateType,boolean>(state => state.auth.isLoggedIn);
+    const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
 
 
     const dispatch = useDispatch();
@@ -57,6 +60,9 @@ export const Registration = () => {
         return <Navigate to={PATH.PROFILE}/>
     }
 
+    if(status === 'loading'){
+        return <Spin size={'large'} tip="Loading..."/>
+    }
     return <div className={classes.auth}>
         <h2 className={classes.authTitle}>IT-INCUBATOR</h2>
         <h3 className={classes.authSubtitle}>Sing Up</h3>

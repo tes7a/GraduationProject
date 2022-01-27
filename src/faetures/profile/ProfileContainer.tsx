@@ -8,6 +8,9 @@ import {PATH} from "../../routes/routes";
 import {useEffect} from "react";
 import {Profile} from "./Profile";
 import {logoutTC, profileInfoTC, updateUserInfoTC} from "../../api/AuthReducer";
+import {Spin} from "antd";
+import {Login} from "../login/Login";
+import {RequestStatusType} from "../../app/app-reducer";
 
 
 export const ProfileContainer = () => {
@@ -16,6 +19,7 @@ export const ProfileContainer = () => {
     const [userName, setUserName] = useState('');
     const isLoggedIn = useSelector<AppRootStateType>(state => state.auth.isLoggedIn);
     const error: string = useSelector<AppRootStateType, string>(state => state.auth.error);
+    const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
     const dispatch = useDispatch();
 
     const logout = () => {
@@ -31,35 +35,38 @@ export const ProfileContainer = () => {
     }
 
     const updateUserInfo = () => {
-        if(userName){
-            dispatch(updateUserInfoTC({name:userName}));
+        if (userName) {
+            dispatch(updateUserInfoTC({name: userName}));
         }
         setEditMode(false);
     }
 
     useEffect(() => {
-        if (isLoggedIn) {
-            dispatch(profileInfoTC())
-        }
+        dispatch(profileInfoTC())
 
     }, [dispatch]);
 
     useEffect(() => {
-        if(user) setUserName(user.name);
+        if (user) setUserName(user.name);
     }, [user])
 
     if (!isLoggedIn) return <Navigate to={PATH.LOGIN}/>
 
     if (user != null) {
         return <div className={s.wrapper}>
-            <Profile
-                name={userName}
-                changeName={changeName}
-                updateUserInfo={updateUserInfo}
-                editMode={editMode}
-                changeEditMode={changeEditMode}
-                logout={logout}
-                user={user}/>
+            {
+                status === 'loading'
+                    ? <Spin size={'large'} tip="Loading..."/>
+                    : <Profile
+                        name={userName}
+                        changeName={changeName}
+                        updateUserInfo={updateUserInfo}
+                        editMode={editMode}
+                        changeEditMode={changeEditMode}
+                        logout={logout}
+                        user={user}/>
+            }
+
         </div>
     } else {
         return <div>{error}</div>

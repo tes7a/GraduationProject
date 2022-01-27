@@ -60,3 +60,41 @@
 .profileFieldsError{
     border-bottom: 2px solid red;
 }
+
+.profileButton{
+    display: block;
+    margin: 20px auto;
+    width: 266px;
+    height: 36px;
+
+    background: #21268F;
+    box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+    border:none;
+    border-radius: 30px;
+    color:#fff;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.profileButton:hover,.authButton:focus{
+    background: #2D2E46;
+}
+
+.profileLogOut{
+    display: block;
+    margin: 20px auto;
+    width: 266px;
+    height: 36px;
+
+    background: #f00;
+    box-shadow: 0px 4px 18px rgba(255, 0, 0, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+    border:none;
+    border-radius: 30px;
+    color:#fff;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.profileLogOut:hover,.profileLogOut:focus{
+    background: #9b0707;
+}

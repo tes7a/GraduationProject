@@ -6,6 +6,7 @@ import {NavLink} from "react-router-dom";
 import {createForgotPasswordRequestTC} from "./forgot-password-reducer";
 import {AppRootStateType} from "../../app/store";
 import classes from "../../style/Auth.module.css";
+import {Spin} from "antd";
 
 export const ForgotPassword = () => {
     const dispatch = useDispatch();
@@ -28,6 +29,10 @@ export const ForgotPassword = () => {
     const sendDataForPasswordRecovery = () => {
         dispatch(createForgotPasswordRequestTC({email, message}))
     };
+
+    if(status === 'loading'){
+        return <Spin size={'large'} tip="Loading..."/>
+    }
 
 
     return (

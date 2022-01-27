@@ -12,6 +12,8 @@ import SuperButton from "../../components/SuperButton/SuperButton";
 import {useOnClickOutside} from "../../hooks/useOnClickOutside";
 
 export const PacksContainer = () => {
+    const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const [pageCount, setPageCount] = useState(10);
     const currentPage: number = useSelector<AppRootStateType, number>(state => state.packs.page);
     const [searchValue, setSearchValue] = useState('');
     const [showMyPacksPage, setShowMyPacksPage] = useState(false);
@@ -25,23 +27,27 @@ export const PacksContainer = () => {
     const packs: Array<PackDataType> = useSelector<AppRootStateType, Array<PackDataType>>(state => state.packs.packs);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
-    const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod)
+    const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod);
+
+    const changePageCount = (value: number) => {
+        setPageCount(+value);
+    }
 
     const changeNumberPage = useCallback((value: number) => {
         dispatch(setPacksPageAC(value));
-    },[currentPage]);
+    }, [currentPage]);
 
     const ref: any = useRef();
 
     const getAllPacks = useCallback(() => {
         setShowMyPacksPage(false);
-        dispatch(getPacksTC({currentPage}));
-    }, [currentPage,showMyPacksPage])
+        dispatch(getPacksTC({currentPage, pageCount}));
+    }, [currentPage, showMyPacksPage, pageCount])
 
     const getMyPacks = useCallback(() => {
         setShowMyPacksPage(true);
         dispatch(getPacksTC({id: authID, currentPage}));
-    }, [showMyPacksPage,currentPage,authID])
+    }, [showMyPacksPage, currentPage, authID])
 
     const onChangeSearchValue = (value: string) => {
         setSearchValue(value);
@@ -49,20 +55,20 @@ export const PacksContainer = () => {
 
     const addPacks = useCallback(() => {
         setShowAddModal(true);
-    },[showAddModal])
+    }, [showAddModal])
 
     const addPack = useCallback(() => {
         dispatch(createPackTC(cardName, showMyPacksPage, authID));
         setShowAddModal(false);
         setCardName('');
-    }, [cardName,showMyPacksPage,authID])
+    }, [cardName, showMyPacksPage, authID])
 
     const changeTitle = useCallback(() => {
         dispatch(changePackTitleTC(packId, editName));
         setShowEditModal(false);
         setEditName('');
         setPackId('');
-    }, [packId,editName])
+    }, [packId, editName])
 
     const closeModal = useCallback(() => {
         if (showAddModal) {
@@ -73,7 +79,7 @@ export const PacksContainer = () => {
             setEditName('');
             setPackId('');
         }
-    },[showAddModal,cardName,showEditModal,editName,packId])
+    }, [showAddModal, cardName, showEditModal, editName, packId])
 
     const sortCallBack = (sort: string) => {
         dispatch(setSortPacks(sort))
@@ -88,18 +94,17 @@ export const PacksContainer = () => {
     useEffect(() => {
         if (isLoggedIn) {
             if (showMyPacksPage) {
-                dispatch(getPacksTC({id: authID, currentPage}));
+                dispatch(getPacksTC({id: authID, currentPage,pageCount}));
             } else {
-                dispatch(getPacksTC({currentPage,sortType}));
+                dispatch(getPacksTC({currentPage, sortType,pageCount}));
             }
-         
+
         }
-    }, [dispatch, isLoggedIn,currentPage, sortType]);
+    }, [dispatch, isLoggedIn, currentPage, sortType,pageCount]);
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
     }
-
 
     const onChangePackNameHandler = (value: string) => setCardName(value);
     const onChangeEditNameHandler = (value: string) => setEditName(value);
@@ -110,6 +115,7 @@ export const PacksContainer = () => {
         setShowEditModal(true);
 
     }
+
     return (
         <div className={classes.packsContainer}>
             {
@@ -165,6 +171,10 @@ export const PacksContainer = () => {
                 currentPage={currentPage}
                 changeNumberPage={changeNumberPage}
                 getMyPacks={getMyPacks}
+                showMyPacksPage={showMyPacksPage}
+                options={options}
+                changePageCount={changePageCount}
+                pageCount={pageCount}
             />
         </div>
     )

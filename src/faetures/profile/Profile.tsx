@@ -32,11 +32,11 @@ export const Profile: React.FC<ProfileProps> = (
         </div>
         <div className={s.profileButtonsBlock}>
             {editMode
-                ? <SuperButton onClick={updateUserInfo}>Save</SuperButton>
-                : <SuperButton onClick={changeEditMode}>Edit</SuperButton>
+                ? <SuperButton className={s.profileButton} onClick={updateUserInfo}>Save</SuperButton>
+                : <SuperButton className={s.profileButton} onClick={changeEditMode}>Edit</SuperButton>
             }
 
-            <SuperButton onClick={logout}>LogOut</SuperButton>
+            <SuperButton className={s.profileLogOut} onClick={logout}>LogOut</SuperButton>
         </div>
     </div>
 }

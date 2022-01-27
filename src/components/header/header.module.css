@@ -38,8 +38,12 @@
     transition: .3s;
 }
 
-.headerLink:hover,
-.headerLink:focus{
+.headerLink:hover{
+    background:#635D80;
+    color:#DCCCDB;
+}
+
+.active{
     background:#DCCCDB;
     color:#2D2E46;
     border-bottom: 3px solid #2D2E46;

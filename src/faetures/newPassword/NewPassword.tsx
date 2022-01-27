@@ -6,6 +6,7 @@ import {Navigate, useParams} from "react-router-dom";
 import {AppRootStateType} from "../../app/store";
 import {createNewPasswordTC} from "./new-password-reducer";
 import classes from "../../style/Auth.module.css";
+import {Spin} from "antd";
 
 export const NewPassword = () => {
     const dispatch = useDispatch();
@@ -25,6 +26,10 @@ export const NewPassword = () => {
 
     if (isChangedPassword) {
         return <Navigate to="/login"/>
+    }
+
+    if(status === 'loading'){
+        return <Spin size={'large'} tip="Loading..."/>
     }
 
 
