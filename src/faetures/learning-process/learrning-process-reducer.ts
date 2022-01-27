@@ -1,69 +1,62 @@
-import { newPasswordAPI } from "./new-password-api";
 import {Dispatch} from "redux";
+import {learningProcessAPI} from "./learning-process-api";
 
-export const initialNewPasswordState = {
+export const initialLearningProcessState = {
     status: "idle",
-    isChangedPassword: false,
-    error: ""
+    // grade: 1,
+    // error: ""
 };
 
-export const newPasswordReducer = (state:initialNewPasswordStateType = initialNewPasswordState, action: NewPasswordReducerActionsType): initialNewPasswordStateType => {
+export const learningProcessReducer = (state:initialLearningProcessStateType = initialLearningProcessState, action: LearningProcessReducerActionsType): initialLearningProcessStateType => {
     switch (action.type) {
-        case "newPasswordReducer/SET-STATUS":
-            return {...state, status: action.status};
-        case 'newPasswordReducer/SET-IS-CHANGED-PASSWORD':
-            return {...state, isChangedPassword: action.isChangedPassword};
-        case 'newPasswordReducer/SET-ERROR':
-            return {...state, error: action.error};
+        // case "learningProcessReducer/SET-GRADE":
+        //     return {...state, grade: action.grade};
         default:
             return state
     }
 };
 
 //action
-const setStatusAC = (status: RequestStatusType) => ({type: "newPasswordReducer/SET-STATUS", status} as const);
-export const setIsChangedPasswordAC = (isChangedPassword: boolean) =>
-    ({type: "newPasswordReducer/SET-IS-CHANGED-PASSWORD", isChangedPassword} as const);
-export const setNewPasswordErrorAC = (error: string) => ({type: 'newPasswordReducer/SET-ERROR', error} as const);
+const setGradeAC = (grade: number) => ({type: "learningProcessReducer/SET-GRADE", grade} as const);
 
 //thunk
-export const createNewPasswordTC = (data: any) => (dispatch: ThunkDispatch) => {
-    newPasswordAPI.createRequestRecoveryPassword(data)
+export const setGradeTC = (data: any) => (dispatch: ThunkDispatch) => {
+    learningProcessAPI.setGrade(data)
         .then(res => {
-            dispatch(setStatusAC('succeeded'));
+            // dispatch(setStatusAC('succeeded'));
         })
         .catch(error => {
             if (!error.response) {
                 return "some error";
             }
 
-            dispatch(setNewPasswordErrorAC(error.response.data.error));
+            // dispatch(setNewPasswordErrorAC(error.response.data.error));
         })
         .finally(() => {
-            dispatch(setStatusAC('succeeded'));
+            // dispatch(setStatusAC('succeeded'));
         })
 };
 
 
 //type
-type initialNewPasswordStateType = typeof initialNewPasswordState;
-export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
-export type DataNewPasswordType = {
-    password: string
-    resetPasswordToken: string
+type initialLearningProcessStateType = typeof initialLearningProcessState;
+export type DataLearningProcessType = {
+    grade: number
+    card_id: string
+}
+export type ThunkDispatch = Dispatch<LearningProcessReducerActionsType>
+export type setGradeACType = ReturnType<typeof setGradeAC>
+
+
+export type ResponseLearningProcessType = {
+    updatedGrade: {
+        _id: string
+        cardsPack_id: string
+        card_id: string
+        user_id: string
+        grade: number
+        shots: number
+    }
 }
 
-export type ThunkDispatch = Dispatch<NewPasswordReducerActionsType>
-
-export type setStatusType = ReturnType<typeof setStatusAC>
-export type setIsChangedPasswordType = ReturnType<typeof setIsChangedPasswordAC>
-export type setNewPasswordErrorType = ReturnType<typeof setNewPasswordErrorAC>
-
-export type ResponseNewPasswordType = {
-    info: string
-    error: string
-}
-
-export type NewPasswordReducerActionsType = setStatusType
-    | setIsChangedPasswordType
-    | setNewPasswordErrorType
+export type LearningProcessReducerActionsType = setGradeACType
