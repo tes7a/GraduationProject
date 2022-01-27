@@ -27,7 +27,7 @@ export const PATH = {
 
 type RoutesType = {
     path: string,
-    component: () => JSX.Element
+    component:any
 }
 
 export const publicRoutes: RoutesType[] = [

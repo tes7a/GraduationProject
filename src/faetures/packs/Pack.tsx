@@ -1,10 +1,12 @@
 import React from "react";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {PackDataType} from "../../api/packsAPI";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {PATH} from "../../routes/routes";
 
 export const Pack: React.FC<PackPropsType> = ({pack, authID, editHandler, removePack, ...props}: PackPropsType) => {
+    let navigate = useNavigate()
+    
     return (
         <tr>
             <td>{pack.name}</td>
@@ -16,7 +18,7 @@ export const Pack: React.FC<PackPropsType> = ({pack, authID, editHandler, remove
                 {authID === pack.user_id &&
                 <SuperButton onClick={() => editHandler(pack._id, pack.name)}>Edit</SuperButton>}
                 <div>
-                    <Link to={PATH.CARDS + '/' + pack._id}>Learn</Link>
+                    <SuperButton onClick={() => navigate('/cards/' + pack._id)}>Learn</SuperButton>
                 </div>
             </td>
         </tr>

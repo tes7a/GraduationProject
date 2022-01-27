@@ -33,9 +33,9 @@ const setCardsTotalCount = (totalCount: number) => ({type: 'cards/SET-CARDS-TOTA
 const setCardsPage = (page: number) => ({type: 'cards/SET-CARDS-PAGE', page} as const);
 
 //thunk
-export const getCards = (id :string): ThunkActionType => (dispatch, getState: () => AppRootStateType) => {
+export const getCards = (data: GetDataType): ThunkActionType => (dispatch, getState: () => AppRootStateType) => {
     dispatch(setStatusAppAC('loading'));
-    CardsAPI.getCards(id)
+    CardsAPI.getCards(data)
         .then(res => {
             dispatch(setCards(res.data.cards));
             dispatch(setCardsTotalCount(res.data.cardsTotalCount));

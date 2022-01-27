@@ -1,8 +1,7 @@
 import {setStatusAppAC} from './../../app/app-reducer';
 import {Dispatch} from "redux";
 import {GetDateType, PackDataType, PacksAPI} from "../../api/packsAPI";
-import {ThunkAction} from "redux-thunk";
-import {AppRootActionsType, AppRootStateType, ThunkActionType} from "../../app/store";
+import {ThunkActionType} from "../../app/store";
 
 let initialState: PacksReducerStateType = {
     packs: [],
