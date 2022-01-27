@@ -1,7 +1,7 @@
 import {Packs} from "./Packs";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
-import {Navigate} from "react-router-dom";
+import {Navigate, useParams} from "react-router-dom";
 import {PATH} from "../../routes/routes";
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {getPacksTC, createPackTC, changePackTitleTC, removePackTC, setPacksPageAC, setSortPacks} from "./PacksReducer";

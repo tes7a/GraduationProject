@@ -5,7 +5,7 @@ import { publicRoutes } from "../routes/routes";
 export const NavigationApp = () => {
     return (
         <Routes>
-            {publicRoutes.map(r => <Route key={r.path} path={r.path} element={r.component()}/>)}
+            {publicRoutes.map(r => <Route key={r.path} path={r.path} element={'<' + r.component() + '/>'}/>)}
         </Routes>
     )
 }
