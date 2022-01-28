@@ -17,10 +17,12 @@ import { ForgotPassword } from '../faetures/forgotPassword/ForgotPassword';
 import {Route, Routes } from 'react-router-dom';
 
 
+
 export function App() {
     const dispatch = useDispatch();
     const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized);
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
+    
     useEffect(() => {
         dispatch(setInitialized(true));
     }, [])
