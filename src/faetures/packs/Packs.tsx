@@ -6,8 +6,7 @@ import SuperButton from "../../components/SuperButton/SuperButton";
 import {MyPagination} from "../../hooks/MyPagination";
 import {Sort} from "../../utils/Sort";
 import {SearchPack} from "../search/SearchPack";
-import {Link} from "react-router-dom";
-import {Slider, Spin} from "antd";
+import {Spin} from "antd";
 import SuperSelect from "../../components/SuperSelect/SuperSelect";
 import {RequestStatusType} from "../../app/app-reducer";
 import {useSelector} from "react-redux";
@@ -61,6 +60,7 @@ export const Packs = React.memo(function (
             </div>
             <div className={s.packsMain}>
                 <h3 className={s.packsMainTitle}>Cards Packs list</h3>
+                <SuperButton onClick={addPacks}>Add new pack</SuperButton>
                 <table className={s.table}>
                     <thead className={s.thead}>
                     <tr>
