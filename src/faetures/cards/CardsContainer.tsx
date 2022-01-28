@@ -1,15 +1,16 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import {useDispatch, useSelector } from "react-redux";
+import React, {useEffect} from "react";
+import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {Card} from "../../api/cards.API";
-import { AppRootStateType } from "../../app/store";
-import { Cards } from "./Cards";
-import {getCards } from "./cards-reducer";
+import {AppRootStateType} from "../../app/store";
+import {Cards} from "./Cards";
+import {getCards, postCard} from "./cards-reducer";
 import {RequestStatusType} from "../../app/app-reducer";
 import {Spin} from "antd";
-import {Navigate, useParams } from "react-router-dom";
-import { useCallback } from "react";
-import { PATH } from "../../routes/routes";
+import {Navigate, useParams} from "react-router-dom";
+import {useCallback} from "react";
+import {PATH} from "../../routes/routes";
+import SuperButton from "../../components/SuperButton/SuperButton";
 
 export const CardsContainer: React.FC = () => {
     //useSlector
@@ -22,15 +23,15 @@ export const CardsContainer: React.FC = () => {
 
     //any
     const dispatch = useDispatch();
-    const {id} = useParams<'id'>();
+    const {id} = useParams<{id: string}>();
 
     //hooks
     const [editName, setEditName] = useState('');
     const [packId, setPackId] = useState('');
     const [showEditModal, setShowEditModal] = useState(false);
     const [cardAnswer, setCardAnswer] = useState('');
-    const [cardQuestion, setCardQuestion] = useState('')
-    
+    const [cardQuestion, setCardQuestion] = useState('');
+
     //func
     const editHandler = (id: string, name: string) => {
         setEditName(name);
@@ -41,25 +42,27 @@ export const CardsContainer: React.FC = () => {
         dispatch('')
     };
     const changeNumberPage = useCallback((value: number) => {
-        dispatch(setCardsPage(value));
+        dispatch((value));
     }, [page]);
     const addCard = () => {
-    }
+        if(id)
+        dispatch(postCard({card:{cardsPack_id: id,answer:cardAnswer,question:cardQuestion}}))
+    };
 
 
     useEffect(() => {
         if (isLoggedIn) {
-            if (id) dispatch(getCards({cardsPack_id: id}));
+            if (id) dispatch(getCards({cardsPack_id: id, pageCount: 10}));
         }
     }, [dispatch, id])
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
     }
-    if(status === 'loading'){
+    if (status === 'loading') {
         return <Spin size={'large'} tip="Loading..."/>
     }
-    
+
     return (
         <Cards
             changeNumberPage={changeNumberPage}
@@ -69,10 +72,7 @@ export const CardsContainer: React.FC = () => {
             editHandler={editHandler}
             removeCard={removeCard}
             page={page}
+            addCard={addCard}
         />
     )
-}
-
-function setCardsPage(value: number): any {
-    throw new Error("Function not implemented.");
 }
