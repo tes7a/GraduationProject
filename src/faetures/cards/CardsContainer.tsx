@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Card} from "../../api/cards.API";
 import {AppRootStateType} from "../../app/store";
 import {Cards} from "./Cards";
-import {getCards, postCard} from "./cards-reducer";
+import {deleteCard, getCards, postCard} from "./cards-reducer";
 import {RequestStatusType} from "../../app/app-reducer";
 import {Spin} from "antd";
 import {Navigate, useParams} from "react-router-dom";
@@ -23,7 +23,7 @@ export const CardsContainer: React.FC = () => {
 
     //any
     const dispatch = useDispatch();
-    const {id} = useParams<{id: string}>();
+    const {id} = useParams<{ id: string }>();
 
     //hooks
     const [editName, setEditName] = useState('');
@@ -45,9 +45,12 @@ export const CardsContainer: React.FC = () => {
         dispatch((value));
     }, [page]);
     const addCard = () => {
-        if(id)
-        dispatch(postCard({card:{cardsPack_id: id,answer:cardAnswer,question:cardQuestion}}))
+        if (id)
+            dispatch(postCard({card: {cardsPack_id: id, answer: cardAnswer, question: cardQuestion}}, id))
     };
+    const deleteCardFunc = () => {
+        
+    }
 
 
     useEffect(() => {

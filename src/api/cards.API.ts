@@ -7,13 +7,13 @@ export const CardsAPI = {
         return instance.get<CardsResp>(`/cards/card`, {params: data})
     },
     postCard(data: PostCardData) {
-        return instance.post<PostCardData, AxiosResponse<Card>>('/cards/card', {data})
+        return instance.post<PostCardData, AxiosResponse<Card>>('/cards/card', data)
     },
     deleteCard(id: string) {
         return instance.delete<Card>('/cards/card', {params: id})
     },
     putCard(data: PutDataType) {
-        return instance.put<PutDataType, AxiosResponse<Card>>('/cards/card', {data})
+        return instance.put<PutDataType, AxiosResponse<Card>>('/cards/card', data)
     },
     grade(grade: number,card_id: string) {
         return instance.put<GradeData, AxiosResponse<GradeResponse>>('/cards/grade', {grade,card_id})

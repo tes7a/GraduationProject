@@ -53,10 +53,10 @@ export const getCards = (data: GetDataType) => (dispatch: Dispatch) => {
         })
 }
 
-export const postCard = (data: PostCardData): ThunkActionType => (dispatch) => {
+export const postCard = (data: PostCardData, cardsPack_id: string): ThunkActionType => (dispatch) => {
     CardsAPI.postCard(data)
         .then(res => {
-            dispatch(getCards({}))
+            dispatch(getCards({cardsPack_id}))
         })
 }
 
