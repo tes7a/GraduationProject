@@ -185,3 +185,22 @@
     align-items: center;
 }
 
+.addPackButton{
+    display: block;
+    margin: 0 0 30px;
+    height: 36px;
+    padding: 5px 15px;
+
+    background: #21268F;
+    box-shadow: 0 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+    border:none;
+    border-radius: 2px;
+    color:#fff;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.addPackButton:hover,.addPackButton:focus{
+    background: #2D2E46;
+}
+

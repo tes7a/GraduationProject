@@ -70,16 +70,15 @@ export const PacksContainer = () => {
         setSearchValue(value);
     }
 
-    const addPacks = useCallback(() => {
-        debugger;
+    const addPacks = () => {
         setShowAddModal(true);
-    }, [showAddModal])
+    };
 
-    const addPack = useCallback(() => {
+    const addPack = () => {
         dispatch(createPackTC(cardName, showMyPacksPage, authID));
         setShowAddModal(false);
         setCardName('');
-    }, [cardName, showMyPacksPage, authID])
+    }
 
     const changeTitle = useCallback(() => {
         dispatch(changePackTitleTC(packId, editName));
@@ -117,7 +116,7 @@ export const PacksContainer = () => {
                 dispatch(getPacksTC({currentPage, sortType, pageCount, min, max}));
             }
         }
-    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount,min,max]);
+    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max]);
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -134,44 +133,49 @@ export const PacksContainer = () => {
 
     return (
         <div className={classes.packsContainer}>
-            {
-                showAddModal &&
-                <div className={classes.modal} ref={ref}>
-                    {showAddModal
-                        ? <SuperInputText
-                            onChangeText={onChangePackNameHandler}
-                            type='text' name='name'
-                            placeholder='Name'
-                            value={cardName}
-                        />
-                        : <SuperInputText
+            {showAddModal || showEditModal ? <div className={classes.modal}>
+                {
+                    showAddModal &&
+                    <div className={classes.container} ref={ref}>
+                        {showAddModal
+                            ? <SuperInputText
+                                className={classes.modalFields}
+                                onChangeText={onChangePackNameHandler}
+                                type='text' name='name'
+                                placeholder='Name'
+                                value={cardName}
+                            />
+                            : <SuperInputText
+                                className={classes.modalFields}
+                                onChangeText={onChangeEditNameHandler}
+                                type='text' name='name'
+                                placeholder='Name'
+                                value={editName}
+                            />
+                        }
+                        <div className={classes.buttonsWrapper}>
+                            <SuperButton className={classes.modalAddButton} onClick={addPack}>Add</SuperButton>
+                            <SuperButton className={classes.modalCloseButton} onClick={closeModal}>Close</SuperButton>
+                        </div>
+                    </div>
+                }
+                {
+                    showEditModal &&
+                    <div className={classes.container} ref={ref}>
+                        <SuperInputText
+                            className={classes.modalFields}
                             onChangeText={onChangeEditNameHandler}
                             type='text' name='name'
                             placeholder='Name'
                             value={editName}
                         />
-                    }
-                    <div className={classes.buttonsWrapper}>
-                        <SuperButton className={classes.btnStyle} onClick={addPack}>Add</SuperButton>
-                        <SuperButton className={classes.btnStyle} onClick={closeModal}>Close</SuperButton>
+                        <div className={classes.buttonsWrapper}>
+                            <SuperButton className={classes.modalAddButton} onClick={changeTitle}>Edit</SuperButton>
+                            <SuperButton className={classes.modalCloseButton} onClick={closeModal}>Close</SuperButton>
+                        </div>
                     </div>
-                </div>
-            }
-            {
-                showEditModal &&
-                <div className={classes.modal} ref={ref}>
-                    <SuperInputText
-                        onChangeText={onChangeEditNameHandler}
-                        type='text' name='name'
-                        placeholder='Name'
-                        value={editName}
-                    />
-                    <div className={classes.buttonsWrapper}>
-                        <SuperButton className={classes.btnStyle} onClick={changeTitle}>Edit</SuperButton>
-                        <SuperButton className={classes.btnStyle} onClick={closeModal}>Close</SuperButton>
-                    </div>
-                </div>
-            }
+                }
+            </div> : null}
             <Packs
                 getPacks={getAllPacks}
                 sortCallback={sortCallBack}

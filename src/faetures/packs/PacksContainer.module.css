@@ -1,17 +1,93 @@
 .packsContainer{
-    position: relative;
+    /*position: relative;*/
 }
 
 .modal{
-    position: absolute;
-    left: 40%;
-    top: 30%;
-    padding: 100px 50px;
-    border-radius: 50px;
-    background-color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background: rgba(0,0,0,.5);
+    z-index: 10000;
+}
+
+.container{
+    max-height: 600px;
+    max-width: 413px;
     display: flex;
     flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 20px 33px;
+    margin: auto;
+    background: #F9F9FE;
+    border-radius: 8px;
+    z-index: 10001;
 }
+
+.modalFields{
+    margin:20px 0 ;
+    padding: 5px 0;
+    width: 200px;
+    background: rgba(0,0,0,0);
+    border:none;
+    outline: none;
+    border-bottom: 2px solid #2D2E46;
+    color:#000;
+    transition: .3s;
+}
+
+.modalFields:focus{
+    border:none;
+    outline: none;
+    border-bottom: 2px solid #21268F;
+}
+
+.modalFieldsError{
+    border-bottom: 2px solid red;
+}
+.modalAddButton{
+    display: block;
+    margin: 10px;
+    height: 36px;
+    padding: 5px 15px;
+
+    background: #21268F;
+    box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+    border:none;
+    border-radius: 2px;
+    color:#fff;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.modalAddButton:hover,.authButton:focus{
+    background: #2D2E46;
+}
+
+.modalCloseButton{
+    display: block;
+    margin: 10px;
+    height: 36px;
+    padding: 5px 15px;
+
+    background: #c50404;
+    box-shadow: 0px 4px 18px rgba(255, 0, 0, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+    border:none;
+    border-radius: 2px;
+    color:#fff;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.modalCloseButton:hover,.authButton:focus{
+    background: #7a0202;
+}
+
 
 .buttonsWrapper{
     display: flex;
