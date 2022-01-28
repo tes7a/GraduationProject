@@ -9,14 +9,14 @@ export const CardsAPI = {
     postCard(data: PostCardData) {
         return instance.post<PostCardData, AxiosResponse<Card>>('/cards/card', {data})
     },
-    deleteCard(data: DeleteDataType) {
-        return instance.delete<Card>('/cards/card', {params: data})
+    deleteCard(id: string) {
+        return instance.delete<Card>('/cards/card', {params: id})
     },
     putCard(data: PutDataType) {
         return instance.put<PutDataType, AxiosResponse<Card>>('/cards/card', {data})
     },
-    grade(data: GradeData) {
-        return instance.put<GradeData, AxiosResponse<GradeResponse>>('/cards/grade', data)
+    grade(grade: number,card_id: string) {
+        return instance.put<GradeData, AxiosResponse<GradeResponse>>('/cards/grade', {grade,card_id})
     }
 }
 
@@ -56,11 +56,6 @@ export type GetDataType = {
     page?: number
     pageCount?: number
 }
-
-export type DeleteDataType = {
-    id: string
-}
-
 export type PostCardData = {
     card: {
         cardsPack_id: string
@@ -86,8 +81,7 @@ export type PutDataType = {
 }
 
 export type GradeData = {
-    card_id: string
-    grade: number
+
 }
 
 export type GradeResponse = {

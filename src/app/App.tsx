@@ -14,9 +14,12 @@ import {Route, Routes } from 'react-router-dom';
 import {HeaderContainer} from "../components/header/HeaderContainer";
 
 
+
 export function App() {
     const dispatch = useDispatch();
     const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized);
+    const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
+
     useEffect(() => {
         dispatch(setInitialized(true));
     }, [])
