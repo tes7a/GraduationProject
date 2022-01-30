@@ -15,6 +15,7 @@ import { LoginContainer } from '../faetures/login/LoginContainer';
 import { NewPassword } from '../faetures/newPassword/NewPassword';
 import { ForgotPassword } from '../faetures/forgotPassword/ForgotPassword';
 import {Route, Routes } from 'react-router-dom';
+import {LearningProcess} from "../faetures/learning-process/LearningProcess";
 
 
 export function App() {
@@ -35,6 +36,7 @@ export function App() {
             <Routes>
                 <Route path={'/packs'} element={<PacksContainer/>}/>
                 <Route path={'/cards/:id'} element={<CardsContainer/>}/>
+                <Route path={'/learning-process/:id'} element={<LearningProcess/>}/>
                 <Route path={'/'} element={<ProfileContainer/>}/>
                 <Route path={'/login'} element={<LoginContainer/>}/>
                 <Route path={'/registration'} element={<Registration/>}/>
