@@ -20,7 +20,7 @@ export const learningProcessReducer = (state:initialLearningProcessStateType = i
 const setGradeAC = (grade: number) => ({type: "learningProcessReducer/SET-GRADE", grade} as const);
 
 //thunk
-export const setGradeTC = (data: any) => (dispatch: ThunkDispatch) => {
+export const setGradeTC = (data: DataLearningProcessType) => (dispatch: ThunkDispatch) => {
     learningProcessAPI.setGrade(data)
         .then(res => {
             // dispatch(setStatusAC('succeeded'));
@@ -41,8 +41,8 @@ export const setGradeTC = (data: any) => (dispatch: ThunkDispatch) => {
 //type
 type initialLearningProcessStateType = typeof initialLearningProcessState;
 export type DataLearningProcessType = {
-    grade: number
-    card_id: string
+    grade: number | undefined
+    card_id: string | undefined
 }
 export type ThunkDispatch = Dispatch<LearningProcessReducerActionsType>
 export type setGradeACType = ReturnType<typeof setGradeAC>
