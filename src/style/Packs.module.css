@@ -16,6 +16,7 @@
 
 .packsAsideTitle {
     font-size: 19px;
+    font-weight: 600;
     color: #2D2E46;
     margin-bottom: 20px;
 }
@@ -52,12 +53,12 @@
 }
 
 .searchButton{
-    width: 30%;
-    height: 100%;
-    margin: 0;
+    width: 100%;
+    height: 40px;
+    margin: 20px 0;
     cursor: pointer;
     transition: .3s;
-    border:1px solid #2D2E46;
+    border:2px solid #9A91C8;
     background: #f3f3f3;
     color: #2D2E46;
 }
@@ -69,7 +70,7 @@
 }
 
 .searchInput{
-    width: 70%;
+    width: 100%;
     height: 100%;
     margin: 0;
     color:#2D2E46;
@@ -82,6 +83,23 @@
 .searchInput:focus{
     border: 1px solid #9A91C8;
     color:#2D2E46;
+}
+
+.wrapSlider{
+
+    width: 100%;
+}
+
+.minAndMaxValue{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.range{
+    width: 95%;
+    margin: 0;
 }
 
 .packsMain{

@@ -1,4 +1,4 @@
-import {setStatusAppAC} from '../../app/app-reducer';
+import {setAppErrorAC, setStatusAppAC} from '../../app/app-reducer';
 import {Dispatch} from "redux";
 import {GetDateType, PackDataType, PacksAPI} from "../../api/packsAPI";
 import {ThunkActionType} from "../../app/store";
@@ -6,6 +6,7 @@ import {ThunkActionType} from "../../app/store";
 let initialState: PacksReducerStateType = {
     packs: [],
     totalCount: 0,
+    pageCount: 10,
     page: 1,
     sortMethod: undefined
 }
@@ -16,6 +17,8 @@ export const PacksReducer = (state: PacksReducerStateType = initialState, action
             return {...state, packs: action.packs};
         case "packs/SET-TOTAL-COUNT":
             return {...state, totalCount: action.totalCount};
+        case "packs/SET-PAGE-COUNT":
+            return {...state, pageCount: action.pageCount}
         case "packs/SET-PAGE":
             return {...state, page: action.page}
         case "packs/CHANGE-PACK-TITLE":
@@ -30,6 +33,7 @@ export const PacksReducer = (state: PacksReducerStateType = initialState, action
 //Actions
 const getPacksAC = (packs: Array<PackDataType>) => ({type: 'packs/GET-PACKS', packs} as const);
 const setPacksTotalCountAC = (totalCount: number) => ({type: 'packs/SET-TOTAL-COUNT', totalCount} as const);
+const setPacksPageCountAC = (pageCount: number) => ({type: 'packs/SET-PAGE-COUNT', pageCount} as const);
 export const setPacksPageAC = (page: number) => ({type: 'packs/SET-PAGE', page} as const);
 const addPackAC = (pack: PackDataType) => ({type: 'packs/ADD-PACK', pack} as const);
 const changePackTitleAC = (id: string, name: string) => ({type: 'packs/CHANGE-PACK-TITLE', id, name} as const);
@@ -43,11 +47,14 @@ export const getPacksTC = (date: GetDateType) => (dispatch: Dispatch) => {
         .then(res => {
             dispatch(getPacksAC(res.data.cardPacks));
             dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount));
+            dispatch(setPacksPageCountAC(res.data.pageCount));
             dispatch(setPacksPageAC(res.data.page));
             dispatch(setStatusAppAC('succeeded'));
         })
         .catch(e => {
-            console.log(e);
+            const error = e.response ? e.response.data.error : e.message + ' more details in the console';
+            console.log(error);
+            dispatch(setAppErrorAC(error));
             dispatch(setStatusAppAC('failed'));
         })
         .finally(() => {
@@ -67,7 +74,9 @@ export const createPackTC = (value: string, showMyPacksPage: boolean, userID?: s
                 }
                 dispatch(setStatusAppAC('succeeded'));
             }).catch(e => {
-            console.log(e);
+            const error = e.response ? e.response.data.error : e.message + ' more details in the console';
+            console.log(error);
+            dispatch(setAppErrorAC(error));
             dispatch(setStatusAppAC('failed'));
         })
             .finally(() => {
@@ -84,7 +93,9 @@ export const changePackTitleTC = (id: string, name: string) => (dispatch: Dispat
             dispatch(setStatusAppAC('succeeded'));
         })
         .catch(e => {
-            console.log(e);
+            const error = e.response ? e.response.data.error : e.message + ' more details in the console';
+            console.log(error);
+            dispatch(setAppErrorAC(error));
             dispatch(setStatusAppAC('failed'));
         })
         .finally(() => {
@@ -106,7 +117,9 @@ export const removePackTC = (id: string, currentPage: number, showMyPacksPage: b
                 dispatch(setStatusAppAC('succeeded'));
             })
             .catch(e => {
-                console.log(e);
+                const error = e.response ? e.response.data.error : e.message + ' more details in the console';
+                console.log(error);
+                dispatch(setAppErrorAC(error));
                 dispatch(setStatusAppAC('failed'));
             })
             .finally(() => {
@@ -119,8 +132,9 @@ export const removePackTC = (id: string, currentPage: number, showMyPacksPage: b
 type PacksReducerStateType = {
     packs: Array<PackDataType>
     totalCount: number
-    page: number,
-    sortMethod: string | undefined,
+    pageCount: number
+    page: number
+    sortMethod: string | undefined
 }
 export type PacksReducerActionsType = ReturnType<typeof getPacksAC>
     | ReturnType<typeof addPackAC>
@@ -129,5 +143,6 @@ export type PacksReducerActionsType = ReturnType<typeof getPacksAC>
     | ReturnType<typeof changePackTitleAC>
     | ReturnType<typeof removePackAC>
     | ReturnType<typeof setSortPacks>
+    | ReturnType<typeof setPacksPageCountAC>
     | ReturnType<typeof removePackAC>;
 
