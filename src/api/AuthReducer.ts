@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import {authAPI, LoginUserInfo, updateUserInfoDataType} from './authAPI';
-import {setInitialized, setStatusAppAC} from "../app/app-reducer";
+import {setAppErrorAC, setInitialized, setStatusAppAC} from "../app/app-reducer";
 import {ThunkActionType} from "../app/store";
 
 type initialStateType = {
@@ -58,6 +58,7 @@ export const profileInfoTC = () => (dispatch: Dispatch) => {
         })
         .catch(e => {
             const error = e.response ? e.response.data.error : e.message + ' more details in the console';
+            dispatch(setAppErrorAC(error));
             dispatch(setProfileError(error));
             dispatch(setStatusAppAC('failed'));
         })
@@ -76,6 +77,7 @@ export const updateUserInfoTC = (data: updateUserInfoDataType): ThunkActionType 
             })
             .catch(e => {
                 const error = e.response ? e.response.data.error : e.message + ' more details in the console';
+                dispatch(setAppErrorAC(error));
                 dispatch(setProfileError(error));
                 dispatch(setStatusAppAC('failed'));
             })
@@ -95,6 +97,7 @@ export const loginTC = (email: string, password: string, rememberMe: boolean) =>
         })
         .catch(e => {
             const error = e.response ? e.response.data.error : e.message + ' more details in the console';
+            dispatch(setAppErrorAC(error));
             dispatch(setLoginErrorAC(error));
             dispatch(setStatusAppAC('failed'));
         })
@@ -113,6 +116,8 @@ export const logoutTC = () => (dispatch: Dispatch) => {
         })
         .catch(e => {
             const error = e.response ? e.response.data.error : e.message + ' more details in the console';
+            console.log(error);
+            dispatch(setAppErrorAC(error));
             dispatch(setLoginErrorAC(e.response.data));
             dispatch(setStatusAppAC('failed'));
         })

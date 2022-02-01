@@ -5,12 +5,13 @@ export const PacksAPI = {
     getPacks(date:GetDateType) {
         const page = date && date.currentPage ? date.currentPage : 1;
         const pageCount = date && date.pageCount ?  date.pageCount : defaultPacksPageCount;
-        const id = date && date.id ? date.id : '';
+        const id = date && date.id ? `user_id=${date.id}&` : '';
         const sortType = date && date.sortType? date.sortType : '';
         const min = date && date.min? date.min : 0;
         const max = date && date.max? date.max : 200;
+        // console.log(`/cards/pack?${id}pageCount=${pageCount}&page=${page}&sortPacks=${sortType}&min=${min}&max=${max}`);
         return instance.get<PacksDataType, AxiosResponse<PacksDataType>>(
-            `/cards/pack?user_id=${id}&pageCount=${pageCount}&page=${page}&sortPacks=${sortType}&min=${min}&max=${max}`
+            `/cards/pack?${id}pageCount=${pageCount}&page=${page}&sortPacks=${sortType}&min=${min}&max=${max}`
         );
     },
     addPack(name: string) {
