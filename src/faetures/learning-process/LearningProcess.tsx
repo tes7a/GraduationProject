@@ -10,13 +10,13 @@ import {Card} from "../../api/cards.API";
 import {getCards} from "../cards/cards-reducer";
 import stylesButtons from "../../style/Packs.module.css";
 import {getRandomCard} from "../../utils/randomCard";
+import {Spin} from "antd";
 
 export const LearningProcess = () => {
     const dispatch = useDispatch();
     const {id} = useParams<"id">();
     const getPackCardsById = (id: string | undefined) => (state: AppRootStateType) => {
-        const cardsFromPack = state.cards.cards.filter(({ cardsPack_id }) => cardsPack_id === id);
-        return cardsFromPack;
+        return state.cards.cards.filter(({ cardsPack_id }) => cardsPack_id === id);
     };
     const cards = useSelector<AppRootStateType, any>(getPackCardsById(id));
     const [selectedCard, setSelectedCard] = useState<Card | null>(null);
@@ -31,10 +31,6 @@ export const LearningProcess = () => {
     const [optionGradeValue, onChangeOptionGradeValue] = useState(arrayOptionsGrade[1]);
     const [isShowAnswer, setIsShowAnswer] = useState(false);
     const optionNumeralGrade = gradeValues.get(optionGradeValue);
-    const changeShowAnswer = () => {
-        setIsShowAnswer(true);
-        console.log('show answer true')
-    };
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -46,7 +42,6 @@ export const LearningProcess = () => {
             };
 
             dispatch(setGradeTC(data));
-
             setSelectedCard(getRandomCard(cards));
         }
 
@@ -59,7 +54,7 @@ export const LearningProcess = () => {
     }, []);
 
     if (!selectedCard) {
-        return <div>loading...</div>;
+        return <Spin size={'large'} tip="Loading..."/>;
     }
 
 
@@ -88,12 +83,13 @@ export const LearningProcess = () => {
                 <div className={styles.blockBtn}>
                     <SuperButton  className={stylesButtons.packsButton} type="button" >Cancel</SuperButton>
                     {
-                        <SuperButton type="submit" className={stylesButtons.packsButton}>{
-                            isShowAnswer?
-                                'Next' :
-                                'Show answer'
-
-                            }</SuperButton>
+                        <SuperButton type="submit" className={stylesButtons.packsButton}>
+                            {
+                                isShowAnswer
+                                ? 'Next'
+                                : 'Show answer'
+                            }
+                        </SuperButton>
                     }
                 </div>
             </form>
