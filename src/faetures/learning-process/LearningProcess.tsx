@@ -9,6 +9,7 @@ import {useParams} from "react-router-dom";
 import {Card} from "../../api/cards.API";
 import {getCards} from "../cards/cards-reducer";
 import stylesButtons from "../../style/Packs.module.css";
+import {getRandomCard} from "../../utils/randomCard";
 
 export const LearningProcess = () => {
     const dispatch = useDispatch();
@@ -18,35 +19,23 @@ export const LearningProcess = () => {
         return cardsFromPack;
     };
     const cards = useSelector<AppRootStateType, any>(getPackCardsById(id));
-
-    const getCard = (cards: Card[]) => {
-        const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
-        const rand = Math.random() * sum;
-        const res = cards.reduce((acc: { sum: number, id: number}, card, i) => {
-                const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
-                return {sum: newSum, id: newSum < rand ? i : acc.id}
-            }
-            , {sum: 0, id: -1});
-
-        return cards[res.id + 1];
-    };
-
     const [selectedCard, setSelectedCard] = useState<Card | null>(null);
-    const rangeValues = new Map<string, number>([
+    const gradeValues = new Map<string, number>([
         ['Did not know', 1],
         ['Forgot', 2],
         ['A lot of thought', 3],
         ['Confused', 4],
         ['Knew the answer', 5],
     ]);
-    const arrayOptionsGrade = Array.from( rangeValues.keys());
+    const arrayOptionsGrade = Array.from( gradeValues.keys());
     const [optionGradeValue, onChangeOptionGradeValue] = useState(arrayOptionsGrade[1]);
     const [isShowAnswer, setIsShowAnswer] = useState(false);
-    const optionNumeralGrade = rangeValues.get(optionGradeValue);
-
-    const changeShowQuestion = () => {
+    const optionNumeralGrade = gradeValues.get(optionGradeValue);
+    const changeShowAnswer = () => {
         setIsShowAnswer(true);
+        console.log('show answer true')
     };
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -55,13 +44,18 @@ export const LearningProcess = () => {
                 grade: optionNumeralGrade,
                 card_id: selectedCard?._id
             };
+
             dispatch(setGradeTC(data));
+
+            setSelectedCard(getRandomCard(cards));
         }
+
+        setIsShowAnswer(!isShowAnswer);
     };
 
     useEffect(() => {
         dispatch(getCards({cardsPack_id: id}));
-        setSelectedCard(getCard(cards));
+        setSelectedCard(getRandomCard(cards));
     }, []);
 
     if (!selectedCard) {
@@ -94,9 +88,12 @@ export const LearningProcess = () => {
                 <div className={styles.blockBtn}>
                     <SuperButton  className={stylesButtons.packsButton} type="button" >Cancel</SuperButton>
                     {
-                        isShowAnswer
-                        ? <SuperButton type="submit" className={stylesButtons.packsButton}>Next</SuperButton>
-                        : <SuperButton onClick={changeShowQuestion} type="button" className={stylesButtons.packsButton}>Show answer</SuperButton>
+                        <SuperButton type="submit" className={stylesButtons.packsButton}>{
+                            isShowAnswer?
+                                'Next' :
+                                'Show answer'
+
+                            }</SuperButton>
                     }
                 </div>
             </form>
