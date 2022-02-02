@@ -1,27 +1,33 @@
 import React from "react";
 import {Card} from "../../api/cards.API";
+import { DeleteModal } from "../../components/modals/DeleteModal";
 import SuperButton from "../../components/SuperButton/SuperButton";
 
 type CardPropsType = {
-    card: Card
+    id: string
     authID: string
-    editHandler: (id: string, name: string) => void
+    editCard: (id: string, name: string) => void
     removeCard: (id: string) => void
     url: string
+    question: string
+    answer: string
+    grade: number
+    updated: string
+    user_id: string
 }
 
-export const CardComponent: React.FC<CardPropsType> = ({card,editHandler,removeCard,authID,url}) => {
+export const CardComponent: React.FC<CardPropsType> = ({id,editCard,removeCard,authID,url, question, answer,grade,updated,user_id,}) => {
     return (
         <tr>
-            <td>{card.question}</td>
-            <td>{card.answer}</td>
-            <td>{card.grade}</td>
-            <td>{card.updated}</td>
+            <td>{question}</td>
+            <td>{answer}</td>
+            <td>{grade}</td>
+            <td>{updated}</td>
             <td>{url}</td>
             <td>
-                {authID === card.user_id && <SuperButton red onClick={() => removeCard(card._id)}>Delete</SuperButton>}
-                {authID === card.user_id &&
-                <SuperButton onClick={() => editHandler(card._id, card.question)}>Edit</SuperButton>}
+                {authID === user_id &&
+                <SuperButton red onClick={() => removeCard(id)}>Delete</SuperButton>}
+                <SuperButton onClick={() => editCard(id, question)}>Edit</SuperButton>
                 <SuperButton>Learn</SuperButton>
             </td>
         </tr>

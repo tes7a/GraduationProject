@@ -11,15 +11,15 @@ type CardsType = {
     cards: Card[],
     authID: string,
     removeCard: (id: string) => void,
-    editHandler: (id: string, name: string) => void,
+    editCard: (id: string, name: string) => void,
     cardsTotalCount: number,
     page: number,
     changeNumberPage: (value: number) => void,
-    addCard: () => void,
+    addCard: (question: string, answer?: string) => void,
 }
 
 export const Cards: React.FC<CardsType> = (
-    {cards,authID,removeCard,editHandler, cardsTotalCount,page, changeNumberPage, addCard}
+    {cards,authID,removeCard,editCard, cardsTotalCount,page, changeNumberPage, addCard}
 ) => {
     return (
         <div>
@@ -27,8 +27,8 @@ export const Cards: React.FC<CardsType> = (
             </div>
             <h2>Cards Pack list</h2>
             <div>
-                <SuperInputText/>
-                <SuperButton onClick={addCard}>
+                <SuperInputText />
+                <SuperButton>
                     Add new Card
                 </SuperButton>
             </div>
@@ -43,8 +43,11 @@ export const Cards: React.FC<CardsType> = (
                 </tr>
                 </thead>
                 <tbody>
-                {cards.map(c => <CardComponent key={c._id} card={c} authID={authID} editHandler={editHandler}
-                                      removeCard={removeCard} url={''}/>)}
+                {cards.map(c => <CardComponent 
+                    key={c._id} id={c._id} question={c.question} 
+                    authID={authID} editCard={editCard} removeCard={removeCard} 
+                    grade={c.grade} answer={c.answer} updated={c.updated}
+                    user_id={c.user_id} url={''}/>)}
                 </tbody>
             </table>
             <MyPagination totalCount={cardsTotalCount} currentPage={page} onClickHandler={changeNumberPage}/>

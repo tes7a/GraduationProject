@@ -4,21 +4,22 @@ import {useDispatch, useSelector} from "react-redux";
 import {Card} from "../../api/cards.API";
 import {AppRootStateType} from "../../app/store";
 import {Cards} from "./Cards";
-import {getCards, postCard} from "./cards-reducer";
+import {deleteCard, getCards, intialCardsStateType, postCard} from "./cards-reducer";
 import {RequestStatusType} from "../../app/app-reducer";
 import {Spin} from "antd";
 import {Navigate, useParams} from "react-router-dom";
 import {useCallback} from "react";
 import {PATH} from "../../routes/routes";
 import SuperButton from "../../components/SuperButton/SuperButton";
+import { initialStateType } from "../../api/AuthReducer";
+import { CardComponent } from "./CardComponent";
+import { DeleteModal } from "../../components/modals/DeleteModal";
 
 export const CardsContainer: React.FC = () => {
     //useSlector
-    const cards = useSelector<AppRootStateType, Card[]>(state => state.cards.cards);
+    const {cards, cardsTotalCount, page, pageCount, packUserId,} = useSelector<AppRootStateType, intialCardsStateType>(state => state.cards);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
-    const cardsTotalCount = useSelector<AppRootStateType, number>(state => state.cards.cardsTotalCount);
-    const page = useSelector<AppRootStateType, number>(state => state.cards.page);
     const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
 
     //any
@@ -31,28 +32,43 @@ export const CardsContainer: React.FC = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [cardAnswer, setCardAnswer] = useState('');
     const [cardQuestion, setCardQuestion] = useState('');
+    const [cardId, setCardId] = useState('');
+    const [showQuestionModal, setShowQuestionModal] = useState(false);
+    const [elementName, setElementName] = useState('');
 
     //func
-    const editHandler = (id: string, name: string) => {
+    const changeNumberPage = useCallback((value: number) => {
+        dispatch((value));
+    }, [page]);
+    const addCard = (question: string, answer?: string) => {
+        dispatch(postCard({
+            card:{
+                question,
+                answer: answer ?? 'no answer',
+                cardsPack_id: id ?? ''
+                }
+        }))
+    };
+    const editCard = (id: string, name: string) => {
         setEditName(name);
         setPackId(id);
         setShowEditModal(true);
     };
-    const removeCard = () => {
-        dispatch('')
+    const removeCard = (cardId: string) => {
+        setCardId(cardId);
+        setShowQuestionModal(true)
     };
-    const changeNumberPage = useCallback((value: number) => {
-        dispatch((value));
-    }, [page]);
-    const addCard = () => {
-        if(id)
-        dispatch(postCard({card:{cardsPack_id: id,answer:cardAnswer,question:cardQuestion}}))
-    };
+    const deleteModalQuest = () => {
+        if(cardId !== '' && id)
+        dispatch(deleteCard(cardId, id));
+        setShowQuestionModal(false)
+    }
 
 
     useEffect(() => {
         if (isLoggedIn) {
-            if (id) dispatch(getCards({cardsPack_id: id, pageCount: 10}));
+            if(id)
+             dispatch(getCards({cardsPack_id: id, pageCount: 10}));
         }
     }, [dispatch, id])
 
@@ -64,15 +80,24 @@ export const CardsContainer: React.FC = () => {
     }
 
     return (
+        <div>
+            <DeleteModal
+                show={showQuestionModal}
+                elementName={elementName}
+                typeElement={'card'}
+                onClose={() => setShowEditModal(false)}
+                onConfirm={deleteModalQuest}
+            />
         <Cards
             changeNumberPage={changeNumberPage}
             cardsTotalCount={cardsTotalCount}
             cards={cards}
             authID={authID}
-            editHandler={editHandler}
+            editCard={editCard}
             removeCard={removeCard}
             page={page}
             addCard={addCard}
         />
+        </div>
     )
 }
