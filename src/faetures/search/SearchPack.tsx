@@ -38,9 +38,6 @@ export const SearchPack = ({changeRangeValue, rangeValue, ...props}: SearchPackP
         changeRangeValue(newValue);
         debouncedFunc(newValue);
     };
-    const wrapSlider = {
-        width: "200px"
-    };
 
 
     return (
@@ -49,16 +46,30 @@ export const SearchPack = ({changeRangeValue, rangeValue, ...props}: SearchPackP
             <div className={s.searchBlock}>
                 <SuperInputText className={s.searchInput} placeholder='Search' onChangeText={searchPackBouncing}
                                 id="fieldSearch"/>
-                <SuperButton className={s.searchButton} onClick={searchPackSend} type="submit">Search</SuperButton>
             </div>
             <h3 className={s.packsAsideTitle}>Number of cards</h3>
-            <div style={wrapSlider}>
-                <Slider range min={minValueRange} max={maxValueRange}
-                        defaultValue={[0, 50]}
-                        step={stepRange}
-                        onChange={onChangeRange}
-                        value={rangeValue}/>
+            <div className={s.wrapSlider}>
+                <Slider
+                    range
+                    className={s.range}
+                    min={minValueRange}
+                    max={maxValueRange}
+                    defaultValue={[0, 50]}
+                    step={stepRange}
+                    onChange={onChangeRange}
+                    value={rangeValue}
+
+                    handleStyle={[{background: '#9A91C8',borderColor:'#9A91C8'},{background: '#9A91C8',borderColor:'#9A91C8'}]}
+                    trackStyle={[{background: '#9A91C8'}]}
+                />
+
+                <div className={s.minAndMaxValue}>
+                    <span>Min:{rangeValue[0]}</span>
+                    <span>Max:{rangeValue[1]}</span>
+                </div>
+
             </div>
+            <SuperButton className={s.searchButton} onClick={searchPackSend} type="submit">Search</SuperButton>
         </div>
     )
 };

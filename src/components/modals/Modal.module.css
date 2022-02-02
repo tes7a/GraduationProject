@@ -1,7 +1,3 @@
-.packsContainer{
-    /*position: relative;*/
-}
-
 .modal{
     display: flex;
     justify-content: center;
@@ -16,11 +12,11 @@
 }
 
 .container{
-    max-height: 600px;
-    max-width: 413px;
+    height: auto;
+    width: 413px;
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     padding: 20px 33px;
     margin: auto;
@@ -29,10 +25,14 @@
     z-index: 10001;
 }
 
+.modalTitle{
+    font-size: 24px;
+}
+
 .modalFields{
     margin:20px 0 ;
     padding: 5px 0;
-    width: 200px;
+    width: 250px;
     background: rgba(0,0,0,0);
     border:none;
     outline: none;
@@ -50,6 +50,26 @@
 .modalFieldsError{
     border-bottom: 2px solid red;
 }
+
+.modalButton{
+    display: block;
+    margin: 10px;
+    height: 36px;
+    padding: 5px 15px;
+
+    background: #cccccc;
+    box-shadow: 0px 4px 18px rgba(204, 204, 204, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+    border:none;
+    border-radius: 2px;
+    color:#21268F;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.modalButton:hover,.authButton:focus{
+    background: #9d9c9c;
+}
+
 .modalAddButton{
     display: block;
     margin: 10px;
@@ -91,8 +111,64 @@
 
 .buttonsWrapper{
     display: flex;
+    margin: 20px 0;
 }
 
 .btnStyle{
     width: 50% !important;
+}
+
+.modalText{
+
+}
+
+.error{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: auto;
+    padding: 15px 25px;
+    background: #c50404;
+    border-radius: 5px;
+    position: fixed;
+    bottom:-1000px;
+    left:100px;
+    z-index: 20000000;
+    opacity: 0;
+    transition: all .4s ease;
+}
+
+.errorMessage{
+    color:#fff;
+    font-size: 16px;
+}
+
+.errorButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:#fff;
+    font-size: 16px;
+    background:rgba(0,0,0,0);
+    /*background:#fff;*/
+    padding: 0;
+    height: 16px;
+    width: 16px;
+    margin: 0;
+    border: none;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 20000001;
+}
+
+.show{
+    position: fixed;
+    bottom:20px;
+    left:50px;
+    opacity: 1;
+    transition: all .4s ease;
 }

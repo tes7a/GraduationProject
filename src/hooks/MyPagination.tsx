@@ -7,20 +7,28 @@ export const MyPagination = ({totalCount, pageCount, currentPage, onClickHandler
     //totalCount - кол-во всех элементов
     //pageCount - кол-во отображаемых элементов дефолтное значение - 10
     //currentPage - текущая страница
-    //onClickHandler - функция которая принимает число(страницу) которую нужно отобразить
+    //onClickHandler - Функция которая принимает число(страницу) которую нужно отобразить
     const [page, setPage] = useState(currentPage);
+
     useEffect(() => {
         setPage(currentPage)
-    }, [currentPage])
+    }, [currentPage]);
 
-    if (!pageCount) pageCount = defaultPacksPageCount;
-    let lastPage = Math.ceil(totalCount / pageCount);
-    let num = [1, '<'];
+    const [lastPage,setLastPage] = useState(0);
+
+    useEffect(()=>{
+        if (!pageCount) pageCount = defaultPacksPageCount;
+        setLastPage(Math.ceil(totalCount / pageCount));
+    },[totalCount,pageCount])
+
+
+    // let lastPage = Math.ceil(totalCount / pageCount);
+    let num = [];
     let from = page;
     let to = from + 3;
 
     if (lastPage === 1) {
-        return <SuperButton red onClick={() => {
+        return <SuperButton className={`${s.paginationButton} ${s.active}`} onClick={() => {
             onClickHandler(1)
         }}>1</SuperButton>;
     }
@@ -30,6 +38,8 @@ export const MyPagination = ({totalCount, pageCount, currentPage, onClickHandler
             num.push(i);
         }
     } else {
+        num.push(1);
+        num.push('<');
         if (page === 1) {
             from = 2;
             to = 5;
@@ -45,7 +55,7 @@ export const MyPagination = ({totalCount, pageCount, currentPage, onClickHandler
         num.push(lastPage);
     }
 
-
+    // console.log(totalCount + ' / ' + pageCount + '=' + lastPage)
     return (
         <div className={s.paginationBlock}>
             {num.map(n => {

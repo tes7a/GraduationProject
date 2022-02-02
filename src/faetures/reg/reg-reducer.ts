@@ -1,7 +1,7 @@
 import {registerApi, RegisterRequestType} from "../../api/registerApi";
 import {ThunkActionType} from "../../app/store";
 import {loginTC} from "../../api/AuthReducer";
-import {setStatusAppAC} from "../../app/app-reducer";
+import {setAppErrorAC, setStatusAppAC} from "../../app/app-reducer";
 
 
 type StateType = {
@@ -38,10 +38,12 @@ export const registerTC = (data: RegisterRequestType): ThunkActionType =>
             .then(res => {
                 dispatch(toggleIsRegistration(true));
                 dispatch(loginTC(data.email, data.password, false));
+                dispatch(setAppErrorAC(''));
                 dispatch(setStatusAppAC('succeeded'));
             })
             .catch(e => {
                 dispatch(setErrRequest(e.response.data.error));
+                dispatch(setAppErrorAC(e.response.data.error));
                 dispatch(setStatusAppAC('failed'));
             })
             .finally(() => {
