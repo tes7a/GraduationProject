@@ -1,7 +1,7 @@
-import {defaultPacksPageCount} from "../api/packsAPI";
-import SuperButton from "../components/SuperButton/SuperButton";
+import {defaultPacksPageCount} from "../../api/packsAPI";
+import SuperButton from "../SuperButton/SuperButton";
 import {useEffect, useState} from "react";
-import s from './../style/Pagination.module.css';
+import s from '../../style/Pagination.module.css';
 
 export const MyPagination = ({totalCount, pageCount, currentPage, onClickHandler}: MyPaginationPropsType) => {
     //totalCount - кол-во всех элементов

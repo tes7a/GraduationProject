@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Card, CardsAPI } from "../../api/cards.API";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
-import { MyPagination } from "../../hooks/MyPagination";
+import { MyPagination } from "../../components/pagination/MyPagination";
 import { CardComponent } from "./CardComponent";
 import { postCard } from "./cards-reducer";
 import s from  './Cards.module.css'

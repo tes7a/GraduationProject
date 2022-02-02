@@ -4,7 +4,7 @@ import SuperCheckbox from "../components/SuperCheckbox/SuperCheckbox";
 import SuperButton from "../components/SuperButton/SuperButton";
 import s from './TestComponent.module.css'
 import {Link} from "react-router-dom";
-import { Loading } from "../utils/Loading";
+import { Loading } from "../components/loading/Loading";
 import {Alert, Spin} from "antd";
 
 export const TestComponent = () => {
