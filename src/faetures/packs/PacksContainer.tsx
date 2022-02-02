@@ -11,8 +11,8 @@ import {DeleteModal} from "../../components/modals/DeleteModal";
 
 export const PacksContainer = () => {
     const [rangeValue, setRangeValue] = useState<[number, number]>([0, 200]);
-    const [min, setMin] = useState<number>(rangeValue[0]);
-    const [max, setMax] = useState<number>(rangeValue[1]);
+    const [min, setMin] = useState<number>(0);
+    const [max, setMax] = useState<number>(200);
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const [pageCount, setPageCount] = useState(10);
     const currentPage: number = useSelector<AppRootStateType, number>(state => state.packs.page);
@@ -37,7 +37,7 @@ export const PacksContainer = () => {
     const searchPacks = useCallback(() => {
         setMin(rangeValue[0]);
         setMax(rangeValue[1]);
-    }, [rangeValue])
+    }, [rangeValue, showMyPacksPage])
 
     const changeRangeValue = (value: [number, number]) => {
         setRangeValue(value);
@@ -120,7 +120,7 @@ export const PacksContainer = () => {
                 dispatch(getPacksTC({currentPage, sortType, pageCount, min, max}));
             }
         }
-    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max]);
+    }, [dispatch, showMyPacksPage, isLoggedIn, currentPage, sortType, pageCount, min, max]);
 
 
     const onChangePackNameHandler = (value: string) => setCardName(value);

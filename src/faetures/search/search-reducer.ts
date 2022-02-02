@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 import {searchAPI} from "./search-api";
+import {setAppErrorAC} from "../../app/app-reducer";
 
 let initialState = {
     cards: [

@@ -40,7 +40,7 @@ export const AuthReducer = (state = initialStateProfile, action: AuthReducerActi
 
 const loginAC = (user: LoginUserInfo) => ({type: 'auth/LOGIN', user} as const);
 const logoutAC = () => ({type: 'auth/LOGOUT'} as const);
-const setLoggedInAC = (isLoggedIn: boolean) => ({type: 'auth/SET-LOGGED-IN', isLoggedIn} as const);
+export const setLoggedInAC = (isLoggedIn: boolean) => ({type: 'auth/SET-LOGGED-IN', isLoggedIn} as const);
 export const setLoginErrorAC = (error: string) => ({type: 'auth/SET-ERROR', error} as const);
 const setProfileError = (error: string) => ({type: 'profile/SET-ERROR', error} as const);
 const takeProfileInfo = (data: LoginUserInfo) => ({type: 'profile/TAKE-PROFILE-INFO', data} as const);
@@ -54,6 +54,7 @@ export const profileInfoTC = () => (dispatch: Dispatch) => {
             dispatch(setLoggedInAC(true));
             dispatch(takeProfileInfo(res.data));
             dispatch(setLoginErrorAC(''));
+            dispatch(setAppErrorAC(''));
             dispatch(setStatusAppAC('succeeded'));
         })
         .catch(e => {
@@ -73,6 +74,8 @@ export const updateUserInfoTC = (data: updateUserInfoDataType): ThunkActionType 
         authAPI.updateUserInfo(data)
             .then(res => {
                 dispatch(profileInfoTC());
+                dispatch(setAppErrorAC(''));
+                dispatch(setLoginErrorAC(''));
                 dispatch(setStatusAppAC('succeeded'));
             })
             .catch(e => {
@@ -87,16 +90,18 @@ export const updateUserInfoTC = (data: updateUserInfoDataType): ThunkActionType 
             })
     }
 export const loginTC = (email: string, password: string, rememberMe: boolean) => (dispatch: Dispatch) => {
+    dispatch(setAppErrorAC(''));
+    dispatch(setLoginErrorAC(''));
     dispatch(setStatusAppAC('loading'));
     authAPI.login(email, password, rememberMe)
         .then(res => {
             dispatch(loginAC(res.data));
             dispatch(setLoggedInAC(true));
-            dispatch(setLoginErrorAC(''));
             dispatch(setStatusAppAC('succeeded'));
         })
         .catch(e => {
             const error = e.response ? e.response.data.error : e.message + ' more details in the console';
+            console.log(error);
             dispatch(setAppErrorAC(error));
             dispatch(setLoginErrorAC(error));
             dispatch(setStatusAppAC('failed'));
@@ -112,11 +117,11 @@ export const logoutTC = () => (dispatch: Dispatch) => {
             dispatch(logoutAC());
             dispatch(setLoggedInAC(false));
             dispatch(setLoginErrorAC(''));
+            dispatch(setAppErrorAC(''));
             dispatch(setStatusAppAC('succeeded'));
         })
         .catch(e => {
             const error = e.response ? e.response.data.error : e.message + ' more details in the console';
-            console.log(error);
             dispatch(setAppErrorAC(error));
             dispatch(setLoginErrorAC(e.response.data));
             dispatch(setStatusAppAC('failed'));

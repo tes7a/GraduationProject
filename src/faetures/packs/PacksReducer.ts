@@ -49,11 +49,11 @@ export const getPacksTC = (date: GetDateType) => (dispatch: Dispatch) => {
             dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount));
             dispatch(setPacksPageCountAC(res.data.pageCount));
             dispatch(setPacksPageAC(res.data.page));
+            dispatch(setAppErrorAC(''));
             dispatch(setStatusAppAC('succeeded'));
         })
         .catch(e => {
             const error = e.response ? e.response.data.error : e.message + ' more details in the console';
-            console.log(error);
             dispatch(setAppErrorAC(error));
             dispatch(setStatusAppAC('failed'));
         })
@@ -72,10 +72,10 @@ export const createPackTC = (value: string, showMyPacksPage: boolean, userID?: s
                 } else {
                     dispatch(getPacksTC({currentPage: 1}));
                 }
+                dispatch(setAppErrorAC(''));
                 dispatch(setStatusAppAC('succeeded'));
             }).catch(e => {
             const error = e.response ? e.response.data.error : e.message + ' more details in the console';
-            console.log(error);
             dispatch(setAppErrorAC(error));
             dispatch(setStatusAppAC('failed'));
         })
@@ -90,11 +90,11 @@ export const changePackTitleTC = (id: string, name: string) => (dispatch: Dispat
     PacksAPI.changePack(id, name)
         .then(res => {
             dispatch(changePackTitleAC(id, name));
+            dispatch(setAppErrorAC(''));
             dispatch(setStatusAppAC('succeeded'));
         })
         .catch(e => {
             const error = e.response ? e.response.data.error : e.message + ' more details in the console';
-            console.log(error);
             dispatch(setAppErrorAC(error));
             dispatch(setStatusAppAC('failed'));
         })
@@ -114,11 +114,11 @@ export const removePackTC = (id: string, currentPage: number, showMyPacksPage: b
                 } else {
                     dispatch(getPacksTC({currentPage}));
                 }
+                dispatch(setAppErrorAC(''));
                 dispatch(setStatusAppAC('succeeded'));
             })
             .catch(e => {
                 const error = e.response ? e.response.data.error : e.message + ' more details in the console';
-                console.log(error);
                 dispatch(setAppErrorAC(error));
                 dispatch(setStatusAppAC('failed'));
             })
