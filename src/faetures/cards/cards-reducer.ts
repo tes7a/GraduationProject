@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import {Card, CardsAPI, CardsResp, GetDataType, GradeData, PostCardData, PutDataType} from "../../api/cards.API";
-import {setStatusAppAC} from "../../app/app-reducer";
+import {setAppErrorAC, setStatusAppAC} from "../../app/app-reducer";
 import {AppRootStateType, ThunkActionType} from "../../app/store";
 
 const initialCardsState: intialCardsStateType = {
@@ -43,9 +43,11 @@ export const getCards = (data: GetDataType) => (dispatch: Dispatch) => {
             dispatch(setCards(res.data))
             dispatch(setCardsTotalCount(res.data.cardsTotalCount));
             dispatch(setCardsPage(res.data.page));
+            dispatch(setAppErrorAC(''));
         })
         .catch(err => {
             console.log(err)
+            dispatch(setAppErrorAC(err.response.data.error));
             dispatch(setStatusAppAC('failed'));
         })
         .finally(() => {
@@ -57,6 +59,7 @@ export const postCard = (data: PostCardData): ThunkActionType => (dispatch) => {
     CardsAPI.postCard(data)
         .then(res => {
             dispatch(getCards({}))
+            dispatch(setAppErrorAC(''));
         })
 }
 
@@ -64,6 +67,7 @@ export const deleteCard = (id: string, cardsPack_id: string): ThunkActionType  =
     CardsAPI.deleteCard(id)
         .then(res => {
             dispatch(getCards({cardsPack_id}))
+            dispatch(setAppErrorAC(''));
         })
 }
 
@@ -71,6 +75,7 @@ export const putCard = (data: PutDataType, cardsPack_id: string): ThunkActionTyp
     CardsAPI.putCard(data)
         .then(res => {
             dispatch(getCards({cardsPack_id}))
+            dispatch(setAppErrorAC(''));
         })
 }
 
