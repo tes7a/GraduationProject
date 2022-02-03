@@ -10,7 +10,7 @@ import {Profile} from "./Profile";
 import {logoutTC, profileInfoTC, updateUserInfoTC} from "../../api/AuthReducer";
 import {Spin} from "antd";
 import {Login} from "../login/Login";
-import {RequestStatusType} from "../../app/app-reducer";
+import {RequestStatusType, setAppErrorAC} from "../../app/app-reducer";
 
 
 export const ProfileContainer = () => {
@@ -22,8 +22,8 @@ export const ProfileContainer = () => {
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
     const dispatch = useDispatch();
 
-    const logout = () => {
-        dispatch(logoutTC());
+    const downloadPhoto = () => {
+        dispatch(setAppErrorAC('Sorry, this function is not working now :('))
     }
 
     const changeEditMode = () => {
@@ -53,7 +53,7 @@ export const ProfileContainer = () => {
     if (!isLoggedIn) return <Navigate to={PATH.LOGIN}/>
 
     if (user != null) {
-        return <div className={s.wrapper}>
+        return <div className={s.profileContainer}>
             {
                 status === 'loading'
                     ? <Spin size={'large'} tip="Loading..."/>
@@ -63,8 +63,9 @@ export const ProfileContainer = () => {
                         updateUserInfo={updateUserInfo}
                         editMode={editMode}
                         changeEditMode={changeEditMode}
-                        logout={logout}
-                        user={user}/>
+                        user={user}
+                        downloadPhoto={downloadPhoto}
+                    />
             }
 
         </div>

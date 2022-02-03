@@ -1,5 +1,7 @@
 import classes from "./Modal.module.css";
 import {useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
+import {setAppErrorAC} from "../../app/app-reducer";
 
 export const ErrorModal = (
     {error}: ErrorModalPropsType
@@ -7,9 +9,11 @@ export const ErrorModal = (
     const [show, setShow] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('');
     const finalClassName = show ? `${classes.error} ${classes.show}` : `${classes.error}`;
+    const dispatch = useDispatch();
 
     const onClickHandler = () => {
         setMessage('');
+        dispatch(setAppErrorAC(''));
     }
 
     useEffect(() => {
@@ -23,6 +27,7 @@ export const ErrorModal = (
     useEffect(() => {
         let id = setTimeout(() => {
             setShow(false);
+            dispatch(setAppErrorAC(''));
             clearTimeout(id)
         }, 10000)
     }, [show]);

@@ -25,6 +25,11 @@
     align-items: center;
 }
 
+.headerIcon{
+    font-size: 25px;
+    margin-right: 10px;
+}
+
 .headerLink{
     display: flex;
     justify-content: center;
