@@ -1,5 +1,6 @@
-import { newPasswordAPI } from "./new-password-api";
+import {newPasswordAPI} from "./new-password-api";
 import {Dispatch} from "redux";
+import {setAppErrorAC} from "../../app/app-reducer";
 
 export const initialNewPasswordState = {
     status: "idle",
@@ -7,7 +8,7 @@ export const initialNewPasswordState = {
     error: ""
 };
 
-export const newPasswordReducer = (state:initialNewPasswordStateType = initialNewPasswordState, action: NewPasswordReducerActionsType): initialNewPasswordStateType => {
+export const newPasswordReducer = (state: initialNewPasswordStateType = initialNewPasswordState, action: NewPasswordReducerActionsType): initialNewPasswordStateType => {
     switch (action.type) {
         case "newPasswordReducer/SET-STATUS":
             return {...state, status: action.status};
@@ -31,8 +32,11 @@ export const createNewPasswordTC = (data: any) => (dispatch: ThunkDispatch) => {
     newPasswordAPI.createRequestRecoveryPassword(data)
         .then(res => {
             dispatch(setStatusAC('succeeded'));
+            dispatch(setAppErrorAC(''));
         })
         .catch(error => {
+            dispatch(setNewPasswordErrorAC(error.response.data.error));
+            dispatch(setAppErrorAC(error.response.data.error));
             if (!error.response) {
                 return "some error";
             }
@@ -67,3 +71,4 @@ export type ResponseNewPasswordType = {
 export type NewPasswordReducerActionsType = setStatusType
     | setIsChangedPasswordType
     | setNewPasswordErrorType
+    | ReturnType<typeof setAppErrorAC>;

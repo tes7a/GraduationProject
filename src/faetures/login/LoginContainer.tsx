@@ -3,9 +3,10 @@ import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
 import {Navigate} from "react-router-dom";
-import {RequestStatusType} from "../../app/app-reducer";
+import {RequestStatusType, setAppErrorAC} from "../../app/app-reducer";
 import {loginTC, logoutTC, setLoginErrorAC} from "../../api/AuthReducer";
 import {PATH} from "../../routes/routes";
+import {Spin} from "antd";
 
 export const LoginContainer = () => {
     const dispatch = useDispatch();
@@ -21,13 +22,15 @@ export const LoginContainer = () => {
     const onChangeEmail = (value: string) => {
         setEmail(value);
         setEmailError('');
-        dispatch(setLoginErrorAC(''))
+        dispatch(setLoginErrorAC(''));
+        dispatch(setAppErrorAC(''));
     }
 
     const onChangePassword = (value: string) => {
         setPassword(value);
         setPassError('');
-        dispatch(setLoginErrorAC(''))
+        dispatch(setLoginErrorAC(''));
+        dispatch(setAppErrorAC(''));
     }
 
     const onChangeRememberMe = (value: boolean) => {
@@ -36,13 +39,25 @@ export const LoginContainer = () => {
 
     const login = () => {
         const validation = new RegExp(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/);
-        if (!validation.test(email)) setEmailError('Email is not correct!');
-        if (password.length < 8) setPassError('Password must be more than 7 characters...');
+        if (!validation.test(email)){
+            dispatch(setAppErrorAC('Email is not correct!'));
+            setEmailError('Email is not correct!');
+        }
+        if (password.length < 8){
+            dispatch(setAppErrorAC('Password must be more than 7 characters...'));
+            setPassError('Password must be more than 7 characters...');
+        }
         if (validation.test(email) && password.length > 7) {
             dispatch(loginTC(email, password, rememberMe));
             setEmail('');
             setPassword('');
             setRememberMe(false);
+        }
+
+        if(!validation.test(email) && password.length < 8){
+            dispatch(setAppErrorAC('Please check your email and password'));
+            setEmailError('Email is not correct!');
+            setPassError('Password must be more than 7 characters...');
         }
     }
 
@@ -51,18 +66,25 @@ export const LoginContainer = () => {
     }
 
     return (
-        <Login
-            email={email}
-            password={password}
-            rememberMe={rememberMe}
-            onChangeEmail={onChangeEmail}
-            onChangePassword={onChangePassword}
-            onChangeRememberMe={onChangeRememberMe}
-            login={login}
-            error={error}
-            emailError={emailError}
-            passError={passError}
-            status={status}
-        />
+        <>
+            {
+                status === 'loading'
+                    ? <Spin size={'large'} tip="Loading..."/>
+                    : <Login
+                    email={email}
+                    password={password}
+                    rememberMe={rememberMe}
+                    onChangeEmail={onChangeEmail}
+                    onChangePassword={onChangePassword}
+                    onChangeRememberMe={onChangeRememberMe}
+                    login={login}
+                    error={error}
+                    emailError={emailError}
+                    passError={passError}
+                    status={status}
+                />
+            }
+        </>
+
     )
 }

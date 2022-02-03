@@ -5,13 +5,14 @@ export const PacksAPI = {
     getPacks(date:GetDateType) {
         const page = date && date.currentPage ? date.currentPage : 1;
         const pageCount = date && date.pageCount ?  date.pageCount : defaultPacksPageCount;
-        const id = date && date.id ? date.id : '';
+        const id = date && date.id ? `user_id=${date.id}&` : '';
         const sortType = date && date.sortType? date.sortType : '';
         const packName = date && date.packName? date.packName : '';
-        const minValueRange = date && date.minValueRange? date.sortType : 0;
-        const maxValueRange = date && date.maxValueRange? date.sortType : 0;
+        const min = date && date.min? date.min : 0;
+        const max = date && date.max? date.max : 200;
+        // console.log(`/cards/pack?${id}pageCount=${pageCount}&page=${page}&sortPacks=${sortType}&min=${min}&max=${max}`);
         return instance.get<PacksDataType, AxiosResponse<PacksDataType>>(
-            `/cards/pack?user_id=${id}&pageCount=${pageCount}&page=${page}&sortPacks=${sortType}&packName=${packName}&min=${minValueRange}&max=${maxValueRange}`
+            `/cards/pack?${id}pageCount=${pageCount}&page=${page}&sortPacks=${sortType}&min=${min}&max=${max}`
         );
     },
     addPack(name: string) {
@@ -79,8 +80,8 @@ export type GetDateType = {
     pageCount?:number
     page?:number
     sortType?: string
-    minValueRange?: number
-    maxValueRange?: number
+    min?:number
+    max?:number
     packName?: string
 }
 

@@ -10,7 +10,9 @@ import {
 import {AuthReducer, AuthReducerActionsType} from "../api/AuthReducer";
 import {PacksReducer, PacksReducerActionsType} from "../faetures/packs/PacksReducer";
 import {searchReducer, SearchReducerActionsType} from "../faetures/search/search-reducer";
-import {searchPackReducer, SearchPackReducerActionsType} from "../faetures/search/search-pack-reducer";
+import {searchPackReducer, SearchParckReducerActionsType} from "../faetures/search/search-pack-reducer";
+import {ActionsCardsType, CardsReducers } from "../faetures/cards/cards-reducer";
+import {learningProcessReducer} from "../faetures/learning-process/learrning-process-reducer";
 
 
 const rootReducer = combineReducers({
@@ -21,7 +23,9 @@ const rootReducer = combineReducers({
     forgotPassword: forgotPasswordReducer,
     packs:PacksReducer,
     searchReducer: searchReducer,
-    searchPackReducer: searchPackReducer
+    searchPackReducer: searchPackReducer,
+    cards: CardsReducers,
+    learningProcessReducer: learningProcessReducer,
 });
 
 
@@ -35,9 +39,11 @@ export type AppRootActionsType = AppReducerActionsType
     | PacksReducerActionsType
     | RegistrationReducerActionsType
     | SearchReducerActionsType
-    | SearchPackReducerActionsType;
+    | SearchParckReducerActionsType
+    | ActionsCardsType;
 
 export type ThunkActionType = ThunkAction<void, AppRootStateType, unknown, AppRootActionsType>;
+export type AppDispatch = typeof store.dispatch;
 
 // @ts-ignore
 window.store = store;

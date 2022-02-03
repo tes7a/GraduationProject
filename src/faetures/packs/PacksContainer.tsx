@@ -3,21 +3,27 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../routes/routes";
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {getPacksTC, createPackTC, changePackTitleTC, removePackTC, setPacksPageAC, setSortPacks} from "./PacksReducer";
 import {PackDataType} from "../../api/packsAPI";
-import SuperInputText from "../../components/SuperInputText/SuperInputText";
-import classes from "./PacksContainer.module.css"
-import SuperButton from "../../components/SuperButton/SuperButton";
-import {useOnClickOutside} from "../../hooks/useOnClickOutside";
+import {InputModal} from "../../components/modals/InputModal";
+import {DeleteModal} from "../../components/modals/DeleteModal";
 
 export const PacksContainer = () => {
+    const [rangeValue, setRangeValue] = useState<[number, number]>([0, 200]);
+    const [min, setMin] = useState<number>(0);
+    const [max, setMax] = useState<number>(200);
+    const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const [pageCount, setPageCount] = useState(10);
     const currentPage: number = useSelector<AppRootStateType, number>(state => state.packs.page);
     const [searchValue, setSearchValue] = useState('');
     const [showMyPacksPage, setShowMyPacksPage] = useState(false);
     const [cardName, setCardName] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [elementIdForDelete, setElementIdForDelete] = useState('');
+    const [elementNameForDelete, setElementNameForDelete] = useState('');
     const [editName, setEditName] = useState('');
     const [packId, setPackId] = useState('');
     const dispatch = useDispatch();
@@ -25,44 +31,62 @@ export const PacksContainer = () => {
     const packs: Array<PackDataType> = useSelector<AppRootStateType, Array<PackDataType>>(state => state.packs.packs);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
-    const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod)
+    const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod);
+    const error: string = useSelector<AppRootStateType, string>(state => state.app.error);
+
+    const searchPacks = useCallback(() => {
+        setMin(rangeValue[0]);
+        setMax(rangeValue[1]);
+    }, [rangeValue, showMyPacksPage])
+
+    const changeRangeValue = (value: [number, number]) => {
+        setRangeValue(value);
+    }
+
+    const changePageCount = (value: number) => {
+        setPageCount(+value);
+    }
 
     const changeNumberPage = useCallback((value: number) => {
         dispatch(setPacksPageAC(value));
-    },[currentPage]);
-
-    const ref: any = useRef();
+    }, [currentPage]);
 
     const getAllPacks = useCallback(() => {
         setShowMyPacksPage(false);
-        dispatch(getPacksTC({currentPage}));
-    }, [currentPage,showMyPacksPage])
+        dispatch(getPacksTC({currentPage, pageCount}));
+    }, [currentPage, showMyPacksPage, pageCount])
 
     const getMyPacks = useCallback(() => {
         setShowMyPacksPage(true);
         dispatch(getPacksTC({id: authID, currentPage}));
-    }, [showMyPacksPage,currentPage,authID])
+    }, [showMyPacksPage, currentPage, authID])
 
     const onChangeSearchValue = (value: string) => {
         setSearchValue(value);
     }
 
-    const addPacks = useCallback(() => {
+    const addPacks = () => {
         setShowAddModal(true);
-    },[showAddModal])
+    };
 
-    const addPack = useCallback(() => {
+    const changeShowDeleteModal = (name: string, id: string) => {
+        setElementNameForDelete(name)
+        setElementIdForDelete(id)
+        setShowDeleteModal(true);
+    }
+
+    const addPack = () => {
         dispatch(createPackTC(cardName, showMyPacksPage, authID));
         setShowAddModal(false);
         setCardName('');
-    }, [cardName,showMyPacksPage,authID])
+    }
 
     const changeTitle = useCallback(() => {
         dispatch(changePackTitleTC(packId, editName));
         setShowEditModal(false);
         setEditName('');
         setPackId('');
-    }, [packId,editName])
+    }, [packId, editName])
 
     const closeModal = useCallback(() => {
         if (showAddModal) {
@@ -72,33 +96,31 @@ export const PacksContainer = () => {
             setShowEditModal(false);
             setEditName('');
             setPackId('');
+        } else if (showDeleteModal) {
+            setElementNameForDelete('');
+            setElementIdForDelete('');
+            setShowDeleteModal(false);
         }
-    },[showAddModal,cardName,showEditModal,editName,packId])
+    }, [showDeleteModal, elementIdForDelete, elementNameForDelete, showAddModal, cardName, showEditModal, editName, packId]);
+
 
     const sortCallBack = (sort: string) => {
         dispatch(setSortPacks(sort))
     }
-    const removePack = useCallback((id: string) => {
-        dispatch(removePackTC(id, currentPage, showMyPacksPage, authID))
-    }, [currentPage, showMyPacksPage, authID]);
-
-
-    useOnClickOutside(ref, closeModal);
+    const removePack = useCallback(() => {
+        dispatch(removePackTC(elementIdForDelete, currentPage, showMyPacksPage, authID));
+        closeModal();
+    }, [elementIdForDelete, currentPage, showMyPacksPage, authID]);
 
     useEffect(() => {
         if (isLoggedIn) {
             if (showMyPacksPage) {
-                dispatch(getPacksTC({id: authID, currentPage}));
+                dispatch(getPacksTC({id: authID, sortType, currentPage, pageCount, min, max}));
             } else {
-                dispatch(getPacksTC({currentPage,sortType}));
+                dispatch(getPacksTC({currentPage, sortType, pageCount, min, max}));
             }
-         
         }
-    }, [dispatch, isLoggedIn,currentPage, sortType]);
-
-    if (!isLoggedIn) {
-        return <Navigate to={PATH.LOGIN}/>
-    }
+    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max]);
 
 
     const onChangePackNameHandler = (value: string) => setCardName(value);
@@ -108,49 +130,43 @@ export const PacksContainer = () => {
         setEditName(name);
         setPackId(id);
         setShowEditModal(true);
-
     }
-    console.log('PacksContainer');
+
+    if (!isLoggedIn) {
+        return <Navigate to={PATH.LOGIN}/>
+    }
+
     return (
-        <div className={classes.packsContainer}>
-            {
-                showAddModal &&
-                <div className={classes.modal} ref={ref}>
-                    {showAddModal
-                        ? <SuperInputText
-                            onChangeText={onChangePackNameHandler}
-                            type='text' name='name'
-                            placeholder='Name'
-                            value={cardName}
-                        />
-                        : <SuperInputText
-                            onChangeText={onChangeEditNameHandler}
-                            type='text' name='name'
-                            placeholder='Name'
-                            value={editName}
-                        />
-                    }
-                    <div className={classes.buttonsWrapper}>
-                        <SuperButton className={classes.btnStyle} onClick={addPack}>Add</SuperButton>
-                        <SuperButton className={classes.btnStyle} onClick={closeModal}>Close</SuperButton>
-                    </div>
-                </div>
-            }
-            {
-                showEditModal &&
-                <div className={classes.modal} ref={ref}>
-                    <SuperInputText
-                        onChangeText={onChangeEditNameHandler}
-                        type='text' name='name'
-                        placeholder='Name'
-                        value={editName}
-                    />
-                    <div className={classes.buttonsWrapper}>
-                        <SuperButton className={classes.btnStyle} onClick={changeTitle}>Edit</SuperButton>
-                        <SuperButton className={classes.btnStyle} onClick={closeModal}>Close</SuperButton>
-                    </div>
-                </div>
-            }
+        <div>
+            <InputModal
+                modalName='Add new pack'
+                name='CardName'
+                placeholder='CardName'
+                value={cardName}
+                show={showAddModal}
+                onChange={onChangePackNameHandler}
+                onClose={closeModal}
+                onSave={addPack}
+            />
+
+            <InputModal
+                modalName='Rename pack'
+                name='ChangeCardName'
+                placeholder='ChangeCardName'
+                value={editName}
+                show={showEditModal}
+                onChange={onChangeEditNameHandler}
+                onClose={closeModal}
+                onSave={changeTitle}
+            />
+
+            <DeleteModal
+                typeElement={'pack'}
+                elementName={elementNameForDelete}
+                onConfirm={removePack}
+                onClose={closeModal}
+                show={showDeleteModal}
+            />
             <Packs
                 getPacks={getAllPacks}
                 sortCallback={sortCallBack}
@@ -166,6 +182,14 @@ export const PacksContainer = () => {
                 currentPage={currentPage}
                 changeNumberPage={changeNumberPage}
                 getMyPacks={getMyPacks}
+                showMyPacksPage={showMyPacksPage}
+                options={options}
+                changePageCount={changePageCount}
+                pageCount={pageCount}
+                changeRangeValue={changeRangeValue}
+                rangeValue={rangeValue}
+                searchPacks={searchPacks}
+                changeShowDeleteModal={changeShowDeleteModal}
             />
         </div>
     )

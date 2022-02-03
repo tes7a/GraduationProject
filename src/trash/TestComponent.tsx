@@ -4,7 +4,8 @@ import SuperCheckbox from "../components/SuperCheckbox/SuperCheckbox";
 import SuperButton from "../components/SuperButton/SuperButton";
 import s from './TestComponent.module.css'
 import {Link} from "react-router-dom";
-import { Loading } from "../utils/Loading";
+import { Loading } from "../components/loading/Loading";
+import {Alert, Spin} from "antd";
 
 export const TestComponent = () => {
     const [text, setText] = useState<string>('')
@@ -64,8 +65,14 @@ export const TestComponent = () => {
                 </SuperCheckbox>
 
                 <SuperCheckbox checked={checked} onChange={testOnChange}/>
-                
-               {/*<Loading/>*/}
+
+                <Spin tip="Loading...">
+                    {/*<Alert*/}
+                    {/*    message="Alert message title"*/}
+                    {/*    description="Further details about the context of this alert."*/}
+                    {/*    type="info"*/}
+                    {/*/>*/}
+                </Spin>
             </div>
         </div>
     )

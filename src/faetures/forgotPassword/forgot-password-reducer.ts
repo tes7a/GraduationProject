@@ -1,5 +1,6 @@
 import {forgotPasswordAPI} from "./forgot-password-api";
 import {Dispatch} from "redux";
+import {setAppErrorAC} from "../../app/app-reducer";
 
 export const initialForgotPasswordState = {
     status: "idle",
@@ -7,7 +8,7 @@ export const initialForgotPasswordState = {
     error: ""
 };
 
-export const forgotPasswordReducer = (state:initialForgotPasswordStateType = initialForgotPasswordState, action: ForgotPasswordReducerActionsType): initialForgotPasswordStateType => {
+export const forgotPasswordReducer = (state: initialForgotPasswordStateType = initialForgotPasswordState, action: ForgotPasswordReducerActionsType): initialForgotPasswordStateType => {
     switch (action.type) {
         case "forgotPasswordReducer/SET-STATUS":
             return {...state, status: action.status};
@@ -30,9 +31,12 @@ export const setForgotPasswordErrorAC = (error: string) => ({type: 'forgotPasswo
 export const createForgotPasswordRequestTC = (data: DataForgotPasswordType) => (dispatch: ThunkDispatch) => {
     forgotPasswordAPI.createForgotPasswordRequest(data)
         .then(res => {
+            dispatch(setAppErrorAC(''));
             dispatch(setStatusAC('succeeded'));
         })
         .catch(error => {
+            dispatch(setForgotPasswordErrorAC(error.response.data.error));
+            dispatch(setAppErrorAC(error.response.data.error));
             if (!error.response) {
                 return "some error";
             }
@@ -69,3 +73,4 @@ export type ResponseForgotPasswordType = {
 export type ForgotPasswordReducerActionsType = setStatusType
     | setIsCreateForgotPasswordRequestType
     | setForgotPasswordErrorType
+    | ReturnType<typeof setAppErrorAC>;

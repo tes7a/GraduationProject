@@ -10,22 +10,25 @@ import { LoginContainer } from "../faetures/login/LoginContainer";
 import { ProfileContainer } from "../faetures/profile/ProfileContainer";
 import {PacksContainer} from "../faetures/packs/PacksContainer";
 import { Search } from "../faetures/search/Search";
+import { CardsContainer } from "../faetures/cards/CardsContainer";
+import {LearningProcess} from "../faetures/learning-process/LearningProcess";
 
 export const PATH = {
-    EMPTY: '/',
     ERROR: '/404',
-    PROFILE: '/',
+    PROFILE: '/profile',
     LOGIN: '/login',
     REGISTRATION: '/registration',
     FORGOT_PASSWORD: '/forgot-password',
     NEW_PASSWORD: '/create-new-password',
     PACKS:'/packs',
     TEST: '/test',
+    CARDS: '/cards',
+    CARDS_WITH_ID: '/cards/:id',
 }
 
 type RoutesType = {
     path: string,
-    component: () => JSX.Element
+    component:any
 }
 
 export const publicRoutes: RoutesType[] = [
@@ -37,4 +40,5 @@ export const publicRoutes: RoutesType[] = [
     {path: PATH.ERROR, component: Err404},
     {path: PATH.TEST, component: TestComponent},
     {path: PATH.PACKS, component: PacksContainer},
+    {path: PATH.CARDS_WITH_ID, component: CardsContainer}
 ]

@@ -1,25 +1,34 @@
-import {defaultPacksPageCount} from "../api/packsAPI";
-import SuperButton from "../components/SuperButton/SuperButton";
+import {defaultPacksPageCount} from "../../api/packsAPI";
+import SuperButton from "../SuperButton/SuperButton";
 import {useEffect, useState} from "react";
+import s from '../../style/Pagination.module.css';
 
 export const MyPagination = ({totalCount, pageCount, currentPage, onClickHandler}: MyPaginationPropsType) => {
     //totalCount - кол-во всех элементов
     //pageCount - кол-во отображаемых элементов дефолтное значение - 10
     //currentPage - текущая страница
-    //onClickHandler - функция которая принимает число(страницу) которую нужно отобразить
+    //onClickHandler - Функция которая принимает число(страницу) которую нужно отобразить
     const [page, setPage] = useState(currentPage);
+
     useEffect(() => {
         setPage(currentPage)
-    }, [currentPage])
+    }, [currentPage]);
 
-    if (!pageCount) pageCount = defaultPacksPageCount;
-    let lastPage = Math.ceil(totalCount / pageCount);
-    let num = [1, '<'];
+    const [lastPage,setLastPage] = useState(0);
+
+    useEffect(()=>{
+        if (!pageCount) pageCount = defaultPacksPageCount;
+        setLastPage(Math.ceil(totalCount / pageCount));
+    },[totalCount,pageCount])
+
+
+    // let lastPage = Math.ceil(totalCount / pageCount);
+    let num = [];
     let from = page;
     let to = from + 3;
 
     if (lastPage === 1) {
-        return <SuperButton red onClick={() => {
+        return <SuperButton className={`${s.paginationButton} ${s.active}`} onClick={() => {
             onClickHandler(1)
         }}>1</SuperButton>;
     }
@@ -29,6 +38,8 @@ export const MyPagination = ({totalCount, pageCount, currentPage, onClickHandler
             num.push(i);
         }
     } else {
+        num.push(1);
+        num.push('<');
         if (page === 1) {
             from = 2;
             to = 5;
@@ -44,23 +55,24 @@ export const MyPagination = ({totalCount, pageCount, currentPage, onClickHandler
         num.push(lastPage);
     }
 
-
+    // console.log(totalCount + ' / ' + pageCount + '=' + lastPage)
     return (
-        <div>
+        <div className={s.paginationBlock}>
             {num.map(n => {
+                const active = n === page ? `${s.active}` : '';
                 if (typeof n === 'number') {
-                    return <SuperButton key={n} red={n === page} onClick={() => {
+                    return <SuperButton className={`${s.paginationButton} ${active}`} key={n} onClick={() => {
                         onClickHandler(n)
                     }}>{n}</SuperButton>
                 } else {
                     if (n === '<' && page > 2) {
-                        return <SuperButton key={n} onClick={() => {
+                        return <SuperButton className={s.paginationButton} key={n} onClick={() => {
                             onClickHandler(from - 1)
                         }}>{n}</SuperButton>
                     }
 
                     if (n === '>' && page < lastPage - 4) {
-                        return <SuperButton key={n} onClick={() => {
+                        return <SuperButton className={s.paginationButton} key={n} onClick={() => {
                             onClickHandler(to + 1)
                         }}>{n}</SuperButton>
                     }
