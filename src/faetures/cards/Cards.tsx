@@ -15,7 +15,7 @@ type CardsType = {
     cardsTotalCount: number,
     page: number,
     changeNumberPage: (value: number) => void,
-    addCard: (question: string, answer?: string) => void,
+    addCard: (value: boolean) => void,
 }
 
 export const Cards: React.FC<CardsType> = (
@@ -28,7 +28,7 @@ export const Cards: React.FC<CardsType> = (
             <h2>Cards Pack list</h2>
             <div>
                 <SuperInputText />
-                <SuperButton>
+                <SuperButton onClick={() => addCard(true)}>
                     Add new Card
                 </SuperButton>
             </div>
@@ -43,7 +43,8 @@ export const Cards: React.FC<CardsType> = (
                 </tr>
                 </thead>
                 <tbody>
-                {cards.map(c => <CardComponent 
+                {cards.map(c =>
+                    <CardComponent 
                     key={c._id} id={c._id} question={c.question} 
                     authID={authID} editCard={editCard} removeCard={removeCard} 
                     grade={c.grade} answer={c.answer} updated={c.updated}

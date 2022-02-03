@@ -11,64 +11,85 @@ import {Navigate, useParams} from "react-router-dom";
 import {useCallback} from "react";
 import {PATH} from "../../routes/routes";
 import SuperButton from "../../components/SuperButton/SuperButton";
-import { initialStateType } from "../../api/AuthReducer";
-import { CardComponent } from "./CardComponent";
-import { DeleteModal } from "../../components/modals/DeleteModal";
+import {initialStateType} from "../../api/AuthReducer";
+import {CardComponent} from "./CardComponent";
+import {DeleteModal} from "../../components/modals/DeleteModal";
+import {InputModal} from "../../components/modals/InputModal";
 
 export const CardsContainer: React.FC = () => {
     //useSlector
-    const {cards, cardsTotalCount, page, pageCount, packUserId,} = useSelector<AppRootStateType, intialCardsStateType>(state => state.cards);
+    const {
+        cards,
+        cardsTotalCount,
+        page,
+        pageCount,
+        packUserId,
+    } = useSelector<AppRootStateType, intialCardsStateType>(state => state.cards);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
     const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
 
     //any
     const dispatch = useDispatch();
-    const {id} = useParams<{id: string}>();
+    const {id} = useParams<{ id: string }>();
 
     //hooks
     const [editName, setEditName] = useState('');
     const [packId, setPackId] = useState('');
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [cardAnswer, setCardAnswer] = useState('');
-    const [cardQuestion, setCardQuestion] = useState('');
-    const [cardId, setCardId] = useState('');
-    const [showQuestionModal, setShowQuestionModal] = useState(false);
     const [elementName, setElementName] = useState('');
+    const [answerCard, setAnswerCard] = useState('');
+    const [questCard, setQuestCard] = useState('');
+    const [cardId, setCardId] = useState('');
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [showQuestionModal, setShowQuestionModal] = useState(false);
 
     //func
     const changeNumberPage = useCallback((value: number) => {
         dispatch((value));
     }, [page]);
-    const addCard = (question: string, answer?: string) => {
+
+    //addCard Funcs
+    const addCard = () => {
+        setShowAddModal(true)
+    }
+    const addCardModal = () => {
+        if(id)
         dispatch(postCard({
-            card:{
-                question,
-                answer: answer ?? 'no answer',
-                cardsPack_id: id ?? ''
-                }
-        }))
+            card: {
+                cardsPack_id: id,
+                question: questCard,
+                answer: answerCard
+            }
+        }, id))
+        setShowAddModal(false);
+        setAnswerCard('');
+        setQuestCard('')
     };
+    const onChangeCardAnswer = (value: string) => setAnswerCard(value);
+    const onChangeQuestCard = (value: string) => setQuestCard(value);
+
+    //edit card func
     const editCard = (id: string, name: string) => {
         setEditName(name);
         setPackId(id);
-        setShowEditModal(true);
+        setShowAddModal(true);
     };
+
+    //delete crads func
     const removeCard = (cardId: string) => {
         setCardId(cardId);
         setShowQuestionModal(true)
     };
     const deleteModalQuest = () => {
-        if(cardId !== '' && id)
-        dispatch(deleteCard(cardId, id));
+        if (cardId !== '' && id)
+            dispatch(deleteCard(cardId, id));
         setShowQuestionModal(false)
     }
-
-
+    
     useEffect(() => {
         if (isLoggedIn) {
-            if(id)
-             dispatch(getCards({cardsPack_id: id, pageCount: 10}));
+            if (id)
+                dispatch(getCards({cardsPack_id: id, pageCount: 10}));
         }
     }, [dispatch, id])
 
@@ -81,23 +102,36 @@ export const CardsContainer: React.FC = () => {
 
     return (
         <div>
+            <InputModal
+                modalName='Add new Card'
+                name='addCard'
+                placeholder='Card Answer'
+                value={answerCard}
+                value2={questCard}
+                show={showAddModal}
+                onChange={onChangeCardAnswer}
+                onChange2={onChangeQuestCard}
+                onClose={() => setShowAddModal(false)}
+                onSave={addCardModal}
+                question='Card Question'
+            />
             <DeleteModal
                 show={showQuestionModal}
                 elementName={elementName}
                 typeElement={'card'}
-                onClose={() => setShowEditModal(false)}
+                onClose={() => setShowQuestionModal(false)}
                 onConfirm={deleteModalQuest}
             />
-        <Cards
-            changeNumberPage={changeNumberPage}
-            cardsTotalCount={cardsTotalCount}
-            cards={cards}
-            authID={authID}
-            editCard={editCard}
-            removeCard={removeCard}
-            page={page}
-            addCard={addCard}
-        />
+            <Cards
+                changeNumberPage={changeNumberPage}
+                cardsTotalCount={cardsTotalCount}
+                cards={cards}
+                authID={authID}
+                editCard={editCard}
+                removeCard={removeCard}
+                page={page}
+                addCard={addCard}
+            />
         </div>
     )
 }

@@ -78,10 +78,12 @@ export const getCards = (data?: GetDataType,) => async (dispatch: AppDispatch, g
     }
 }
 
-export const postCard = (data?: PostCardData): ThunkActionType => async dispatch => {
+export const postCard = (data?: PostCardData, pack_ID?: string): ThunkActionType => async dispatch => {
     try{
-        await CardsAPI.postCard(data,)
-        await dispatch(getCards())
+        await CardsAPI.postCard(data)
+        await dispatch(getCards({
+            cardsPack_id: pack_ID
+        }))
         dispatch(setAppErrorAC(''))
     }catch (e){
         dispatch(setStatusAppAC('failed'));
