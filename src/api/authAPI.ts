@@ -52,3 +52,7 @@ export type updateUserInfoDataType = {
     avatar?: string
 }
 
+type RegData = {
+    email: string
+    password: string
+}

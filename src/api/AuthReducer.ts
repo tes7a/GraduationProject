@@ -3,7 +3,7 @@ import {authAPI, LoginUserInfo, updateUserInfoDataType} from './authAPI';
 import {setAppErrorAC, setInitialized, setStatusAppAC} from "../app/app-reducer";
 import {ThunkActionType} from "../app/store";
 
-type initialStateType = {
+export type initialStateType = {
     isLoggedIn: boolean
     user: LoginUserInfo
     error: string,
