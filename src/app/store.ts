@@ -10,7 +10,7 @@ import {
 import {AuthReducer, AuthReducerActionsType} from "../api/AuthReducer";
 import {PacksReducer, PacksReducerActionsType} from "../faetures/packs/PacksReducer";
 import {searchReducer, SearchReducerActionsType} from "../faetures/search/search-reducer";
-import {searchPackReducer, SearchParckReducerActionsType} from "../faetures/search/search-pack-reducer";
+import {searchPackReducer, SearchPackReducerActionsType} from "../faetures/search/search-pack-reducer";
 import {ActionsCardsType, CardsReducers } from "../faetures/cards/cards-reducer";
 import {learningProcessReducer} from "../faetures/learning-process/learrning-process-reducer";
 
@@ -39,7 +39,7 @@ export type AppRootActionsType = AppReducerActionsType
     | PacksReducerActionsType
     | RegistrationReducerActionsType
     | SearchReducerActionsType
-    | SearchParckReducerActionsType
+    | SearchPackReducerActionsType
     | ActionsCardsType;
 
 export type ThunkActionType = ThunkAction<void, AppRootStateType, unknown, AppRootActionsType>;
