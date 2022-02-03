@@ -34,7 +34,7 @@ export const CardsReducers = (state = initialCardsState, action: ActionsCardsTyp
         case "cards/CURRENT-PACK-ID":
             return {...state, currentCardsPackID: action.id}
         case "cards/COUNT-ON-PAGE":
-            return {...state, pageCount: action.count}
+            return {...state, page: action.count}
         case "cards/MIN-MAX-GRADE":
             return {...state, minGrade: action.values[0], maxGrade: action.values[1]}
         case "cards/SORT-CARDS":

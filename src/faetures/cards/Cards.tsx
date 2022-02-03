@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import {Card, CardsAPI} from "../../api/cards.API";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
+import SuperSelect from "../../components/SuperSelect/SuperSelect";
 import {MyPagination} from "../../hooks/MyPagination";
 import {Sort} from "../../utils/Sort";
 import {CardComponent} from "./CardComponent";
@@ -19,6 +20,9 @@ type CardsType = {
     changeNumberPage: (value: number) => void,
     addCard: (value: boolean) => void,
     sortCardsMethod: string | undefined,
+    pageCount: number,
+    changePageCount: (value: number) => void,
+    options: number[]
 }
 
 export const Cards: React.FC<CardsType> = (
@@ -32,7 +36,10 @@ export const Cards: React.FC<CardsType> = (
         changeNumberPage,
         addCard,
         sortCallBack,
-        sortCardsMethod
+        sortCardsMethod,
+        pageCount,
+        changePageCount,
+        options
     }
 ) => {
     return (
@@ -53,10 +60,9 @@ export const Cards: React.FC<CardsType> = (
                     </td>
                     <td><Sort name={'answer'} sortMethod={sortCardsMethod} sortCallback={sortCallBack}>Answer</Sort>
                     </td>
-                    <td><Sort name={'grade'} sortMethod={sortCardsMethod} sortCallback={sortCallBack}>Grade</Sort></td>
                     <td><Sort name={'updated'} sortMethod={sortCardsMethod} sortCallback={sortCallBack}>Update</Sort>
                     </td>
-                    <td>URL</td>
+                    <td><Sort name={'grade'} sortMethod={sortCardsMethod} sortCallback={sortCallBack}>Grade</Sort></td>
                 </tr>
                 </thead>
                 <tbody>
@@ -68,7 +74,15 @@ export const Cards: React.FC<CardsType> = (
                         user_id={c.user_id} url={''}/>)}
                 </tbody>
             </table>
-            <MyPagination totalCount={cardsTotalCount} currentPage={page} onClickHandler={changeNumberPage}/>
+            <MyPagination totalCount={cardsTotalCount} currentPage={page} onClickHandler={changeNumberPage} pageCount={pageCount}/>
+            <div className={s.select}>
+                Show Cards Per Page: <SuperSelect
+                value={pageCount}
+                name='CardPerPage'
+                options={options}
+                onChangeOption={changePageCount}
+            />
+            </div>
         </div>
     )
 }

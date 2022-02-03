@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Card} from "../../api/cards.API";
 import {AppRootStateType} from "../../app/store";
 import {Cards} from "./Cards";
-import {deleteCard, getCards, intialCardsStateType, postCard, putCard, setSortCards} from "./cards-reducer";
+import {deleteCard, getCards, intialCardsStateType, postCard, putCard, setCardsCountOnPage, setSortCards} from "./cards-reducer";
 import {RequestStatusType} from "../../app/app-reducer";
 import {Spin} from "antd";
 import {Navigate, useParams} from "react-router-dom";
@@ -22,7 +22,6 @@ export const CardsContainer: React.FC = () => {
         cards,
         cardsTotalCount,
         page,
-        pageCount,
         packUserId,
         sortCardsMethod
     } = useSelector<AppRootStateType, intialCardsStateType>(state => state.cards);
@@ -33,10 +32,10 @@ export const CardsContainer: React.FC = () => {
     //any
     const dispatch = useDispatch();
     const {id} = useParams<{ id: string }>();
+    const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     //hooks
-    const [editName, setEditName] = useState('');
-    const [packId, setPackId] = useState('');
+    const [pageCount, setPageCount] = useState(10);
     const [elementName, setElementName] = useState('');
     const [answerCard, setAnswerCard] = useState('');
     const [questCard, setQuestCard] = useState('');
@@ -46,11 +45,16 @@ export const CardsContainer: React.FC = () => {
     const [showEditModal, setShowEditModal] = useState(false);
 
     //utils funcs
-    const changeNumberPage = useCallback((value: number) => {
-        dispatch((value));
-    }, [page]);
+    const changeNumberPage = (value: number) => {
+        dispatch(setCardsCountOnPage(value));
+    };
+
     const sortCallBack = (sort: string) => {
         dispatch(setSortCards(sort))
+    }
+
+    const changePageCount = (value: number) => {
+        setPageCount(+value);
     }
 
     //addCard funcs
@@ -88,6 +92,7 @@ export const CardsContainer: React.FC = () => {
                     question: questCard,
                 }
             }, id))
+        setQuestCard('');
         setShowEditModal(false);
     }
 
@@ -105,9 +110,9 @@ export const CardsContainer: React.FC = () => {
     useEffect(() => {
         if (isLoggedIn) {
             if (id)
-                dispatch(getCards({cardsPack_id: id, pageCount: 10, sortCards: sortCardsMethod}));
+                dispatch(getCards({cardsPack_id: id, page: page, sortCards: sortCardsMethod}));
         }
-    }, [dispatch, id, sortCardsMethod])
+    }, [dispatch, id, sortCardsMethod, page])
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -159,6 +164,9 @@ export const CardsContainer: React.FC = () => {
                 addCard={addCard}
                 sortCallBack={sortCallBack}
                 sortCardsMethod={sortCardsMethod}
+                pageCount={pageCount}
+                changePageCount={changePageCount}
+                options={options}
             />
         </div>
     )
