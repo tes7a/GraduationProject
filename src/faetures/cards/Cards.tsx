@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { Card, CardsAPI } from "../../api/cards.API";
+import { MyPagination } from "../../components/pagination/MyPagination";
+import { Sort } from "../../components/sort/Sort";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import SuperSelect from "../../components/SuperSelect/SuperSelect";
-import {MyPagination} from "../../hooks/MyPagination";
-import {Sort} from "../../utils/Sort";
 import {CardComponent} from "./CardComponent";
 import {postCard} from "./cards-reducer";
 import s from './Cards.module.css'

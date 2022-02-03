@@ -21,9 +21,8 @@ export const CardComponent: React.FC<CardPropsType> = ({id,editCard,removeCard,a
         <tr>
             <td>{question}</td>
             <td>{answer}</td>
-            <td>{grade}</td>
             <td>{updated}</td>
-            <td>{url}</td>
+            <td>{grade}</td>
             <td>
                 {authID === user_id &&
                 <SuperButton red onClick={() => removeCard(id)}>Delete</SuperButton>}
