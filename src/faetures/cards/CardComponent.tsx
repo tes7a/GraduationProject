@@ -6,7 +6,7 @@ import SuperButton from "../../components/SuperButton/SuperButton";
 type CardPropsType = {
     id: string
     authID: string
-    editCard: (id: string, name: string) => void
+    editCard: (cardId: string, quest: string) => void
     removeCard: (id: string) => void
     url: string
     question: string
@@ -27,8 +27,7 @@ export const CardComponent: React.FC<CardPropsType> = ({id,editCard,removeCard,a
             <td>
                 {authID === user_id &&
                 <SuperButton red onClick={() => removeCard(id)}>Delete</SuperButton>}
-                <SuperButton onClick={() => editCard(id, question)}>Edit</SuperButton>
-                <SuperButton>Learn</SuperButton>
+                <SuperButton onClick={() => editCard(id,question)}>Edit</SuperButton>
             </td>
         </tr>
     )

@@ -31,8 +31,8 @@ export const InputModal = (
                             value={value2}
                         />}
                         <div className={classes.buttonsWrapper}>
-                            <SuperButton className={classes.modalAddButton} onClick={onSave}>Save</SuperButton>
                             <SuperButton className={classes.modalCloseButton} onClick={onClose}>Close</SuperButton>
+                            <SuperButton className={classes.modalAddButton} onClick={onSave}>Save</SuperButton>
                         </div>
                     </div>
                 </div>}

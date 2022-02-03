@@ -77,7 +77,7 @@ export type PutDataType = {
     card: {
         _id: string,
         question: string,
-        comments: string
+        comments?: string
     }
 }
 

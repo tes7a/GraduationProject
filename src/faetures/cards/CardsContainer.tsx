@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Card} from "../../api/cards.API";
 import {AppRootStateType} from "../../app/store";
 import {Cards} from "./Cards";
-import {deleteCard, getCards, intialCardsStateType, postCard} from "./cards-reducer";
+import {deleteCard, getCards, intialCardsStateType, postCard, putCard, setSortCards} from "./cards-reducer";
 import {RequestStatusType} from "../../app/app-reducer";
 import {Spin} from "antd";
 import {Navigate, useParams} from "react-router-dom";
@@ -24,6 +24,7 @@ export const CardsContainer: React.FC = () => {
         page,
         pageCount,
         packUserId,
+        sortCardsMethod
     } = useSelector<AppRootStateType, intialCardsStateType>(state => state.cards);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
@@ -42,13 +43,17 @@ export const CardsContainer: React.FC = () => {
     const [cardId, setCardId] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
     const [showQuestionModal, setShowQuestionModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
 
-    //func
+    //utils funcs
     const changeNumberPage = useCallback((value: number) => {
         dispatch((value));
     }, [page]);
+    const sortCallBack = (sort: string) => {
+        dispatch(setSortCards(sort))
+    }
 
-    //addCard Funcs
+    //addCard funcs
     const addCard = () => {
         setShowAddModal(true)
     }
@@ -68,14 +73,25 @@ export const CardsContainer: React.FC = () => {
     const onChangeCardAnswer = (value: string) => setAnswerCard(value);
     const onChangeQuestCard = (value: string) => setQuestCard(value);
 
-    //edit card func
-    const editCard = (id: string, name: string) => {
-        setEditName(name);
-        setPackId(id);
-        setShowAddModal(true);
+    //edit card funcs
+    const editCard = (id: string, quest: string) => {
+        setCardId(id);
+        setQuestCard(quest)
+        setShowEditModal(true);
     };
 
-    //delete crads func
+    const editCardModal = () => {
+        if(id)
+            dispatch(putCard({
+                card:{
+                    _id: cardId,
+                    question: questCard,
+                }
+            }, id))
+        setShowEditModal(false);
+    }
+
+    //delete crad funcs
     const removeCard = (cardId: string) => {
         setCardId(cardId);
         setShowQuestionModal(true)
@@ -89,9 +105,9 @@ export const CardsContainer: React.FC = () => {
     useEffect(() => {
         if (isLoggedIn) {
             if (id)
-                dispatch(getCards({cardsPack_id: id, pageCount: 10}));
+                dispatch(getCards({cardsPack_id: id, pageCount: 10, sortCards: sortCardsMethod}));
         }
-    }, [dispatch, id])
+    }, [dispatch, id, sortCardsMethod])
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -115,6 +131,16 @@ export const CardsContainer: React.FC = () => {
                 onSave={addCardModal}
                 question='Card Question'
             />
+            <InputModal
+                modalName='Edit Card'
+                name='Edit Card'
+                placeholder='Edit Card'
+                value={questCard}
+                show={showEditModal}
+                onChange={onChangeQuestCard}
+                onClose={() => setShowEditModal(false)}
+                onSave={editCardModal}
+            />
             <DeleteModal
                 show={showQuestionModal}
                 elementName={elementName}
@@ -131,6 +157,8 @@ export const CardsContainer: React.FC = () => {
                 removeCard={removeCard}
                 page={page}
                 addCard={addCard}
+                sortCallBack={sortCallBack}
+                sortCardsMethod={sortCardsMethod}
             />
         </div>
     )

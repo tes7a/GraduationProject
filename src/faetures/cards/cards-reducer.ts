@@ -102,10 +102,12 @@ export const deleteCard = (id: string, pack_ID: string): ThunkActionType => asyn
    }
 }
 
-export const putCard = (data: PutDataType): ThunkActionType => async dispatch => {
+export const putCard = (data: PutDataType, pack_ID: string): ThunkActionType => async dispatch => {
     try {
         await CardsAPI.putCard(data)
-        await dispatch(getCards())
+        await dispatch(getCards({
+            cardsPack_id: pack_ID
+        }))
         dispatch(setAppErrorAC(''))
     }catch (e) {
         dispatch(setStatusAppAC('failed'));
