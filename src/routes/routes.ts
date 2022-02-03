@@ -14,7 +14,7 @@ import { CardsContainer } from "../faetures/cards/CardsContainer";
 
 export const PATH = {
     ERROR: '/404',
-    PROFILE: '/',
+    PROFILE: '/profile',
     LOGIN: '/login',
     REGISTRATION: '/registration',
     FORGOT_PASSWORD: '/forgot-password',
