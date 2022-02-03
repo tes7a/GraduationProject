@@ -13,13 +13,6 @@ import {getRandomCard} from "../../utils/randomCard";
 import {Spin} from "antd";
 
 export const LearningProcess = () => {
-    const dispatch = useDispatch();
-    const {id} = useParams<"id">();
-    const getPackCardsById = (id: string | undefined) => (state: AppRootStateType) => {
-        return state.cards.cards.filter(({ cardsPack_id }) => cardsPack_id === id);
-    };
-    const cards = useSelector<AppRootStateType, any>(getPackCardsById(id));
-    const [selectedCard, setSelectedCard] = useState<Card | null>(null);
     const gradeValues = new Map<string, number>([
         ['Did not know', 1],
         ['Forgot', 2],
@@ -28,8 +21,17 @@ export const LearningProcess = () => {
         ['Knew the answer', 5],
     ]);
     const arrayOptionsGrade = Array.from( gradeValues.keys());
+    const getPackCardsById = (id: string | undefined) => (state: AppRootStateType) => {
+        return state.cards.cards.filter(({ cardsPack_id }) => cardsPack_id === id);
+    };
+
+    const dispatch = useDispatch();
+    const {id} = useParams<"id">();
+    const cards = useSelector<AppRootStateType, any>(getPackCardsById(id));
+    const [selectedCard, setSelectedCard] = useState<Card | null>(null);
     const [optionGradeValue, onChangeOptionGradeValue] = useState(arrayOptionsGrade[1]);
     const [isShowAnswer, setIsShowAnswer] = useState(false);
+
     const optionNumeralGrade = gradeValues.get(optionGradeValue);
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -50,9 +52,13 @@ export const LearningProcess = () => {
 
     useEffect(() => {
         dispatch(getCards({cardsPack_id: id}));
-        setSelectedCard(getRandomCard(cards));
     }, []);
 
+    useEffect(() => {
+        setSelectedCard(getRandomCard(cards));
+    }, [cards]);
+
+    
     if (!selectedCard) {
         return <Spin size={'large'} tip="Loading..."/>;
     }
