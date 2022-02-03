@@ -43,6 +43,7 @@ export type AppRootActionsType = AppReducerActionsType
     | ActionsCardsType;
 
 export type ThunkActionType = ThunkAction<void, AppRootStateType, unknown, AppRootActionsType>;
+export type AppDispatch = typeof store.dispatch;
 
 // @ts-ignore
 window.store = store;

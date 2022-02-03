@@ -15,7 +15,7 @@ import {LearningProcess} from "../faetures/learning-process/LearningProcess";
 
 export const PATH = {
     ERROR: '/404',
-    PROFILE: '/',
+    PROFILE: '/profile',
     LOGIN: '/login',
     REGISTRATION: '/registration',
     FORGOT_PASSWORD: '/forgot-password',

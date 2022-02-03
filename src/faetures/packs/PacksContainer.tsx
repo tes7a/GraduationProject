@@ -120,7 +120,7 @@ export const PacksContainer = () => {
                 dispatch(getPacksTC({currentPage, sortType, pageCount, min, max}));
             }
         }
-    }, [dispatch, showMyPacksPage, isLoggedIn, currentPage, sortType, pageCount, min, max]);
+    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max]);
 
 
     const onChangePackNameHandler = (value: string) => setCardName(value);

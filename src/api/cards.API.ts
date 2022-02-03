@@ -3,20 +3,21 @@ import {instance} from "./authAPI";
 
 //dal
 export const CardsAPI = {
-    getCards(data: GetDataType) {
+    getCards(data?: GetDataType) {
         return instance.get<CardsResp>(`/cards/card`, {params: data})
     },
-    postCard(data: PostCardData) {
-        return instance.post<PostCardData, AxiosResponse<Card>>('/cards/card', {data})
+    postCard(data?: PostCardData) {
+        return instance.post<PostCardData, AxiosResponse<Card>>('/cards/card', data)
     },
     deleteCard(id: string) {
-        return instance.delete<Card>('/cards/card', {params: id})
+        console.log(id,'ID')
+        return instance.delete<Card>(`/cards/card?id=${id}`)
     },
     putCard(data: PutDataType) {
-        return instance.put<PutDataType, AxiosResponse<Card>>('/cards/card', {data})
+        return instance.put<PutDataType, AxiosResponse<Card>>('/cards/card', data)
     },
-    grade(grade: number,card_id: string) {
-        return instance.put<GradeData, AxiosResponse<GradeResponse>>('/cards/grade', {grade,card_id})
+    grade(data: GradeData) {
+        return instance.put<GradeData, AxiosResponse<GradeResponse>>('/cards/grade', data)
     }
 }
 
@@ -76,12 +77,13 @@ export type PutDataType = {
     card: {
         _id: string,
         question: string,
-        comments: string
+        comments?: string
     }
 }
 
 export type GradeData = {
-
+    grade: number,
+    card_id: string
 }
 
 export type GradeResponse = {

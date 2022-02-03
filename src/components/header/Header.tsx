@@ -5,14 +5,15 @@ import {RequestStatusType} from "../../app/app-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
 import {PATH} from "../../routes/routes";
+import {UnorderedListOutlined, UserOutlined} from "@ant-design/icons";
 
 export const Header = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
     const url = useLocation().pathname;
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
     const links = [
-        {path:PATH.PROFILE,name:'Profile'},
-        {path:PATH.PACKS,name:'Packs'}
+        {path: PATH.PROFILE, name: 'Profile', component:<UserOutlined />},
+        {path: PATH.PACKS, name: 'Packs', component: <UnorderedListOutlined />}
     ]
 
     if (!isLoggedIn) {
@@ -30,10 +31,10 @@ export const Header = () => {
                             className={`${s.headerLink} ${url === `${l.path}` ? `${s.active}` : ''}`}
                             to={l.path}
                         >
-                            {l.name}
+                            <div className={s.headerIcon}>{l.component}</div>{l.name}
                         </NavLink>
                         : <div key={l.name + i}
-                               className={`${s.headerLink} ${s.headerDiv} ${url === `${l.path}` ? `${s.active}` : ''}`}>{l.name}</div>)
+                               className={`${s.headerLink} ${s.headerDiv} ${url === `${l.path}` ? `${s.active}` : ''}`}><div className={s.headerIcon}>{l.component}</div>{l.name}</div>)
                 }
             </nav>
         </div>
