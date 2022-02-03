@@ -3,15 +3,17 @@ import {PackDataType} from "../../api/packsAPI";
 import {Pack} from "./Pack";
 import s from './../../style/Packs.module.css';
 import SuperButton from "../../components/SuperButton/SuperButton";
-import {MyPagination} from "../../hooks/MyPagination";
-import {Sort} from "../../utils/Sort";
+import {MyPagination} from "../../components/pagination/MyPagination";
+import {Sort} from "../../components/sort/Sort";
 import {SearchPack} from "../search/SearchPack";
-import {Link} from "react-router-dom";
-import {Slider, Spin} from "antd";
+import {Spin} from "antd";
 import SuperSelect from "../../components/SuperSelect/SuperSelect";
 import {RequestStatusType} from "../../app/app-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
+import {Navigate} from "react-router-dom";
+import {PATH} from "../../routes/routes";
+import {DeleteModal} from "../../components/modals/DeleteModal";
 
 
 export const Packs = React.memo(function (
@@ -37,14 +39,20 @@ export const Packs = React.memo(function (
         changeRangeValue,
         rangeValue,
         searchPacks,
+        changeShowDeleteModal,
         ...props
     }: PacksPropsType
 ) {
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
+    const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
 
 
     if (status === 'loading') {
         return <Spin size={'large'} tip="Loading..."/>
+    }
+
+    if (!isLoggedIn) {
+        return <Navigate to={PATH.LOGIN}/>
     }
 
     return (
@@ -61,6 +69,7 @@ export const Packs = React.memo(function (
             </div>
             <div className={s.packsMain}>
                 <h3 className={s.packsMainTitle}>Cards Packs list</h3>
+                <SuperButton className={s.addPackButton} onClick={addPacks}>+ Add new pack</SuperButton>
                 <table className={s.table}>
                     <thead className={s.thead}>
                     <tr>
@@ -75,12 +84,20 @@ export const Packs = React.memo(function (
                     </tr>
                     </thead>
                     <tbody className={s.tbody}>
-                    {packs.map(m => <Pack key={m._id} pack={m} authID={authID} editHandler={editHandler}
-                                          removePack={removePack}/>)}
+                    {packs.map(m => <Pack
+                        key={m._id}
+                        changeShowDeleteModal={changeShowDeleteModal}
+                        pack={m}
+                        authID={authID}
+                        editHandler={editHandler}
+                        removePack={removePack}
+                    />)
+                    }
                     </tbody>
                 </table>
                 <div className={s.navigationBlock}>
-                    <MyPagination totalCount={totalCount} currentPage={currentPage} onClickHandler={changeNumberPage}/>
+                    <MyPagination totalCount={totalCount} currentPage={currentPage} onClickHandler={changeNumberPage}
+                                  pageCount={pageCount}/>
                     <div className={s.select}>
                         Show Cards Per Page: <SuperSelect
                         value={pageCount}
@@ -118,4 +135,5 @@ type PacksPropsType = {
     changeRangeValue: (value: [number, number]) => void
     rangeValue: [number, number]
     searchPacks: () => void
+    changeShowDeleteModal: (name: string, id: string) => void
 }

@@ -25,6 +25,11 @@
     align-items: center;
 }
 
+.headerIcon{
+    font-size: 25px;
+    margin-right: 10px;
+}
+
 .headerLink{
     display: flex;
     justify-content: center;
@@ -47,4 +52,19 @@
     background:#DCCCDB;
     color:#2D2E46;
     border-bottom: 3px solid #2D2E46;
+}
+
+.headerDiv.active:hover{
+    background:#DCCCDB;
+    color:#2D2E46;
+}
+
+.headerDiv{
+    cursor:wait;
+    opacity: .7;
+}
+
+.headerDiv:hover{
+    background: #EBE0E9;
+    color:#2D2E46;
 }
