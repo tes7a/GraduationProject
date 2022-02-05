@@ -8,6 +8,7 @@ import SuperSelect from "../../components/SuperSelect/SuperSelect";
 import {CardComponent} from "./CardComponent";
 import {postCard} from "./cards-reducer";
 import s from './Cards.module.css'
+import st from './CardsContainer.module.css'
 
 type CardsType = {
     cards: Card[],
@@ -43,12 +44,12 @@ export const Cards: React.FC<CardsType> = (
     }
 ) => {
     return (
-        <div>
+        <div className={s.wrap}>
+            <h2 className={s.headline}>Cards Pack list</h2>
             <div>
+                <SuperInputText className={s.search}/>
             </div>
-            <h2>Cards Pack list</h2>
-            <div>
-                <SuperInputText/>
+            <div className={s.addCard}>
                 <SuperButton onClick={() => addCard(true)}>
                     Add new Card
                 </SuperButton>

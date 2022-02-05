@@ -6,8 +6,53 @@
     background: #78c3f8;
 }
 
-
 .thead{
     background: red;
     border-bottom: 1px solid #000;
+}
+
+.wrap{
+    position: absolute;
+    width: 1008px;
+    height: 635px;
+    left: 136px;
+    top: 84px;
+
+    background: #FEFEFF;
+    border-radius: 8px;
+}
+
+.headline{
+    position: absolute;
+    width: 128px;
+    height: 33px;
+    left: 10px;
+
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 33px;
+
+
+    color: #2D2E46;
+}
+
+.search{
+    position: absolute;
+    left: 12.5%;
+    right: 12.5%;
+    top: 19.72%;
+    bottom: 75.73%;
+
+    background: #ECECF9;
+    opacity: 0.5;
+    border: 1px solid #635D80;
+    box-sizing: border-box;
+    border-radius: 2px;
+}
+
+.addCard{
+    display: flex;
+    justify-content: end;
 }
