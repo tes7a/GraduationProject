@@ -25,7 +25,7 @@ export const ProfileContainer = () => {
     const onChangeAvatar = (file: string | ArrayBuffer | null) => {
         setAvatar(file);
     }
-    
+
     const changeEditMode = () => {
         setEditMode(!editMode);
     }
