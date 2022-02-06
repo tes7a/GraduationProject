@@ -3,8 +3,8 @@ import axios, {AxiosResponse} from "axios"
 //const DEV_VERSION = false;
 //! DEV_VERSION ? "http://localhost:7542/2.0/" : "https://neko-back.herokuapp.com/2.0/";
 export const instance = axios.create({
-    // baseURL: "http://localhost:7542/2.0/",
-       baseURL: "https://neko-back.herokuapp.com/2.0/", 
+    baseURL: "http://localhost:7542/2.0/",
+       // baseURL: "https://neko-back.herokuapp.com/2.0/",
        withCredentials: true,
     }
 )
@@ -50,7 +50,7 @@ export type responseUpdateUserInfoType = {
 
 export type updateUserInfoDataType = {
     name?: string
-    avatar?: string
+    avatar?: string | ArrayBuffer | null
 }
 
 type RegData = {
