@@ -8,11 +8,7 @@ import {deleteCard, getCards, intialCardsStateType, postCard, putCard, setCardsC
 import {RequestStatusType} from "../../app/app-reducer";
 import {Spin} from "antd";
 import {Navigate, useParams} from "react-router-dom";
-import {useCallback} from "react";
 import {PATH} from "../../routes/routes";
-import SuperButton from "../../components/SuperButton/SuperButton";
-import {initialStateType} from "../../api/AuthReducer";
-import {CardComponent} from "./CardComponent";
 import {DeleteModal} from "../../components/modals/DeleteModal";
 import {InputModal} from "../../components/modals/InputModal";
 
@@ -73,7 +69,7 @@ export const CardsContainer: React.FC = () => {
         }, id))
         setShowAddModal(false);
         setAnswerCard('');
-        setQuestCard('')
+        setQuestCard('');
     };
     const onChangeCardAnswer = (value: string) => setAnswerCard(value);
     const onChangeQuestCard = (value: string) => setQuestCard(value);
@@ -125,7 +121,7 @@ export const CardsContainer: React.FC = () => {
     return (
         <div>
             <InputModal
-                modalName='Add new Card'
+                modalName='+Add New Card'
                 name='addCard'
                 placeholder='Card Answer'
                 value={answerCard}
