@@ -4,6 +4,7 @@ import {instance} from "./authAPI";
 //dal
 export const CardsAPI = {
     getCards(data?: GetDataType) {
+        debugger;
         return instance.get<CardsResp>(`/cards/card`, {params: data})
     },
     postCard(data?: PostCardData) {

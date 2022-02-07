@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Navigate} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 import {Card, CardsAPI} from "../../api/cards.API";
 import {MyPagination} from "../../components/pagination/MyPagination";
 import {Sort} from "../../components/sort/Sort";
@@ -26,7 +26,8 @@ type CardsType = {
     sortCardsMethod: string | undefined,
     pageCount: number,
     changePageCount: (value: number) => void,
-    options: number[]
+    options: number[],
+    navigate: (value: string) => void
 }
 
 export const Cards: React.FC<CardsType> = (
@@ -43,12 +44,15 @@ export const Cards: React.FC<CardsType> = (
         sortCardsMethod,
         pageCount,
         changePageCount,
-        options
+        options,
+        navigate
     }
 ) => {
+
+
     return (
         <div className={s.cards}>
-            <img src={vector} className={s.vector} onClick={() => <Navigate to={PATH.PACKS}/>}/>
+            <img src={vector} className={s.vector} onClick={() => navigate(PATH.PACKS)}/>
             <h3 className={s.cardsTitle}>Cards List</h3>
             <div className={s.btnHover}>
                 <SuperButton className={s.addCard} onClick={() => addCard(true)}>
