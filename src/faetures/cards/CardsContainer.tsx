@@ -7,12 +7,8 @@ import {Cards} from "./Cards";
 import {deleteCard, getCards, intialCardsStateType, postCard, putCard, setCardsCountOnPage, setSortCards} from "./cards-reducer";
 import {RequestStatusType} from "../../app/app-reducer";
 import {Spin} from "antd";
-import {Navigate, useParams} from "react-router-dom";
-import {useCallback} from "react";
+import {Navigate, useNavigate, useParams} from "react-router-dom";
 import {PATH} from "../../routes/routes";
-import SuperButton from "../../components/SuperButton/SuperButton";
-import {initialStateType} from "../../api/AuthReducer";
-import {CardComponent} from "./CardComponent";
 import {DeleteModal} from "../../components/modals/DeleteModal";
 import {InputModal} from "../../components/modals/InputModal";
 
@@ -31,6 +27,7 @@ export const CardsContainer: React.FC = () => {
     const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
 
     //any
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const {id} = useParams<{ id: string }>();
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -73,7 +70,7 @@ export const CardsContainer: React.FC = () => {
         }, id))
         setShowAddModal(false);
         setAnswerCard('');
-        setQuestCard('')
+        setQuestCard('');
     };
     const onChangeCardAnswer = (value: string) => setAnswerCard(value);
     const onChangeQuestCard = (value: string) => setQuestCard(value);
@@ -111,9 +108,9 @@ export const CardsContainer: React.FC = () => {
     useEffect(() => {
         if (isLoggedIn) {
             if (id)
-                dispatch(getCards({cardsPack_id: id, page: page, sortCards: sortCardsMethod}));
+                dispatch(getCards({cardsPack_id: id, page: page, sortCards: sortCardsMethod, pageCount: pageCount}));
         }
-    }, [dispatch, id, sortCardsMethod, page])
+    }, [dispatch, id, sortCardsMethod, page, pageCount])
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -125,7 +122,7 @@ export const CardsContainer: React.FC = () => {
     return (
         <div>
             <InputModal
-                modalName='Add new Card'
+                modalName='+Add New Card'
                 name='addCard'
                 placeholder='Card Answer'
                 value={answerCard}
@@ -155,6 +152,7 @@ export const CardsContainer: React.FC = () => {
                 onConfirm={deleteModalQuest}
             />
             <Cards
+                navigate={navigate}
                 changeNumberPage={changeNumberPage}
                 cardsTotalCount={cardsTotalCount}
                 cards={cards}
