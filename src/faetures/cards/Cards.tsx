@@ -1,10 +1,12 @@
 import React, {useEffect} from "react";
+import {Navigate} from "react-router-dom";
 import {Card, CardsAPI} from "../../api/cards.API";
 import {MyPagination} from "../../components/pagination/MyPagination";
 import {Sort} from "../../components/sort/Sort";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import SuperSelect from "../../components/SuperSelect/SuperSelect";
+import { PATH } from "../../routes/routes";
 import {CardComponent} from "./CardComponent";
 import {postCard} from "./cards-reducer";
 import s from './Cards.module.css'
@@ -46,7 +48,7 @@ export const Cards: React.FC<CardsType> = (
 ) => {
     return (
         <div className={s.cards}>
-            <img src={vector} className={s.vector}/>
+            <img src={vector} className={s.vector} onClick={() => <Navigate to={PATH.PACKS}/>}/>
             <h3 className={s.cardsTitle}>Cards List</h3>
             <div className={s.btnHover}>
                 <SuperButton className={s.addCard} onClick={() => addCard(true)}>

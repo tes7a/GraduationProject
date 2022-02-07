@@ -91,6 +91,8 @@
     flex-direction: row;
     margin-top: 15px;
     margin-left: 15px;
+    background: url('magnifyingGlass.svg') no-repeat 3px 1px;
+    background-size: auto 90%;
 }
 
 .addCard{
