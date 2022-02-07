@@ -82,8 +82,10 @@
     color: #2D2E46;
     background: #ECECF9;
     border: 1px solid #635D80;
-    padding: 0 5px;
+    padding: 0px 5px 0px 34px;
     transition: .3s;
+    background: url('magnifyingGlass.svg') no-repeat 3px 1px;
+    background-size: auto 75%;
 }
 
 .btnHover{
@@ -91,8 +93,6 @@
     flex-direction: row;
     margin-top: 15px;
     margin-left: 15px;
-    background: url('magnifyingGlass.svg') no-repeat 3px 1px;
-    background-size: auto 90%;
 }
 
 .addCard{
@@ -150,8 +150,18 @@
 }
 
 .vector{
-    width: 22px;
-    height: 22px;
-    left: 166px;
-    top: 116px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 19px;
+    cursor: pointer;
+}
+
+.hoverImg{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }

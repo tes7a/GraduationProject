@@ -52,8 +52,10 @@ export const Cards: React.FC<CardsType> = (
 
     return (
         <div className={s.cards}>
-            <img src={vector} className={s.vector} onClick={() => navigate(PATH.PACKS)}/>
-            <h3 className={s.cardsTitle}>Cards List</h3>
+            <div className={s.hoverImg}>
+                <img src={vector} className={s.vector} onClick={() => navigate(PATH.PACKS)}/>
+                <h3 className={s.cardsTitle}>Cards List</h3>
+            </div>
             <div className={s.btnHover}>
                 <SuperButton className={s.addCard} onClick={() => addCard(true)}>
                     + Add New Card
