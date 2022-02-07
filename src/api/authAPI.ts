@@ -50,7 +50,7 @@ export type responseUpdateUserInfoType = {
 
 export type updateUserInfoDataType = {
     name?: string
-    avatar?: string
+    avatar?: string | ArrayBuffer | null
 }
 
 type RegData = {
