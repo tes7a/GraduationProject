@@ -11,6 +11,7 @@ import { ProfileContainer } from "../faetures/profile/ProfileContainer";
 import {PacksContainer} from "../faetures/packs/PacksContainer";
 import { Search } from "../faetures/search/Search";
 import { CardsContainer } from "../faetures/cards/CardsContainer";
+import {LearningProcess} from "../faetures/learning-process/LearningProcess";
 
 export const PATH = {
     ERROR: '/404',

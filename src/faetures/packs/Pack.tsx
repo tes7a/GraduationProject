@@ -36,6 +36,11 @@ export const Pack: React.FC<PackPropsType> = (
                                  onClick={() => editHandler(pack._id, pack.name)}>Edit</SuperButton>}
                 <SuperButton className={s.packsButton}
                              onClick={() => navigate('/cards/' + pack._id)}>Cards</SuperButton>
+                {pack.cardsCount !==0 &&
+                    <SuperButton className={s.packsButton}
+                             onClick={() => navigate('/learning-process/' + pack._id)}>Learn</SuperButton>
+                }
+
             </td>
         </tr>
     )

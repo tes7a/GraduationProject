@@ -12,6 +12,7 @@ import {PacksReducer, PacksReducerActionsType} from "../faetures/packs/PacksRedu
 import {searchReducer, SearchReducerActionsType} from "../faetures/search/search-reducer";
 import {searchPackReducer, SearchParckReducerActionsType} from "../faetures/search/search-pack-reducer";
 import {ActionsCardsType, CardsReducers } from "../faetures/cards/cards-reducer";
+import {learningProcessReducer} from "../faetures/learning-process/learrning-process-reducer";
 
 
 const rootReducer = combineReducers({
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
     packs:PacksReducer,
     searchReducer: searchReducer,
     searchPackReducer: searchPackReducer,
-    cards: CardsReducers
+    cards: CardsReducers,
+    learningProcessReducer: learningProcessReducer,
 });
 
 

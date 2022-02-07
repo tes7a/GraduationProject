@@ -17,6 +17,7 @@ import {ErrorModal} from "../components/modals/ErrorModal";
 import {Err404} from "../utils/Err404";
 import {LogoutOutlined} from "@ant-design/icons";
 import SuperButton from "../components/SuperButton/SuperButton";
+import {LearningProcess} from "../faetures/learning-process/LearningProcess";
 
 
 export function App() {
@@ -52,6 +53,7 @@ export function App() {
                 <Routes>
                     <Route path={'/packs'} element={<PacksContainer/>}/>
                     <Route path={'/cards/:id'} element={<CardsContainer/>}/>
+                    <Route path={'/learning-process/:id'} element={<LearningProcess/>}/>
                     <Route path={'/profile'} element={<ProfileContainer/>}/>
                     <Route path={'/login'} element={<LoginContainer/>}/>
                     <Route path={'/registration'} element={<Registration/>}/>
