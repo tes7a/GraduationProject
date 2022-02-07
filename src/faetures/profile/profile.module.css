@@ -44,7 +44,7 @@
     height: 100%;
 }
 
-.photoButton{
+.photoDiv{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,13 +58,28 @@
     border:none;
     background: rgba(45,46,70,.5);
     color:#f3f3f3;
-    cursor: pointer;
     transition: .3s;
 }
 
-.photoButton:hover{
+.photoDiv:hover{
     background: rgba(45,46,70,.8);
     color:#fff;
+}
+
+.photoInput{
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    border:none;
+    opacity: 0;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    /*cursor: pointer;*/
 }
 
 .profileName{
@@ -116,12 +131,14 @@
     color:#2D2E46;
     transition: .3s;
     cursor: pointer;
+
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 
 .editButton{
     color: #9A91C8;
-    position: absolute;
-    right: 0;
 }
 
 .saveButton{
