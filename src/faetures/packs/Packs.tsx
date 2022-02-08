@@ -51,9 +51,9 @@ export const Packs = React.memo(function (
         return <Spin size={'large'} tip="Loading..."/>
     }
 
-    if (!isLoggedIn) {
-        return <Navigate to={PATH.LOGIN}/>
-    }
+    // if (!isLoggedIn) {
+    //     return <Navigate to={PATH.LOGIN}/>
+    // }
 
     return (
         <div className={s.packs}>
