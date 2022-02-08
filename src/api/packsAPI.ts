@@ -2,16 +2,17 @@ import {instance} from "./authAPI";
 import {AxiosResponse} from "axios";
 
 export const PacksAPI = {
-    getPacks(date:GetDateType) {
-        const page = date && date.currentPage ? date.currentPage : 1;
-        const pageCount = date && date.pageCount ?  date.pageCount : defaultPacksPageCount;
-        const id = date && date.id ? `user_id=${date.id}&` : '';
-        const sortType = date && date.sortType? date.sortType : '';
-        const min = date && date.min? date.min : 0;
-        const max = date && date.max? date.max : 200;
-        // console.log(`/cards/pack?${id}pageCount=${pageCount}&page=${page}&sortPacks=${sortType}&min=${min}&max=${max}`);
-        return instance.get<PacksDataType, AxiosResponse<PacksDataType>>(
-            `/cards/pack?${id}pageCount=${pageCount}&page=${page}&sortPacks=${sortType}&min=${min}&max=${max}`
+    getPacks(data: GetDateType) {
+        const page = data && data.currentPage ? data.currentPage : 1;
+        const pageCount = data && data.pageCount ? data.pageCount : defaultPacksPageCount;
+        const id = data && data.id ? `user_id=${data.id}&` : '';
+        const sortType = data && data.sortType ? data.sortType : '';
+        const min = data && data.min ? data.min : 0;
+        const max = data && data.max ? data.max : 200;
+        const packName = data && data.packName;
+
+        return instance.get<PacksDataType, AxiosResponse<PacksDataType>, GetDateType>(
+            `/cards/pack?${id}pageCount=${pageCount}&page=${page}&sortPacks=${sortType}&min=${min}&max=${max}&packName=${packName}`
         );
     },
     addPack(name: string) {
@@ -68,19 +69,20 @@ export type ResponseForAddedPackDate = {
     token: string
     tokenDeathTime: number
 }
-export type ResponseForDeletedPackDate ={
+export type ResponseForDeletedPackDate = {
     deletedCardsPack: PackDataType
     token: string
     tokenDeathTime: number
 }
 export type GetDateType = {
-    id?:string
-    currentPage?:number
-    pageCount?:number
-    page?:number
+    packName?: string
+    id?: string
+    currentPage?: number
+    pageCount?: number
+    page?: number
     sortType?: string
-    min?:number
-    max?:number
+    min?: number
+    max?: number
 }
 
 //date

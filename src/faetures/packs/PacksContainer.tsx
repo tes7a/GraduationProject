@@ -34,10 +34,11 @@ export const PacksContainer = () => {
     const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod);
     const error: string = useSelector<AppRootStateType, string>(state => state.app.error);
 
-    const searchPacks = useCallback(() => {
+    const searchPacks = useCallback((value: string) => {
         setMin(rangeValue[0]);
         setMax(rangeValue[1]);
-    }, [rangeValue, showMyPacksPage])
+        setSearchValue(value);
+    }, [rangeValue, showMyPacksPage, searchValue])
 
     const changeRangeValue = (value: [number, number]) => {
         setRangeValue(value);
@@ -114,13 +115,10 @@ export const PacksContainer = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            if (showMyPacksPage) {
-                dispatch(getPacksTC({id: authID, sortType, currentPage, pageCount, min, max}));
-            } else {
-                dispatch(getPacksTC({currentPage, sortType, pageCount, min, max}));
-            }
+            const userID = showMyPacksPage ? authID : undefined;
+            dispatch(getPacksTC({id: userID, sortType, currentPage, pageCount, min, max, packName: searchValue}));
         }
-    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max]);
+    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max, searchValue]);
 
 
     const onChangePackNameHandler = (value: string) => setCardName(value);

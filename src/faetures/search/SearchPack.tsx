@@ -1,8 +1,6 @@
-import styles from "../newPassword/NewPassword.module.css";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import React, {useState} from "react";
 import {useDebounce} from "../../hooks/useDebounce";
-import {searchCards} from "./search-reducer";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {useDispatch} from "react-redux";
 import {Slider} from "antd";
@@ -11,41 +9,72 @@ import {searchPacks} from "./search-pack-reducer";
 import s from "../../style/Packs.module.css";
 
 
-export const SearchPack = ({changeRangeValue, rangeValue, ...props}: SearchPackPropsType) => {
+export const SearchPack = (
+    {
+        changeRangeValue,
+        rangeValue,
+        searchValue,
+        onChangeSearchValue,
+        searchPacks,
+        ...props
+    }: SearchPackPropsType
+) => {
     const dispatch = useDispatch();
     const [textSearch, setTextSearch] = useState<string>("");
     const minValueRange = 0;
     const maxValueRange = 200;
     const stepRange = 1;
 
-    function valueLogging(value: any) {
-        dispatch(searchPacks(value));
+
+    // Надя
+    // function valueLogging(value: any) {
+    //     dispatch(searchPacks(value));
+    // }
+    //
+    // const debouncedFunc = useDebounce(valueLogging, 2000);
+    //
+    // const searchPackBouncing = (text: string) => {
+    //     onChangeSearchValue(text);
+    //     // setTextSearch(text);
+    //     // debouncedFunc(text);
+    // };
+    //
+    // const searchPackSend = () => {
+    //     props.searchPacks();
+    //     dispatch(searchPacks(textSearch));
+    // };
+    //
+    // const onChangeRange = (newValue: [number, number]) => {
+    //     changeRangeValue(newValue);
+    //     debouncedFunc(newValue);
+    // };
+
+    //Рома
+
+    const onChangeHandler = (value: string) => {
+        setTextSearch(value);
     }
-
-    const debouncedFunc = useDebounce(valueLogging, 2000);
-
-    const searchPackBouncing = (text: string) => {
-        setTextSearch(text);
-        debouncedFunc(text);
-    };
-
-    const searchPackSend = () => {
-        props.searchPacks();
-        dispatch(searchPacks(textSearch));
-    };
 
     const onChangeRange = (newValue: [number, number]) => {
         changeRangeValue(newValue);
-        debouncedFunc(newValue);
     };
+
+    const searchPackSend = () => {
+        searchPacks(textSearch);
+    }
 
 
     return (
         <div>
             <label className={s.packsAsideTitle} htmlFor="fieldSearch">Search</label>
             <div className={s.searchBlock}>
-                <SuperInputText className={s.searchInput} placeholder='Search' onChangeText={searchPackBouncing}
-                                id="fieldSearch"/>
+                <SuperInputText
+                    className={s.searchInput}
+                    placeholder='Search pack name'
+                    onChangeText={onChangeHandler}
+                    id="fieldSearch"
+                    value={textSearch}
+                />
             </div>
             <h3 className={s.packsAsideTitle}>Number of cards</h3>
             <div className={s.wrapSlider}>
@@ -59,7 +88,10 @@ export const SearchPack = ({changeRangeValue, rangeValue, ...props}: SearchPackP
                     onChange={onChangeRange}
                     value={rangeValue}
 
-                    handleStyle={[{background: '#9A91C8',borderColor:'#9A91C8'},{background: '#9A91C8',borderColor:'#9A91C8'}]}
+                    handleStyle={[{background: '#9A91C8', borderColor: '#9A91C8'}, {
+                        background: '#9A91C8',
+                        borderColor: '#9A91C8'
+                    }]}
                     trackStyle={[{background: '#9A91C8'}]}
                 />
 
@@ -69,7 +101,7 @@ export const SearchPack = ({changeRangeValue, rangeValue, ...props}: SearchPackP
                 </div>
 
             </div>
-            <SuperButton className={s.searchButton} onClick={searchPackSend} type="submit">Search</SuperButton>
+            <SuperButton className={s.searchButton} onClick={searchPackSend}>Search</SuperButton>
         </div>
     )
 };
@@ -77,5 +109,7 @@ export const SearchPack = ({changeRangeValue, rangeValue, ...props}: SearchPackP
 type SearchPackPropsType = {
     changeRangeValue: (value: [number, number]) => void
     rangeValue: [number, number]
-    searchPacks: () => void
+    searchPacks: (value: string) => void
+    searchValue: string
+    onChangeSearchValue: (value: string) => void
 }

@@ -44,6 +44,7 @@ export const setFoundPacksAC = (packs: PackType[]) => ({type: 'searchPack/SET-FI
 export const searchPacks = (text: any) => (dispatch: ThunkDispatch) => {
     searchAPI.searchPacks(text)
         .then(response => {
+            console.log(response.data.cardPacks);
             dispatch(setFoundPacksAC(response.data.cardPacks));
         })
         .catch(error => {
