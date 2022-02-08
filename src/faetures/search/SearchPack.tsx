@@ -20,7 +20,7 @@ export const SearchPack = (
     }: SearchPackPropsType
 ) => {
     const dispatch = useDispatch();
-    const [textSearch, setTextSearch] = useState<string>("");
+    const [textSearch, setTextSearch] = useState<string>(searchValue);
     const minValueRange = 0;
     const maxValueRange = 200;
     const stepRange = 1;
