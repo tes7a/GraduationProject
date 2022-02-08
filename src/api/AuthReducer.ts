@@ -69,9 +69,9 @@ export const profileInfoTC = () => (dispatch: Dispatch) => {
         })
 }
 export const updateUserInfoTC = (data: updateUserInfoDataType): ThunkActionType =>
-    (dispatch) => {
+    async (dispatch) => {
         dispatch(setStatusAppAC('loading'));
-        authAPI.updateUserInfo(data)
+        await authAPI.updateUserInfo(data)
             .then(res => {
                 dispatch(profileInfoTC());
                 dispatch(setAppErrorAC(''));

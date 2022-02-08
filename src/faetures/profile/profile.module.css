@@ -37,11 +37,7 @@
     width: 96px;
     height: 96px;
     border-radius: 50%;
-}
-
-.profilePhoto img{
-    width: 100%;
-    height: 100%;
+    object-fit:cover;
 }
 
 .photoDiv{
@@ -79,7 +75,6 @@
     bottom: 0;
     right: 0;
     margin: auto;
-    /*cursor: pointer;*/
 }
 
 .profileName{

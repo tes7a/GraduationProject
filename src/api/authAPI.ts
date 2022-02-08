@@ -27,7 +27,7 @@ export const authAPI = {
 
 //type
 export type LoginUserInfo = {
-    avatar?: string
+    avatar: string
     created: string
     deviceTokens: Array<any>
     email: string
