@@ -41,9 +41,9 @@ const removePackAC = (id: string) => ({type: 'packs/REMOVE-PACK', id} as const);
 export const setSortPacks = (sortMethod: string) => ({type: 'sort/SORT-PACKS', sortMethod} as const)
 
 //Thunks
-export const getPacksTC = (date: GetDateType) => (dispatch: Dispatch) => {
+export const getPacksTC = (data: GetDateType) => (dispatch: Dispatch) => {
     dispatch(setStatusAppAC('loading'));
-    PacksAPI.getPacks(date)
+    PacksAPI.getPacks(data)
         .then(res => {
             dispatch(getPacksAC(res.data.cardPacks));
             dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount));
