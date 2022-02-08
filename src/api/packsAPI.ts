@@ -15,10 +15,11 @@ export const PacksAPI = {
             `/cards/pack?${id}pageCount=${pageCount}&page=${page}&sortPacks=${sortType}&min=${min}&max=${max}&packName=${packName}`
         );
     },
-    addPack(name: string) {
+    addPack(name: string, isPrivate: boolean) {
         return instance.post<ResponseForAddedPackDate, AxiosResponse<ResponseForAddedPackDate>>("/cards/pack", {
             cardsPack: {
-                name
+                name,
+                private: isPrivate
             }
         })
     },

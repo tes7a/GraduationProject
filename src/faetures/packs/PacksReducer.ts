@@ -25,6 +25,8 @@ export const PacksReducer = (state: PacksReducerStateType = initialState, action
             return {...state, packs: state.packs.map(p => p._id === action.id ? {...p, name: action.name} : p)};
         case "sort/SORT-PACKS":
             return {...state, sortMethod: action.sortMethod}
+        case "packs/SHOW-PRIVATE-PACKS":
+            return {...state,packs:state.packs.filter(p => p.private)}
         default:
             return state;
     }
@@ -38,7 +40,8 @@ export const setPacksPageAC = (page: number) => ({type: 'packs/SET-PAGE', page} 
 const addPackAC = (pack: PackDataType) => ({type: 'packs/ADD-PACK', pack} as const);
 const changePackTitleAC = (id: string, name: string) => ({type: 'packs/CHANGE-PACK-TITLE', id, name} as const);
 const removePackAC = (id: string) => ({type: 'packs/REMOVE-PACK', id} as const);
-export const setSortPacks = (sortMethod: string) => ({type: 'sort/SORT-PACKS', sortMethod} as const)
+export const setSortPacks = (sortMethod: string) => ({type: 'sort/SORT-PACKS', sortMethod} as const);
+export const setPrivatePacksAC = () => ({type:'packs/SHOW-PRIVATE-PACKS'} as const);
 
 //Thunks
 export const getPacksTC = (data: GetDateType) => (dispatch: Dispatch) => {
@@ -62,10 +65,10 @@ export const getPacksTC = (data: GetDateType) => (dispatch: Dispatch) => {
         })
 }
 
-export const createPackTC = (value: string, showMyPacksPage: boolean, userID?: string): ThunkActionType =>
+export const createPackTC = (value: string, showMyPacksPage: boolean, isPrivate: boolean, userID?: string): ThunkActionType =>
     (dispatch) => {
         dispatch(setStatusAppAC('loading'));
-        PacksAPI.addPack(value)
+        PacksAPI.addPack(value, isPrivate)
             .then(res => {
                 if (showMyPacksPage) {
                     dispatch(getPacksTC({id: userID, currentPage: 1}));
@@ -144,5 +147,6 @@ export type PacksReducerActionsType = ReturnType<typeof getPacksAC>
     | ReturnType<typeof removePackAC>
     | ReturnType<typeof setSortPacks>
     | ReturnType<typeof setPacksPageCountAC>
+    | ReturnType<typeof setPrivatePacksAC>
     | ReturnType<typeof removePackAC>;
 

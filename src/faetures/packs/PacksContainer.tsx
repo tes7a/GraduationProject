@@ -3,13 +3,24 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../routes/routes";
-import React, {useCallback, useEffect, useState} from "react";
-import {getPacksTC, createPackTC, changePackTitleTC, removePackTC, setPacksPageAC, setSortPacks} from "./PacksReducer";
+import React, {ChangeEvent, useCallback, useEffect, useState} from "react";
+import {
+    getPacksTC,
+    createPackTC,
+    changePackTitleTC,
+    removePackTC,
+    setPacksPageAC,
+    setSortPacks,
+} from "./PacksReducer";
 import {PackDataType} from "../../api/packsAPI";
 import {InputModal} from "../../components/modals/InputModal";
 import {DeleteModal} from "../../components/modals/DeleteModal";
+import s from './../../style/Packs.module.css';
+import SuperCheckbox from "../../components/SuperCheckbox/SuperCheckbox";
+import classes from "../../style/Auth.module.css";
 
 export const PacksContainer = () => {
+    const [addPrivatePack, setAddPrivatePack] = useState(false);
     const [rangeValue, setRangeValue] = useState<[number, number]>([0, 200]);
     const [min, setMin] = useState<number>(0);
     const [max, setMax] = useState<number>(200);
@@ -33,6 +44,11 @@ export const PacksContainer = () => {
     const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
     const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod);
     const error: string = useSelector<AppRootStateType, string>(state => state.app.error);
+    const [userID, setUserID] = useState<string | undefined>(undefined);
+
+    const onChangeAddPrivatePack = (e: ChangeEvent<HTMLInputElement>) => {
+        setAddPrivatePack(e.currentTarget.checked);
+    }
 
     const searchPacks = useCallback((value: string) => {
         setMin(rangeValue[0]);
@@ -52,15 +68,15 @@ export const PacksContainer = () => {
         dispatch(setPacksPageAC(value));
     }, [currentPage]);
 
-    const getAllPacks = useCallback(() => {
+    const getAllPacks = () => {
         setShowMyPacksPage(false);
-        dispatch(getPacksTC({currentPage, pageCount}));
-    }, [currentPage, showMyPacksPage, pageCount])
+        setUserID(undefined);
+    }
 
-    const getMyPacks = useCallback(() => {
+    const getMyPacks = () => {
         setShowMyPacksPage(true);
-        dispatch(getPacksTC({id: authID, currentPage}));
-    }, [showMyPacksPage, currentPage, authID])
+        setUserID(authID);
+    }
 
     const onChangeSearchValue = (value: string) => {
         setSearchValue(value);
@@ -77,7 +93,7 @@ export const PacksContainer = () => {
     }
 
     const addPack = () => {
-        dispatch(createPackTC(cardName, showMyPacksPage, authID));
+        dispatch(createPackTC(cardName, showMyPacksPage, addPrivatePack, authID));
         setShowAddModal(false);
         setCardName('');
     }
@@ -115,10 +131,9 @@ export const PacksContainer = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            const userID = showMyPacksPage ? authID : undefined;
             dispatch(getPacksTC({id: userID, sortType, currentPage, pageCount, min, max, packName: searchValue}));
         }
-    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max, searchValue]);
+    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max, searchValue, showMyPacksPage, userID]);
 
 
     const onChangePackNameHandler = (value: string) => setCardName(value);
@@ -145,7 +160,13 @@ export const PacksContainer = () => {
                 onChange={onChangePackNameHandler}
                 onClose={closeModal}
                 onSave={addPack}
-            />
+            >
+                <div className={s.privateCheckBoxBlock}>
+                    <SuperCheckbox className={classes.authCheckBox} checked={addPrivatePack}
+                                   onChange={onChangeAddPrivatePack}>Create private pack</SuperCheckbox>
+                </div>
+
+            </InputModal>
 
             <InputModal
                 modalName='Rename pack'
