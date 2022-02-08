@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useCallback, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {authAPI, LoginUserInfo} from "../../api/authAPI";
 import {AppRootStateType} from "../../app/store";
@@ -34,16 +34,10 @@ export const ProfileContainer = () => {
         setUserName(value);
     }
 
-    const updateUserInfo = () => {
-        if (userName) {
-            dispatch(updateUserInfoTC({name: userName}));
-        }
-
-        if (avatar) {
-            dispatch(updateUserInfoTC({avatar}));
-        }
+    const updateUserInfo = useCallback(() => {
+        dispatch(updateUserInfoTC({name: userName, avatar}));
         setEditMode(false);
-    }
+    }, [userName, avatar])
 
     useEffect(() => {
         dispatch(profileInfoTC())
@@ -51,7 +45,10 @@ export const ProfileContainer = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (user) setUserName(user.name);
+        if (user) {
+            setAvatar(user.avatar);
+            setUserName(user.name);
+        }
     }, [user])
 
     if (!isLoggedIn) return <Navigate to={PATH.LOGIN}/>
