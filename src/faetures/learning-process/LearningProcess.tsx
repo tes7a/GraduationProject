@@ -21,13 +21,9 @@ export const LearningProcess = () => {
         ['Knew the answer', 5],
     ]);
     const arrayOptionsGrade = Array.from( gradeValues.keys());
-    const getPackCardsById = (id: string | undefined) => (state: AppRootStateType) => {
-        return state.cards.cards.filter(({ cardsPack_id }) => cardsPack_id === id);
-    };
-
     const dispatch = useDispatch();
     const {id} = useParams<"id">();
-    const cards = useSelector<AppRootStateType, any>(getPackCardsById(id));
+    const cards = useSelector<AppRootStateType, Card[]>(state => state.cards.cards);
     const [selectedCard, setSelectedCard] = useState<Card | null>(null);
     const [optionGradeValue, onChangeOptionGradeValue] = useState(arrayOptionsGrade[1]);
     const [isShowAnswer, setIsShowAnswer] = useState(false);
@@ -62,7 +58,6 @@ export const LearningProcess = () => {
     if (!selectedCard) {
         return <Spin size={'large'} tip="Loading..."/>;
     }
-
 
     return (
         <>
