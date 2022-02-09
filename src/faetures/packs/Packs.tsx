@@ -26,8 +26,6 @@ export const Packs = React.memo(function (
         removePack,
         packs,
         authID,
-        searchValue,
-        onChangeSearchValue,
         addPacks,
         editHandler,
         changeNumberPage,
@@ -36,9 +34,6 @@ export const Packs = React.memo(function (
         options,
         changePageCount,
         pageCount,
-        changeRangeValue,
-        rangeValue,
-        searchPacks,
         changeShowDeleteModal,
         ...props
     }: PacksPropsType
@@ -65,7 +60,7 @@ export const Packs = React.memo(function (
                     <SuperButton className={`${s.packsAsideButton} ${showMyPacksPage ? s.active : ''}`}
                                  onClick={getMyPacks}>My Packs</SuperButton>
                 </div>
-                <SearchPack searchPacks={searchPacks} rangeValue={rangeValue} changeRangeValue={changeRangeValue}/>
+                <SearchPack/>
             </div>
             <div className={s.packsMain}>
                 <h3 className={s.packsMainTitle}>Cards Packs list</h3>
@@ -118,8 +113,6 @@ type PacksPropsType = {
     getMyPacks: () => void
     packs: Array<PackDataType>
     authID: string
-    searchValue: string
-    onChangeSearchValue: (value: string) => void
     addPacks: () => void
     editHandler: (id: string, name: string) => void
     removePack: (id: string) => void
@@ -132,8 +125,5 @@ type PacksPropsType = {
     options: number[]
     changePageCount: (value: number) => void
     pageCount: number
-    changeRangeValue: (value: [number, number]) => void
-    rangeValue: [number, number]
-    searchPacks: () => void
     changeShowDeleteModal: (name: string, id: string) => void
 }
