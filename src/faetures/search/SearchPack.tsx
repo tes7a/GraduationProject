@@ -1,62 +1,48 @@
-import styles from "../newPassword/NewPassword.module.css";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import React, {useState} from "react";
 import {useDebounce} from "../../hooks/useDebounce";
-import {searchCards} from "./search-reducer";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {Slider} from "antd";
 import 'antd/dist/antd.css';
-import {searchPacks, setSoughtMinMaxCountCardsAC, setSoughtPackNameAC} from "./search-pack-reducer";
+import {setSoughtMinMaxCountCardsAC, setSoughtPackNameAC} from "./search-pack-reducer";
 import s from "../../style/Packs.module.css";
 import {AppRootStateType} from "../../app/store";
 
 
-export const SearchPack = ({changeRangeValue, rangeValue, ...props}: SearchPackPropsType) => {
+export const SearchPack = () => {
     const dispatch = useDispatch();
     const [textSearch, setTextSearch] = useState<string>("");
-    const minValueRange = 0;
-    const maxValueRange = 200;
-    // const minValueRange = useSelector<AppRootStateType, number>(state => state.searchPackReducer.minCardsCount);
-    // const maxValueRange = useSelector<AppRootStateType, number>(state => state.searchPackReducer.maxCardsCount);
+    const minValueRange = useSelector<AppRootStateType, number>(state => state.searchPack.minCardsCount);
+    const maxValueRange = useSelector<AppRootStateType, number>(state => state.searchPack.maxCardsCount);
+    const maxValuePack = useSelector<AppRootStateType, number>(state => state.packs.maxCardsCount);
+    const minValuePack = useSelector<AppRootStateType, number>(state => state.packs.minCardsCount);
     const stepRange = 1;
-    // const [valueRange, setValueRange] = useState<[number, number]>([0, 40]);
+    const [valueRange, setValueRange] = useState<[number, number]>([minValueRange, maxValueRange]);
 
-    function valueLogging(value: any) {
-        dispatch(searchPacks(value));
+    function valueInputDebounce(value: string) {
+        dispatch(setSoughtPackNameAC(value));
     }
-    // function valueRangeDebounce(value: [number, number]) {
-    //     dispatch(setSoughtMinMaxCountCardsAC(value));
-    // }
-    //
-    // function valueInputDebounce(value: string) {
-    //     dispatch(setSoughtPackNameAC(value));
-    // }
 
-    const debouncedFunc = useDebounce(valueLogging, 2000);
-    // const debouncedInputFunc = useDebounce(valueInputDebounce, 2000);
-    // const debouncedRangeFunc = useDebounce(valueRangeDebounce, 2000);
+    function valueRangeDebounce(value: [number, number]) {
+        dispatch(setSoughtMinMaxCountCardsAC(value));
+    }
+
+    const debouncedInputFunc = useDebounce(valueInputDebounce, 2000);
+    const debouncedRangeFunc = useDebounce(valueRangeDebounce, 2000);
 
     const searchPackBouncing = (text: string) => {
         setTextSearch(text);
-        debouncedFunc(text);
+        debouncedInputFunc(textSearch)
     };
 
-    const searchPackSend = () => {
-        props.searchPacks();
-        dispatch(searchPacks(textSearch));
-        // dispatch(setSoughtPackNameAC(textSearch));
+    const searchPackClick = () => {
+        dispatch(setSoughtPackNameAC(textSearch));
     };
 
     const onChangeRange = (newValue: [number, number]) => {
-        changeRangeValue(newValue);
-        debouncedFunc(newValue);
-        // setValueRange(newValue);
-        // debouncedRangeFunc(newValue);
-    };
-
-    const wrapSlider = {
-        width: "200px"
+        setValueRange(newValue);
+        debouncedRangeFunc(newValue);
     };
 
 
@@ -72,31 +58,29 @@ export const SearchPack = ({changeRangeValue, rangeValue, ...props}: SearchPackP
                 <Slider
                     range
                     className={s.range}
-                    min={minValueRange}
-                    max={maxValueRange}
-                    defaultValue={[0, 50]}
+                    min={minValuePack}
+                    max={maxValuePack}
+                    defaultValue={[minValueRange, maxValueRange]}
                     step={stepRange}
                     onChange={onChangeRange}
-                    value={rangeValue}
-                    // value={valueRange}
-
+                    value={valueRange}
                     handleStyle={[{background: '#9A91C8',borderColor:'#9A91C8'},{background: '#9A91C8',borderColor:'#9A91C8'}]}
                     trackStyle={[{background: '#9A91C8'}]}
                 />
 
                 <div className={s.minAndMaxValue}>
-                    <span>Min:{rangeValue[0]}</span>
-                    <span>Max:{rangeValue[1]}</span>
+                    <span>Min:{minValueRange}</span>
+                    <span>Max:{maxValuePack}</span>
                 </div>
 
             </div>
-            <SuperButton className={s.searchButton} onClick={searchPackSend} type="submit">Search</SuperButton>
+            <SuperButton className={s.searchButton} onClick={searchPackClick} type="submit">Search</SuperButton>
         </div>
     )
 };
 
-type SearchPackPropsType = {
-    changeRangeValue: (value: [number, number]) => void
-    rangeValue: [number, number]
-    searchPacks: () => void
-}
+// type SearchPackPropsType = {
+//     changeRangeValue: (value: [number, number]) => void
+//     rangeValue: [number, number]
+//     searchPacks: () => void
+// }
