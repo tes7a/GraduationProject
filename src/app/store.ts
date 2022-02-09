@@ -9,7 +9,7 @@ import {
 } from "../faetures/forgotPassword/forgot-password-reducer";
 import {AuthReducer, AuthReducerActionsType} from "../api/AuthReducer";
 import {PacksReducer, PacksReducerActionsType} from "../faetures/packs/PacksReducer";
-import {searchReducer, SearchReducerActionsType} from "../faetures/search/search-reducer";
+import {searchCardReducer, SearchCardReducerActionsType} from "../faetures/search/search-reducer";
 import {searchPackReducer, SearchPackReducerActionsType} from "../faetures/search/search-pack-reducer";
 import {ActionsCardsType, CardsReducers } from "../faetures/cards/cards-reducer";
 import {learningProcessReducer} from "../faetures/learning-process/learrning-process-reducer";
@@ -22,10 +22,10 @@ const rootReducer = combineReducers({
     newPassword: newPasswordReducer,
     forgotPassword: forgotPasswordReducer,
     packs:PacksReducer,
-    searchReducer: searchReducer,
-    searchPackReducer: searchPackReducer,
+    searchCard: searchCardReducer,
+    searchPack: searchPackReducer,
     cards: CardsReducers,
-    learningProcessReducer: learningProcessReducer,
+    learningProcess: learningProcessReducer,
 });
 
 
@@ -38,7 +38,7 @@ export type AppRootActionsType = AppReducerActionsType
     | NewPasswordReducerActionsType
     | PacksReducerActionsType
     | RegistrationReducerActionsType
-    | SearchReducerActionsType
+    | SearchCardReducerActionsType
     | SearchPackReducerActionsType
     | ActionsCardsType;
 
