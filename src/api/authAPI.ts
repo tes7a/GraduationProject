@@ -25,7 +25,7 @@ export const authAPI = {
     }
 }
 
-//type
+//type   //
 export type LoginUserInfo = {
     avatar?: string
     created: string
