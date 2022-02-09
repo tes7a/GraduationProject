@@ -2,16 +2,16 @@ import {instance} from "./authAPI";
 import {AxiosResponse} from "axios";
 
 export const PacksAPI = {
-    getPacks(date:GetDateType) {
+    getPacks(date: GetDateType) {
         const page = date && date.currentPage ? date.currentPage : 1;
         const pageCount = date && date.pageCount ?  date.pageCount : defaultPacksPageCount;
         const id = date && date.id ? date.id : '';
-        const sortType = date && date.sortType? date.sortType : '';
-        const packName = date && date.packName? date.packName : '';
-        const min = date && date.min? date.min : 0;
-        const max = date && date.max? date.max : 200;
+        const sortType = date && date.sortType ? date.sortType : '';
+        const min = date && date.min ? date.min : 0;
+        const max = date && date.max ? date.max : 200;
+        const packName = date && date.packName ? date.packName : '';
 
-        return instance.get<PacksDataType, AxiosResponse<PacksDataType>>(
+        return instance.get<PacksDataType, AxiosResponse<PacksDataType>, GetDateType>(
             `/cards/pack?user_id=${id}&pageCount=${pageCount}&page=${page}&sortPacks=${sortType}&min=${min}&max=${max}&packName=${packName}`
         );
     },
@@ -69,20 +69,20 @@ export type ResponseForAddedPackDate = {
     token: string
     tokenDeathTime: number
 }
-export type ResponseForDeletedPackDate ={
+export type ResponseForDeletedPackDate = {
     deletedCardsPack: PackDataType
     token: string
     tokenDeathTime: number
 }
 export type GetDateType = {
-    id?:string
-    currentPage?:number
-    pageCount?:number
-    page?:number
-    sortType?: string
-    min?:number
-    max?:number
     packName?: string
+    id?: string
+    currentPage?: number
+    pageCount?: number
+    page?: number
+    sortType?: string
+    min?: number
+    max?: number
 }
 
 //date

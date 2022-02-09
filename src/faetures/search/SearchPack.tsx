@@ -50,8 +50,13 @@ export const SearchPack = () => {
         <div>
             <label className={s.packsAsideTitle} htmlFor="fieldSearch">Search</label>
             <div className={s.searchBlock}>
-                <SuperInputText className={s.searchInput} placeholder='Search' onChangeText={searchPackBouncing}
-                                id="fieldSearch"/>
+                <SuperInputText
+                    className={s.searchInput}
+                    placeholder='Search pack name'
+                    onChangeText={searchPackBouncing}
+                    id="fieldSearch"
+                    value={textSearch}
+                />
             </div>
             <h3 className={s.packsAsideTitle}>Number of cards</h3>
             <div className={s.wrapSlider}>
@@ -64,7 +69,10 @@ export const SearchPack = () => {
                     step={stepRange}
                     onChange={onChangeRange}
                     value={valueRange}
-                    handleStyle={[{background: '#9A91C8',borderColor:'#9A91C8'},{background: '#9A91C8',borderColor:'#9A91C8'}]}
+                    handleStyle={[{background: '#9A91C8', borderColor: '#9A91C8'}, {
+                        background: '#9A91C8',
+                        borderColor: '#9A91C8'
+                    }]}
                     trackStyle={[{background: '#9A91C8'}]}
                 />
 
@@ -78,9 +86,3 @@ export const SearchPack = () => {
         </div>
     )
 };
-
-// type SearchPackPropsType = {
-//     changeRangeValue: (value: [number, number]) => void
-//     rangeValue: [number, number]
-//     searchPacks: () => void
-// }

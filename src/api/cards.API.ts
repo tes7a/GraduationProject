@@ -93,4 +93,4 @@ export type GradeResponse = {
     user_id: string
     grade: number
     shots: number
-}
+} 

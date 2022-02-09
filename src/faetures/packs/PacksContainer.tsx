@@ -103,11 +103,8 @@ export const PacksContainer = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            if (showMyPacksPage) {
-                dispatch(getPacksTC({id: authID, sortType, currentPage, pageCount, min, max, packName}));
-            } else {
-                dispatch(getPacksTC({currentPage, sortType, pageCount, min, max, packName}));
-            }
+            const userID = showMyPacksPage ? authID : undefined;
+            dispatch(getPacksTC({id: userID, sortType, currentPage, pageCount, min, max, packName}));
         }
     }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max, packName]);
 

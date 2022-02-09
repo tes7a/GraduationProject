@@ -20,8 +20,8 @@ export const DeleteModal = (
                             All cards will be excluded from this course.
                         </div>
                         <div className={classes.buttonsWrapper}>
-                            <SuperButton className={classes.modalButton} onClick={onClose}>Close</SuperButton>
                             <SuperButton className={classes.modalCloseButton} onClick={onConfirm}>Delete</SuperButton>
+                            <SuperButton className={classes.modalButton} onClick={onClose}>Close</SuperButton>
                         </div>
                     </div>
                 </div>}
