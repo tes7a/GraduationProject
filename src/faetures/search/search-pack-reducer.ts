@@ -1,5 +1,4 @@
-import {Dispatch} from "redux";
-import {getPacksAC, PacksReducerActionsType} from "../packs/PacksReducer";
+import {PacksReducerActionsType} from "../packs/PacksReducer";
 
 let initialState = {
     maxCardsCount: 0,
