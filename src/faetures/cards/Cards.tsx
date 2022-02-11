@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
-import { Card, CardsAPI } from "../../api/cards.API";
+import React, {useEffect} from "react";
+import {Link, Navigate, useNavigate} from "react-router-dom";
+import {Card, CardsAPI} from "../../api/cards.API";
+import {MyPagination} from "../../components/pagination/MyPagination";
+import {Sort} from "../../components/sort/Sort";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
 import SuperSelect from "../../components/SuperSelect/SuperSelect";
-import {MyPagination} from "../../components/pagination/MyPagination";
-import {Sort} from "../../components/sort/Sort";
+import { PATH } from "../../routes/routes";
 import {CardComponent} from "./CardComponent";
 import {postCard} from "./cards-reducer";
 import s from './Cards.module.css'
+import magnifyingGlass from './Icon.png'
+import vector from './Vector.svg'
 
 type CardsType = {
     cards: Card[],
@@ -22,7 +26,8 @@ type CardsType = {
     sortCardsMethod: string | undefined,
     pageCount: number,
     changePageCount: (value: number) => void,
-    options: number[]
+    options: number[],
+    navigate: (value: string) => void
 }
 
 export const Cards: React.FC<CardsType> = (
@@ -39,19 +44,24 @@ export const Cards: React.FC<CardsType> = (
         sortCardsMethod,
         pageCount,
         changePageCount,
-        options
+        options,
+        navigate
     }
 ) => {
+//test
     return (
-        <div>
-            <div>
+        <div className={s.cards}>
+            <div className={s.hoverImg}>
+                <img src={vector} className={s.vector} onClick={() => navigate(PATH.PACKS)}/>
+                <h3 className={s.cardsTitle}>Cards List</h3>
             </div>
-            <h2>Cards Pack list</h2>
-            <div>
-                <SuperInputText/>
-                <SuperButton onClick={() => addCard(true)}>
-                    Add new Card
+            <div className={s.btnHover}>
+                <SuperButton className={s.addCard} onClick={() => addCard(true)}>
+                    + Add New Card
                 </SuperButton>
+            </div>
+            <div>
+                <SuperInputText placeholder={'Search...'} className={s.searchCards}/>
             </div>
             <table className={s.table}>
                 <thead className={s.thead}>
@@ -63,9 +73,10 @@ export const Cards: React.FC<CardsType> = (
                     <td><Sort name={'updated'} sortMethod={sortCardsMethod} sortCallback={sortCallBack}>Update</Sort>
                     </td>
                     <td><Sort name={'grade'} sortMethod={sortCardsMethod} sortCallback={sortCallBack}>Grade</Sort></td>
+                    <td>Actions</td>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody className={s.tbody}>
                 {cards.map(c =>
                     <CardComponent
                         key={c._id} id={c._id} question={c.question}
@@ -74,14 +85,17 @@ export const Cards: React.FC<CardsType> = (
                         user_id={c.user_id} url={''}/>)}
                 </tbody>
             </table>
-            <MyPagination totalCount={cardsTotalCount} currentPage={page} onClickHandler={changeNumberPage} pageCount={pageCount}/>
-            <div className={s.select}>
-                Show Cards Per Page: <SuperSelect
-                value={pageCount}
-                name='CardPerPage'
-                options={options}
-                onChangeOption={changePageCount}
-            />
+            <div className={s.navigationBlock}>
+                <MyPagination totalCount={cardsTotalCount} currentPage={page} onClickHandler={changeNumberPage}
+                              pageCount={pageCount}/>
+                <div className={s.select}>
+                    Show Cards Per Page: <SuperSelect
+                    value={pageCount}
+                    name='CardPerPage'
+                    options={options}
+                    onChangeOption={changePageCount}
+                />
+                </div>
             </div>
         </div>
     )

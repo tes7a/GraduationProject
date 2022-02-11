@@ -10,6 +10,9 @@ import {InputModal} from "../../components/modals/InputModal";
 import {DeleteModal} from "../../components/modals/DeleteModal";
 
 export const PacksContainer = () => {
+    const [rangeValue, setRangeValue] = useState<[number, number]>([0, 200]);
+    const [min, setMin] = useState<number>(0);
+    const [max, setMax] = useState<number>(200);
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const [pageCount, setPageCount] = useState(10);
     const currentPage: number = useSelector<AppRootStateType, number>(state => state.packs.page);
@@ -29,15 +32,21 @@ export const PacksContainer = () => {
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
     const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod);
-    const min = useSelector<AppRootStateType, number>(state => state.searchPack.minCardsCount);
-    const max = useSelector<AppRootStateType, number>(state => state.searchPack.maxCardsCount);
-    const packName = useSelector<AppRootStateType, string>(state => state.searchPack.packName);
     const error: string = useSelector<AppRootStateType, string>(state => state.app.error);
 
+    const searchPacks = useCallback((value: string) => {
+        setMin(rangeValue[0]);
+        setMax(rangeValue[1]);
+        setSearchValue(value);
+    }, [rangeValue, showMyPacksPage, searchValue])
+
+    const changeRangeValue = (value: [number, number]) => {
+        setRangeValue(value);
+    }
 
     const changePageCount = (value: number) => {
         setPageCount(+value);
-    };
+    }
 
     const changeNumberPage = useCallback((value: number) => {
         dispatch(setPacksPageAC(value));
@@ -53,6 +62,9 @@ export const PacksContainer = () => {
         dispatch(getPacksTC({id: authID, currentPage}));
     }, [showMyPacksPage, currentPage, authID])
 
+    const onChangeSearchValue = (value: string) => {
+        setSearchValue(value);
+    }
 
     const addPacks = () => {
         setShowAddModal(true);
@@ -103,13 +115,10 @@ export const PacksContainer = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            if (showMyPacksPage) {
-                dispatch(getPacksTC({id: authID, sortType, currentPage, pageCount, min, max, packName}));
-            } else {
-                dispatch(getPacksTC({currentPage, sortType, pageCount, min, max, packName}));
-            }
+            const userID = showMyPacksPage ? authID : undefined;
+            dispatch(getPacksTC({id: userID, sortType, currentPage, pageCount, min, max, packName: searchValue}));
         }
-    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max, packName]);
+    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max, searchValue]);
 
 
     const onChangePackNameHandler = (value: string) => setCardName(value);
@@ -161,8 +170,10 @@ export const PacksContainer = () => {
                 sortCallback={sortCallBack}
                 sortMethod={sortType}
                 addPacks={addPacks}
+                onChangeSearchValue={onChangeSearchValue}
                 packs={packs}
                 authID={authID}
+                searchValue={searchValue}
                 editHandler={editHandler}
                 removePack={removePack}
                 totalCount={totalCount}
@@ -173,6 +184,9 @@ export const PacksContainer = () => {
                 options={options}
                 changePageCount={changePageCount}
                 pageCount={pageCount}
+                changeRangeValue={changeRangeValue}
+                rangeValue={rangeValue}
+                searchPacks={searchPacks}
                 changeShowDeleteModal={changeShowDeleteModal}
             />
         </div>
