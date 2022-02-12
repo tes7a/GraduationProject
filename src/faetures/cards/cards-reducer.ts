@@ -1,5 +1,4 @@
-import {Dispatch} from "redux";
-import {Card, CardsAPI, CardsResp, GetDataType, GradeData, PostCardData, PutDataType} from "../../api/cards.API";
+import {CardsAPI, CardsResp, GetDataType, GradeData, PostCardData, PutDataType} from "../../api/cards.API";
 import {setAppErrorAC, setStatusAppAC} from "../../app/app-reducer";
 import {AppDispatch, AppRootStateType, ThunkActionType} from "../../app/store";
 
@@ -59,6 +58,7 @@ export const setGrade = (values: number[]) => ({type: 'cards/GRADE', values} as 
 
 //thunk
 export const getCards = (data?: GetDataType,) => async (dispatch: AppDispatch, getState: () => AppRootStateType) => {
+    dispatch(setStatusAppAC('loading'));
     const cards = getState().cards
     try {
         const response = await CardsAPI.getCards({
@@ -73,54 +73,73 @@ export const getCards = (data?: GetDataType,) => async (dispatch: AppDispatch, g
         })
         dispatch(setCards(response.data))
         dispatch(setAppErrorAC(''));
-    } catch (e) {
+        dispatch(setStatusAppAC('succeeded'));
+    }catch (e) {
         dispatch(setStatusAppAC('failed'))
+    }finally {
+        dispatch(setStatusAppAC('idle'));
     }
 }
 
 export const postCard = (data?: PostCardData, pack_ID?: string): ThunkActionType => async dispatch => {
+    dispatch(setStatusAppAC('loading'));
     try{
         await CardsAPI.postCard(data)
         await dispatch(getCards({
             cardsPack_id: pack_ID
         }))
         dispatch(setAppErrorAC(''))
+        dispatch(setStatusAppAC('succeeded'));
     }catch (e){
         dispatch(setStatusAppAC('failed'));
+    }finally {
+        dispatch(setStatusAppAC('idle'));
     }
 }
 
 export const deleteCard = (id: string, pack_ID: string): ThunkActionType => async dispatch => {
+    dispatch(setStatusAppAC('loading'));
    try {
        await CardsAPI.deleteCard(id)
        await dispatch(getCards({
            cardsPack_id: pack_ID
        }))
        dispatch(setAppErrorAC(''))
+       dispatch(setStatusAppAC('succeeded'));
    }catch (e) {
        dispatch(setStatusAppAC('failed'));
+   }finally {
+       dispatch(setStatusAppAC('idle'));
    }
 }
 
 export const putCard = (data: PutDataType, pack_ID: string): ThunkActionType => async dispatch => {
+    dispatch(setStatusAppAC('loading'));
     try {
         await CardsAPI.putCard(data)
         await dispatch(getCards({
             cardsPack_id: pack_ID
         }))
         dispatch(setAppErrorAC(''))
+        dispatch(setStatusAppAC('succeeded'));
     }catch (e) {
         dispatch(setStatusAppAC('failed'));
+    }finally {
+        dispatch(setStatusAppAC('idle'));
     }
 }
 
 export const gradeCards = (data: GradeData): ThunkActionType => async dispatch => {
+    dispatch(setStatusAppAC('loading'));
     try {
         await CardsAPI.grade(data)
         await dispatch(getCards())
         dispatch(setAppErrorAC(''))
+        dispatch(setStatusAppAC('succeeded'));
     }catch (e) {
         dispatch(setStatusAppAC('failed'));
+    }finally {
+        dispatch(setStatusAppAC('idle'));
     }
 }
 //type
