@@ -39,7 +39,6 @@ export function App() {
             dispatch(setLoggedInAC(false));
         }
     }, [error])
- //сделать запрос на auth.me что бы не выбивало со страницы при перезагурзки
 
     if (!isInitialized) {
         return <div className={classes.app}/>

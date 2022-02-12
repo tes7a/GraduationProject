@@ -12,6 +12,10 @@ import {postCard} from "./cards-reducer";
 import s from './Cards.module.css'
 import magnifyingGlass from './Icon.png'
 import vector from './Vector.svg'
+import {Spin} from "antd";
+import {RequestStatusType} from "../../app/app-reducer";
+import {useSelector} from "react-redux";
+import { AppRootStateType } from "../../app/store";
 
 type CardsType = {
     cards: Card[],
@@ -30,7 +34,7 @@ type CardsType = {
     navigate: (value: string) => void
 }
 
-export const Cards: React.FC<CardsType> = (
+export const Cards: React.FC<CardsType> = React.memo((
     {
         cards,
         authID,
@@ -48,7 +52,12 @@ export const Cards: React.FC<CardsType> = (
         navigate
     }
 ) => {
-//test
+    const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
+
+    if (status === 'loading') {
+        return <Spin size={'large'} tip="Loading..."/>
+    }
+
     return (
         <div className={s.cards}>
             <div className={s.hoverImg}>
@@ -99,4 +108,4 @@ export const Cards: React.FC<CardsType> = (
             </div>
         </div>
     )
-}
+})

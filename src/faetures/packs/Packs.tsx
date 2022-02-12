@@ -44,16 +44,10 @@ export const Packs = React.memo(function (
     }: PacksPropsType
 ) {
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
-    const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
-
 
     if (status === 'loading') {
         return <Spin size={'large'} tip="Loading..."/>
     }
-
-    // if (!isLoggedIn) {
-    //     return <Navigate to={PATH.LOGIN}/>
-    // }
 
     return (
         <div className={s.packs}>
