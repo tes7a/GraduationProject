@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, KeyboardEvent} from "react";
 import {Link, Navigate, useNavigate} from "react-router-dom";
 import {Card, CardsAPI} from "../../api/cards.API";
 import {MyPagination} from "../../components/pagination/MyPagination";
@@ -31,7 +31,9 @@ type CardsType = {
     pageCount: number,
     changePageCount: (value: number) => void,
     options: number[],
-    navigate: (value: string) => void
+    navigate: (value: string) => void,
+    onChangeHandlerSearch: (value: string) => void,
+    searchCardsSend: (e: KeyboardEvent<HTMLDivElement>) => void
 }
 
 export const Cards: React.FC<CardsType> = React.memo((
@@ -49,7 +51,9 @@ export const Cards: React.FC<CardsType> = React.memo((
         pageCount,
         changePageCount,
         options,
-        navigate
+        navigate,
+        onChangeHandlerSearch,
+        searchCardsSend
     }
 ) => {
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
@@ -70,7 +74,9 @@ export const Cards: React.FC<CardsType> = React.memo((
                 </SuperButton>
             </div>
             <div>
-                <SuperInputText placeholder={'Search...'} className={s.searchCards}/>
+                <SuperInputText placeholder={'Search...'} className={s.searchCards}
+                                onChangeText={onChangeHandlerSearch} onKeyPress={searchCardsSend}
+                />
             </div>
             <table className={s.table}>
                 <thead className={s.thead}>

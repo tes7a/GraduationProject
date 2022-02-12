@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, KeyboardEvent} from "react";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Card} from "../../api/cards.API";
@@ -24,7 +24,6 @@ export const CardsContainer: React.FC = () => {
         sortCardsMethod
     } = useSelector<AppRootStateType, intialCardsStateType>(state => state.cards);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
-    const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
     const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
 
     //any
@@ -42,6 +41,9 @@ export const CardsContainer: React.FC = () => {
     const [showAddModal, setShowAddModal] = useState(false);
     const [showQuestionModal, setShowQuestionModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [textSearch, setTextSearch] = useState<string>("");
+    const [searchValue, setSearchValue] = useState('');
+    const [filteredCards, setFilteredCards] = useState<Card | any>(cards)
 
     //utils funcs
     const changeNumberPage = useCallback((value: number) => {
@@ -119,7 +121,25 @@ export const CardsContainer: React.FC = () => {
             dispatch(deleteCard(cardId, id));
         setShowQuestionModal(false)
     },[cardId,id, dispatch, setShowQuestionModal])
-    
+
+    //search
+    const searchCards = (value: string) => {
+        setSearchValue(value);
+    }
+
+    const searchCardsSend = (e: KeyboardEvent<HTMLDivElement>) => {
+        if(e.key === "Enter" && textSearch !== '') {
+            setFilteredCards(cards.filter((c: Card) => c.question.toLowerCase().includes(textSearch.toLowerCase())))
+            searchCards(textSearch);
+        } else if(e.key === "Enter" && textSearch === '') {
+            setFilteredCards(cards)
+        }
+    }
+
+    const onChangeHandlerSearch = (value: string) => {
+        setTextSearch(value);
+    }
+
     useEffect(() => {
         if (isLoggedIn) {
             if (id)
@@ -167,7 +187,7 @@ export const CardsContainer: React.FC = () => {
                 navigate={navigate}
                 changeNumberPage={changeNumberPage}
                 cardsTotalCount={cardsTotalCount}
-                cards={cards}
+                cards={filteredCards}
                 authID={authID}
                 editCard={editCard}
                 removeCard={removeCard}
@@ -178,6 +198,8 @@ export const CardsContainer: React.FC = () => {
                 pageCount={pageCount}
                 changePageCount={changePageCount}
                 options={options}
+                onChangeHandlerSearch={onChangeHandlerSearch}
+                searchCardsSend={searchCardsSend}
             />
         </div>
     )
