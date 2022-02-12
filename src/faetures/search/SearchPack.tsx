@@ -28,16 +28,18 @@ export const SearchPack = () => {
         dispatch(setSoughtMinMaxCountCardsAC(value));
     }
 
-    const debouncedInputFunc = useDebounce(valueInputDebounce, 3000);
-    const debouncedRangeFunc = useDebounce(valueRangeDebounce, 3000);
+    const [debouncedInputFunc, clearTimerInput] = useDebounce(valueInputDebounce, 2000);
+    const [debouncedRangeFunc, clearTimerRange] = useDebounce(valueRangeDebounce, 2000);
 
-    const searchPackBouncing = (text: string) => {
+    const searchPackDebounce = (text: string) => {
         setTextSearch(text);
         debouncedInputFunc(textSearch)
     };
 
     const searchPackClick = () => {
         dispatch(setSoughtPackNameAC(textSearch));
+        clearTimerRange();
+        clearTimerInput();
     };
 
     const onChangeRange = (newValue: [number, number]) => {
@@ -50,7 +52,7 @@ export const SearchPack = () => {
         <div>
             <label className={s.packsAsideTitle} htmlFor="fieldSearch">Search</label>
             <div className={s.searchBlock}>
-                <SuperInputText className={s.searchInput} placeholder='Search' onChangeText={searchPackBouncing}
+                <SuperInputText className={s.searchInput} placeholder='Search' value={textSearch} onChangeText={searchPackDebounce}
                                 id="fieldSearch"/>
             </div>
             <h3 className={s.packsAsideTitle}>Number of cards</h3>

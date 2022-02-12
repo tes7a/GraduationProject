@@ -16,22 +16,23 @@ export const Search = () => {
         dispatch(setSoughtCardQuestionAC(value));
     }
 
-    const debouncedFunc = useDebounce(valueInputDebounce, 2000);
+    const [debouncedFunc, clearTimerInput] = useDebounce(valueInputDebounce, 2000);
 
-    const searchCardBouncing = (text: string) => {
+    const searchCardDebounce = (text: string) => {
         setTextSearch(text);
         debouncedFunc(text);
     };
 
-    const searchCardSend = () => {
+    const searchCardClick = () => {
         dispatch(setSoughtCardQuestionAC(textSearch));
+        clearTimerInput();
     };
 
     return (
       <div>
           <label className={styles.labelInput} htmlFor="fieldSearch">Search</label>
-          <SuperInputText onChangeText={searchCardBouncing} id="fieldSearch"/>
-          <SuperButton onClick={searchCardSend} type="submit">Search</SuperButton>
+          <SuperInputText onChangeText={searchCardDebounce} id="fieldSearch"/>
+          <SuperButton onClick={searchCardClick} type="submit">Search</SuperButton>
       </div>
   )
 };
