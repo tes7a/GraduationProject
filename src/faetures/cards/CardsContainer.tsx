@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, KeyboardEvent} from "react";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Card} from "../../api/cards.API";
@@ -11,6 +11,7 @@ import {Navigate, useNavigate, useParams} from "react-router-dom";
 import {PATH} from "../../routes/routes";
 import {DeleteModal} from "../../components/modals/DeleteModal";
 import {InputModal} from "../../components/modals/InputModal";
+import { useCallback } from "react";
 
 
 export const CardsContainer: React.FC = () => {
@@ -23,7 +24,6 @@ export const CardsContainer: React.FC = () => {
         sortCardsMethod
     } = useSelector<AppRootStateType, intialCardsStateType>(state => state.cards);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
-    const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
     const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
 
     //any
@@ -41,25 +41,29 @@ export const CardsContainer: React.FC = () => {
     const [showAddModal, setShowAddModal] = useState(false);
     const [showQuestionModal, setShowQuestionModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [textSearch, setTextSearch] = useState<string>("");
+    const [searchValue, setSearchValue] = useState('');
+    const [filteredCards, setFilteredCards] = useState<Card | any>(cards)
 
     //utils funcs
-    const changeNumberPage = (value: number) => {
+    const changeNumberPage = useCallback((value: number) => {
         dispatch(setCardsCountOnPage(value));
-    };
+    },[dispatch]);
 
-    const sortCallBack = (sort: string) => {
+    const sortCallBack = useCallback((sort: string) => {
         dispatch(setSortCards(sort))
-    }
+    },[dispatch])
 
-    const changePageCount = (value: number) => {
+    const changePageCount = useCallback((value: number) => {
         setPageCount(+value);
-    }
+    },[setPageCount])
 
     //addCard funcs
-    const addCard = () => {
+    const addCard = useCallback(() => {
         setShowAddModal(true)
-    }
-    const addCardModal = () => {
+    },[setShowAddModal])
+
+    const addCardModal = useCallback(() => {
         if(id)
         dispatch(postCard({
             card: {
@@ -71,18 +75,25 @@ export const CardsContainer: React.FC = () => {
         setShowAddModal(false);
         setAnswerCard('');
         setQuestCard('');
-    };
-    const onChangeCardAnswer = (value: string) => setAnswerCard(value);
-    const onChangeQuestCard = (value: string) => setQuestCard(value);
+    },[id,dispatch,setShowAddModal,setAnswerCard,setQuestCard,questCard,answerCard]);
+
+    const onCloseAdd = useCallback(() => {
+        setShowAddModal(false)
+        setAnswerCard('');
+        setQuestCard('');
+    },[setShowAddModal,setAnswerCard,setQuestCard])
+
+    const onChangeCardAnswer = useCallback((value: string) => setAnswerCard(value),[setAnswerCard]);
+    const onChangeQuestCard = useCallback((value: string) => setQuestCard(value),[setQuestCard]);
 
     //edit card funcs
-    const editCard = (id: string, quest: string) => {
+    const editCard = useCallback((id: string, quest: string) => {
         setCardId(id);
         setQuestCard(quest)
         setShowEditModal(true);
-    };
+    },[setCardId,setQuestCard,setShowEditModal]);
 
-    const editCardModal = () => {
+    const editCardModal = useCallback(() => {
         if(id)
             dispatch(putCard({
                 card:{
@@ -92,19 +103,43 @@ export const CardsContainer: React.FC = () => {
             }, id))
         setQuestCard('');
         setShowEditModal(false);
-    }
+    },[id,dispatch,setQuestCard,setShowEditModal,cardId,questCard])
+
+    const onCloseEdit = useCallback(() => {
+        setQuestCard('');
+        setShowEditModal(false);
+    },[setQuestCard,setShowEditModal])
 
     //delete crad funcs
-    const removeCard = (cardId: string) => {
+    const removeCard = useCallback((cardId: string) => {
         setCardId(cardId);
         setShowQuestionModal(true)
-    };
-    const deleteModalQuest = () => {
+    },[setCardId,setShowQuestionModal]);
+
+    const deleteModalQuest = useCallback(() => {
         if (cardId !== '' && id)
             dispatch(deleteCard(cardId, id));
         setShowQuestionModal(false)
+    },[cardId,id, dispatch, setShowQuestionModal])
+
+    //search
+    const searchCards = (value: string) => {
+        setSearchValue(value);
     }
-    
+
+    const searchCardsSend = (e: KeyboardEvent<HTMLDivElement>) => {
+        if(e.key === "Enter" && textSearch !== '') {
+            setFilteredCards(cards.filter((c: Card) => c.question.toLowerCase().includes(textSearch.toLowerCase())))
+            searchCards(textSearch);
+        } else if(e.key === "Enter" && textSearch === '') {
+            setFilteredCards(cards)
+        }
+    }
+
+    const onChangeHandlerSearch = (value: string) => {
+        setTextSearch(value);
+    }
+
     useEffect(() => {
         if (isLoggedIn) {
             if (id)
@@ -114,9 +149,6 @@ export const CardsContainer: React.FC = () => {
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
-    }
-    if (status === 'loading') {
-        return <Spin size={'large'} tip="Loading..."/>
     }
 
     return (
@@ -130,7 +162,7 @@ export const CardsContainer: React.FC = () => {
                 show={showAddModal}
                 onChange={onChangeCardAnswer}
                 onChange2={onChangeQuestCard}
-                onClose={() => setShowAddModal(false)}
+                onClose={onCloseAdd}
                 onSave={addCardModal}
                 question='Card Question'
             />
@@ -141,7 +173,7 @@ export const CardsContainer: React.FC = () => {
                 value={questCard}
                 show={showEditModal}
                 onChange={onChangeQuestCard}
-                onClose={() => setShowEditModal(false)}
+                onClose={onCloseEdit}
                 onSave={editCardModal}
             />
             <DeleteModal
@@ -155,7 +187,7 @@ export const CardsContainer: React.FC = () => {
                 navigate={navigate}
                 changeNumberPage={changeNumberPage}
                 cardsTotalCount={cardsTotalCount}
-                cards={cards}
+                cards={filteredCards}
                 authID={authID}
                 editCard={editCard}
                 removeCard={removeCard}
@@ -166,6 +198,8 @@ export const CardsContainer: React.FC = () => {
                 pageCount={pageCount}
                 changePageCount={changePageCount}
                 options={options}
+                onChangeHandlerSearch={onChangeHandlerSearch}
+                searchCardsSend={searchCardsSend}
             />
         </div>
     )

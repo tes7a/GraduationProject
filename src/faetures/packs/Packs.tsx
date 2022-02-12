@@ -44,16 +44,10 @@ export const Packs = React.memo(function (
     }: PacksPropsType
 ) {
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
-    const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
-
 
     if (status === 'loading') {
         return <Spin size={'large'} tip="Loading..."/>
     }
-
-    // if (!isLoggedIn) {
-    //     return <Navigate to={PATH.LOGIN}/>
-    // }
 
     return (
         <div className={s.packs}>
@@ -65,7 +59,13 @@ export const Packs = React.memo(function (
                     <SuperButton className={`${s.packsAsideButton} ${showMyPacksPage ? s.active : ''}`}
                                  onClick={getMyPacks}>My Packs</SuperButton>
                 </div>
-                <SearchPack searchPacks={searchPacks} rangeValue={rangeValue} changeRangeValue={changeRangeValue}/>
+                <SearchPack
+                    searchValue={searchValue}
+                    searchPacks={searchPacks}
+                    rangeValue={rangeValue}
+                    changeRangeValue={changeRangeValue}
+                    onChangeSearchValue={onChangeSearchValue}
+                />
             </div>
             <div className={s.packsMain}>
                 <h3 className={s.packsMainTitle}>Cards Packs list</h3>
@@ -134,6 +134,6 @@ type PacksPropsType = {
     pageCount: number
     changeRangeValue: (value: [number, number]) => void
     rangeValue: [number, number]
-    searchPacks: () => void
+    searchPacks: (value: string) => void
     changeShowDeleteModal: (name: string, id: string) => void
 }

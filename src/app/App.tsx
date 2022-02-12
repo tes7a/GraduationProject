@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Header} from '../components/header/Header';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {logoutTC, setLoggedInAC} from "../api/AuthReducer";
+import {logoutTC, profileInfoTC, setLoggedInAC} from "../api/AuthReducer";
 import classes from "./App.module.css";
 import {RequestStatusType, setInitialized} from "./app-reducer";
 import {PacksContainer} from '../faetures/packs/PacksContainer';
@@ -31,7 +31,7 @@ export function App() {
     }
 
     useEffect(() => {
-        dispatch(setInitialized(true));
+        dispatch(profileInfoTC());
     }, []);
 
     useEffect(() => {
@@ -39,7 +39,6 @@ export function App() {
             dispatch(setLoggedInAC(false));
         }
     }, [error])
- //сделать запрос на auth.me что бы не выбивало со страницы при перезагурзки
 
     if (!isInitialized) {
         return <div className={classes.app}/>

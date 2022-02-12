@@ -2,6 +2,7 @@ import {useEffect, useRef} from "react";
 
 export const useDebounce = (func: any, delay: number, cleanUp: boolean = false) => {
 
+
     const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>();
 
     function clearTimer() {

@@ -88,6 +88,11 @@
     background-size: auto 75%;
 }
 
+.searchCards:focus{
+    outline: none;
+    border: #21268F solid 2px;
+}
+
 .btnHover{
     display: flex;
     flex-direction: row;
