@@ -13,8 +13,7 @@ export const PacksAPI = {
             max:data.max,
             packName:data.packName || ''
         }
-
-        console.log(newData)
+        
         return instance.get<PacksDataType, AxiosResponse<PacksDataType>, GetDateType>(
             `/cards/pack`, {params: {...newData}}
         );
