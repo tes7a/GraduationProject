@@ -31,6 +31,8 @@ export const Packs = React.memo(function (
         options,
         changePageCount,
         pageCount,
+        changeRangeValue,
+        rangeValue,
         changeShowDeleteModal,
         ...props
     }: PacksPropsType
@@ -123,5 +125,7 @@ type PacksPropsType = {
     options: number[]
     changePageCount: (value: number) => void
     pageCount: number
+    changeRangeValue: (value: [number, number]) => void
+    rangeValue: [number, number]
     changeShowDeleteModal: (name: string, id: string) => void
 }

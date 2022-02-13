@@ -1,5 +1,6 @@
 import {instance} from "./authAPI";
 import {AxiosResponse} from "axios";
+import {log} from "util";
 
 export const PacksAPI = {
     getPacks(data: GetDateType) {
@@ -7,12 +8,13 @@ export const PacksAPI = {
             page: data.currentPage || 1,
             pageCount:data.pageCount || defaultPacksPageCount,
             user_id:data.id,
-            sortType:data.sortType || '',
-            min:data.min || 0,
-            max:data.max || 200,
+            sortPacks:data.sortType || '',
+            min:data.min,
+            max:data.max,
             packName:data.packName || ''
         }
 
+        console.log(newData)
         return instance.get<PacksDataType, AxiosResponse<PacksDataType>, GetDateType>(
             `/cards/pack`, {params: {...newData}}
         );

@@ -30,7 +30,6 @@ export const PacksReducer = (state: PacksReducerStateType = initialState, action
             return {...state, sortMethod: action.sortMethod};
         case "packs/SET-MIN-MAX-CARDS-COUNT":
             return {...state, minCardsCount: action.minCardsCount, maxCardsCount: action.maxCardsCount};
-            return {...state, sortMethod: action.sortMethod}
         case "packs/SHOW-PRIVATE-PACKS":
             return {...state,packs:state.packs.filter(p => p.private)}
         default:
@@ -48,7 +47,6 @@ const changePackTitleAC = (id: string, name: string) => ({type: 'packs/CHANGE-PA
 const removePackAC = (id: string) => ({type: 'packs/REMOVE-PACK', id} as const);
 export const setSortPacks = (sortMethod: string) => ({type: 'sort/SORT-PACKS', sortMethod} as const);
 export const setPrivatePacksAC = () => ({type:'packs/SHOW-PRIVATE-PACKS'} as const);
-export const setSortPacks = (sortMethod: string) => ({type: 'sort/SORT-PACKS', sortMethod} as const);
 export const setMinMaxCardsCountsAC = (minCardsCount:number, maxCardsCount:number) => ({type: 'packs/SET-MIN-MAX-CARDS-COUNT', minCardsCount, maxCardsCount} as const);
 
 //Thunks
@@ -159,7 +157,6 @@ export type PacksReducerActionsType = ReturnType<typeof getPacksAC>
     | ReturnType<typeof setSortPacks>
     | ReturnType<typeof setPacksPageCountAC>
     | ReturnType<typeof setPrivatePacksAC>
-    | ReturnType<typeof removePackAC>;
     | ReturnType<typeof removePackAC>
     | ReturnType<typeof setMinMaxCardsCountsAC>;
 

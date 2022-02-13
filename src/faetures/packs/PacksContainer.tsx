@@ -15,6 +15,9 @@ import {
 import {PackDataType} from "../../api/packsAPI";
 import {InputModal} from "../../components/modals/InputModal";
 import {DeleteModal} from "../../components/modals/DeleteModal";
+import SuperCheckbox from "../../components/SuperCheckbox/SuperCheckbox";
+import classes from './../../style/Auth.module.css';
+import s from './../../style/Packs.module.css';
 
 export const PacksContainer = () => {
     const [addPrivatePack, setAddPrivatePack] = useState(false);
@@ -42,6 +45,10 @@ export const PacksContainer = () => {
     const packName = useSelector<AppRootStateType, string>(state => state.searchPack.packName);
     const error: string = useSelector<AppRootStateType, string>(state => state.app.error);
     const [userID, setUserID] = useState<string | undefined>(undefined);
+
+    const changeRangeValue = (value: [number, number]) => {
+        setRangeValue(value);
+    }
 
     const onChangeAddPrivatePack = (e: ChangeEvent<HTMLInputElement>) => {
         setAddPrivatePack(e.currentTarget.checked);
@@ -115,9 +122,9 @@ export const PacksContainer = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            dispatch(getPacksTC({id: userID, sortType, currentPage, pageCount, min, max, packName: searchValue}));
+            dispatch(getPacksTC({id: userID, sortType, currentPage, pageCount, min, max, packName}));
         }
-    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max, searchValue, showMyPacksPage, userID]);
+    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max, showMyPacksPage, userID, packName]);
 
 
     const onChangePackNameHandler = (value: string) => setCardName(value);
@@ -175,10 +182,8 @@ export const PacksContainer = () => {
                 sortCallback={sortCallBack}
                 sortMethod={sortType}
                 addPacks={addPacks}
-                onChangeSearchValue={onChangeSearchValue}
                 packs={packs}
                 authID={authID}
-                searchValue={searchValue}
                 editHandler={editHandler}
                 removePack={removePack}
                 totalCount={totalCount}
@@ -191,7 +196,6 @@ export const PacksContainer = () => {
                 pageCount={pageCount}
                 changeRangeValue={changeRangeValue}
                 rangeValue={rangeValue}
-                searchPacks={searchPacks}
                 changeShowDeleteModal={changeShowDeleteModal}
             />
         </div>
