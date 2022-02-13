@@ -1,6 +1,6 @@
 import {setAppErrorAC, setStatusAppAC} from '../../app/app-reducer';
 import {Dispatch} from "redux";
-import {GetDateType, PackDataType, PacksAPI} from "../../api/packsAPI";
+import {GetDateType, PackDataType, PacksAPI, PacksDataType} from "../../api/packsAPI";
 import {ThunkActionType} from "../../app/store";
 
 let initialState: PacksReducerStateType = {
@@ -8,8 +8,11 @@ let initialState: PacksReducerStateType = {
     totalCount: 0,
     pageCount: 10,
     page: 1,
-    sortMethod: undefined
-}
+    sortMethod: undefined,
+    minCardsCount: 0,
+    maxCardsCount: 0,
+
+};
 
 export const PacksReducer = (state: PacksReducerStateType = initialState, action: PacksReducerActionsType) => {
     switch (action.type) {
@@ -18,12 +21,15 @@ export const PacksReducer = (state: PacksReducerStateType = initialState, action
         case "packs/SET-TOTAL-COUNT":
             return {...state, totalCount: action.totalCount};
         case "packs/SET-PAGE-COUNT":
-            return {...state, pageCount: action.pageCount}
+            return {...state, pageCount: action.pageCount};
         case "packs/SET-PAGE":
-            return {...state, page: action.page}
+            return {...state, page: action.page};
         case "packs/CHANGE-PACK-TITLE":
             return {...state, packs: state.packs.map(p => p._id === action.id ? {...p, name: action.name} : p)};
         case "sort/SORT-PACKS":
+            return {...state, sortMethod: action.sortMethod};
+        case "packs/SET-MIN-MAX-CARDS-COUNT":
+            return {...state, minCardsCount: action.minCardsCount, maxCardsCount: action.maxCardsCount};
             return {...state, sortMethod: action.sortMethod}
         case "packs/SHOW-PRIVATE-PACKS":
             return {...state,packs:state.packs.filter(p => p.private)}
@@ -33,7 +39,7 @@ export const PacksReducer = (state: PacksReducerStateType = initialState, action
 }
 
 //Actions
-const getPacksAC = (packs: Array<PackDataType>) => ({type: 'packs/GET-PACKS', packs} as const);
+export const getPacksAC = (packs: Array<PackDataType>) => ({type: 'packs/GET-PACKS', packs} as const);
 const setPacksTotalCountAC = (totalCount: number) => ({type: 'packs/SET-TOTAL-COUNT', totalCount} as const);
 const setPacksPageCountAC = (pageCount: number) => ({type: 'packs/SET-PAGE-COUNT', pageCount} as const);
 export const setPacksPageAC = (page: number) => ({type: 'packs/SET-PAGE', page} as const);
@@ -42,6 +48,8 @@ const changePackTitleAC = (id: string, name: string) => ({type: 'packs/CHANGE-PA
 const removePackAC = (id: string) => ({type: 'packs/REMOVE-PACK', id} as const);
 export const setSortPacks = (sortMethod: string) => ({type: 'sort/SORT-PACKS', sortMethod} as const);
 export const setPrivatePacksAC = () => ({type:'packs/SHOW-PRIVATE-PACKS'} as const);
+export const setSortPacks = (sortMethod: string) => ({type: 'sort/SORT-PACKS', sortMethod} as const);
+export const setMinMaxCardsCountsAC = (minCardsCount:number, maxCardsCount:number) => ({type: 'packs/SET-MIN-MAX-CARDS-COUNT', minCardsCount, maxCardsCount} as const);
 
 //Thunks
 export const getPacksTC = (data: GetDateType) => (dispatch: Dispatch) => {
@@ -52,6 +60,7 @@ export const getPacksTC = (data: GetDateType) => (dispatch: Dispatch) => {
             dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount));
             dispatch(setPacksPageCountAC(res.data.pageCount));
             dispatch(setPacksPageAC(res.data.page));
+            dispatch(setMinMaxCardsCountsAC(res.data.minCardsCount, res.data.maxCardsCount));
             dispatch(setAppErrorAC(''));
             dispatch(setStatusAppAC('succeeded'));
         })
@@ -138,6 +147,8 @@ type PacksReducerStateType = {
     pageCount: number
     page: number
     sortMethod: string | undefined
+    minCardsCount: number
+    maxCardsCount: number
 }
 export type PacksReducerActionsType = ReturnType<typeof getPacksAC>
     | ReturnType<typeof addPackAC>
@@ -149,4 +160,6 @@ export type PacksReducerActionsType = ReturnType<typeof getPacksAC>
     | ReturnType<typeof setPacksPageCountAC>
     | ReturnType<typeof setPrivatePacksAC>
     | ReturnType<typeof removePackAC>;
+    | ReturnType<typeof removePackAC>
+    | ReturnType<typeof setMinMaxCardsCountsAC>;
 

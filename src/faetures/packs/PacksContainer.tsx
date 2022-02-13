@@ -15,19 +15,13 @@ import {
 import {PackDataType} from "../../api/packsAPI";
 import {InputModal} from "../../components/modals/InputModal";
 import {DeleteModal} from "../../components/modals/DeleteModal";
-import s from './../../style/Packs.module.css';
-import SuperCheckbox from "../../components/SuperCheckbox/SuperCheckbox";
-import classes from "../../style/Auth.module.css";
 
 export const PacksContainer = () => {
     const [addPrivatePack, setAddPrivatePack] = useState(false);
     const [rangeValue, setRangeValue] = useState<[number, number]>([0, 200]);
-    const [min, setMin] = useState<number>(0);
-    const [max, setMax] = useState<number>(200);
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const [pageCount, setPageCount] = useState(10);
     const currentPage: number = useSelector<AppRootStateType, number>(state => state.packs.page);
-    const [searchValue, setSearchValue] = useState('');
     const [showMyPacksPage, setShowMyPacksPage] = useState(false);
     const [cardName, setCardName] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
@@ -43,21 +37,14 @@ export const PacksContainer = () => {
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
     const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod);
+    const min = useSelector<AppRootStateType, number>(state => state.searchPack.minCardsCount);
+    const max = useSelector<AppRootStateType, number>(state => state.searchPack.maxCardsCount);
+    const packName = useSelector<AppRootStateType, string>(state => state.searchPack.packName);
     const error: string = useSelector<AppRootStateType, string>(state => state.app.error);
     const [userID, setUserID] = useState<string | undefined>(undefined);
 
     const onChangeAddPrivatePack = (e: ChangeEvent<HTMLInputElement>) => {
         setAddPrivatePack(e.currentTarget.checked);
-    }
-
-    const searchPacks = useCallback((value: string) => {
-        setMin(rangeValue[0]);
-        setMax(rangeValue[1]);
-        setSearchValue(value);
-    }, [rangeValue, showMyPacksPage, searchValue])
-
-    const changeRangeValue = (value: [number, number]) => {
-        setRangeValue(value);
     }
 
     const changePageCount = (value: number) => {
@@ -78,9 +65,6 @@ export const PacksContainer = () => {
         setUserID(authID);
     }
 
-    const onChangeSearchValue = (value: string) => {
-        setSearchValue(value);
-    }
 
     const addPacks = () => {
         setShowAddModal(true);
