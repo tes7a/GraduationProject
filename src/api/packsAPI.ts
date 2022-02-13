@@ -3,16 +3,18 @@ import {AxiosResponse} from "axios";
 
 export const PacksAPI = {
     getPacks(data: GetDateType) {
-        const page = data && data.currentPage ? data.currentPage : 1;
-        const pageCount = data && data.pageCount ? data.pageCount : defaultPacksPageCount;
-        const id = data && data.id ? `user_id=${data.id}&` : '';
-        const sortType = data && data.sortType ? data.sortType : '';
-        const min = data && data.min ? data.min : 0;
-        const max = data && data.max ? data.max : 200;
-        const packName = data && data.packName ? data.packName : '';
+        const newData = {
+            page: data.currentPage || 1,
+            pageCount:data.pageCount || defaultPacksPageCount,
+            user_id:data.id,
+            sortType:data.sortType || '',
+            min:data.min || 0,
+            max:data.max || 200,
+            packName:data.packName || ''
+        }
 
         return instance.get<PacksDataType, AxiosResponse<PacksDataType>, GetDateType>(
-            `/cards/pack?${id}pageCount=${pageCount}&page=${page}&sortPacks=${sortType}&min=${min}&max=${max}&packName=${packName}`
+            `/cards/pack`, {params: {...newData}}
         );
     },
     addPack(name: string, isPrivate: boolean) {
