@@ -142,6 +142,22 @@
     text-align: center;
 }
 
+.privatePack{
+    background: #9A91C8;
+}
+
+.privateCheckBoxBlock{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.privateCheckBoxBlock input{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
 .tbody{
     background: #F8F7FD;
 }

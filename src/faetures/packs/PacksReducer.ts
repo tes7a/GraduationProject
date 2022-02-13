@@ -30,6 +30,8 @@ export const PacksReducer = (state: PacksReducerStateType = initialState, action
             return {...state, sortMethod: action.sortMethod};
         case "packs/SET-MIN-MAX-CARDS-COUNT":
             return {...state, minCardsCount: action.minCardsCount, maxCardsCount: action.maxCardsCount};
+        case "packs/SHOW-PRIVATE-PACKS":
+            return {...state,packs:state.packs.filter(p => p.private)}
         default:
             return state;
     }
@@ -44,6 +46,7 @@ const addPackAC = (pack: PackDataType) => ({type: 'packs/ADD-PACK', pack} as con
 const changePackTitleAC = (id: string, name: string) => ({type: 'packs/CHANGE-PACK-TITLE', id, name} as const);
 const removePackAC = (id: string) => ({type: 'packs/REMOVE-PACK', id} as const);
 export const setSortPacks = (sortMethod: string) => ({type: 'sort/SORT-PACKS', sortMethod} as const);
+export const setPrivatePacksAC = () => ({type:'packs/SHOW-PRIVATE-PACKS'} as const);
 export const setMinMaxCardsCountsAC = (minCardsCount:number, maxCardsCount:number) => ({type: 'packs/SET-MIN-MAX-CARDS-COUNT', minCardsCount, maxCardsCount} as const);
 
 //Thunks
@@ -69,10 +72,10 @@ export const getPacksTC = (data: GetDateType) => (dispatch: Dispatch) => {
         })
 }
 
-export const createPackTC = (value: string, showMyPacksPage: boolean, userID?: string): ThunkActionType =>
+export const createPackTC = (value: string, showMyPacksPage: boolean, isPrivate: boolean, userID?: string): ThunkActionType =>
     (dispatch) => {
         dispatch(setStatusAppAC('loading'));
-        PacksAPI.addPack(value)
+        PacksAPI.addPack(value, isPrivate)
             .then(res => {
                 if (showMyPacksPage) {
                     dispatch(getPacksTC({id: userID, currentPage: 1}));
@@ -153,6 +156,7 @@ export type PacksReducerActionsType = ReturnType<typeof getPacksAC>
     | ReturnType<typeof removePackAC>
     | ReturnType<typeof setSortPacks>
     | ReturnType<typeof setPacksPageCountAC>
+    | ReturnType<typeof setPrivatePacksAC>
     | ReturnType<typeof removePackAC>
     | ReturnType<typeof setMinMaxCardsCountsAC>;
 

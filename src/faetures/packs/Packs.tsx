@@ -11,9 +11,6 @@ import SuperSelect from "../../components/SuperSelect/SuperSelect";
 import {RequestStatusType} from "../../app/app-reducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
-import {Navigate} from "react-router-dom";
-import {PATH} from "../../routes/routes";
-import {DeleteModal} from "../../components/modals/DeleteModal";
 
 
 export const Packs = React.memo(function (
@@ -34,6 +31,8 @@ export const Packs = React.memo(function (
         options,
         changePageCount,
         pageCount,
+        changeRangeValue,
+        rangeValue,
         changeShowDeleteModal,
         ...props
     }: PacksPropsType
@@ -65,6 +64,7 @@ export const Packs = React.memo(function (
             <div className={s.packsMain}>
                 <h3 className={s.packsMainTitle}>Cards Packs list</h3>
                 <SuperButton className={s.addPackButton} onClick={addPacks}>+ Add new pack</SuperButton>
+
                 <table className={s.table}>
                     <thead className={s.thead}>
                     <tr>
@@ -125,5 +125,7 @@ type PacksPropsType = {
     options: number[]
     changePageCount: (value: number) => void
     pageCount: number
+    changeRangeValue: (value: [number, number]) => void
+    rangeValue: [number, number]
     changeShowDeleteModal: (name: string, id: string) => void
 }

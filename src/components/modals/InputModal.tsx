@@ -4,8 +4,22 @@ import React, {useRef} from "react";
 import SuperButton from "../SuperButton/SuperButton";
 import {useOnClickOutside} from "../../hooks/useOnClickOutside";
 
-export const InputModal = (
-    {show, onChange, value, placeholder, name, type, onClose, onSave, modalName,question, value2,onChange2}: InputModalType
+export const InputModal: React.FC<InputModalType> = (
+    {
+        show,
+        onChange,
+        value,
+        placeholder,
+        name,
+        type,
+        onClose,
+        onSave,
+        modalName,
+        question,
+        value2,
+        onChange2,
+        children
+    }
 ) => {
     const ref: any = useRef();
     useOnClickOutside(ref, onClose);
@@ -30,6 +44,7 @@ export const InputModal = (
                             placeholder={question}
                             value={value2}
                         />}
+                        {children}
                         <div className={classes.buttonsWrapper}>
                             <SuperButton className={classes.modalAddButton} onClick={onSave}>Save</SuperButton>
                             <SuperButton className={classes.modalCloseButton} onClick={onClose}>Close</SuperButton>

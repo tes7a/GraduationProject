@@ -5,7 +5,6 @@ import SuperButton from "../../components/SuperButton/SuperButton";
 import s from './../../style/Packs.module.css';
 import {correctionDate} from "../../utils/correctionDate";
 import {validationValue} from "../../utils/validationValue";
-import {DeleteModal} from "../../components/modals/DeleteModal";
 
 export const Pack: React.FC<PackPropsType> = (
     {
@@ -23,7 +22,7 @@ export const Pack: React.FC<PackPropsType> = (
 
 
     return (
-        <tr>
+        <tr className={pack.private ? `${s.privatePack}` : ''}>
             <td>{validationValue(pack.name)}</td>
             <td>{pack.cardsCount}</td>
             <td>{correctionDate(pack.updated)}</td>
@@ -36,9 +35,9 @@ export const Pack: React.FC<PackPropsType> = (
                                  onClick={() => editHandler(pack._id, pack.name)}>Edit</SuperButton>}
                 <SuperButton className={s.packsButton}
                              onClick={() => navigate('/cards/' + pack._id)}>Cards</SuperButton>
-                {pack.cardsCount !==0 &&
+                {pack.cardsCount !== 0 &&
                     <SuperButton className={s.packsButton}
-                             onClick={() => navigate('/learning-process/' + pack._id)}>Learn</SuperButton>
+                                 onClick={() => navigate('/learning-process/' + pack._id)}>Learn</SuperButton>
                 }
 
             </td>
