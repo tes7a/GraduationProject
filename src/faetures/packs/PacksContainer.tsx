@@ -72,7 +72,6 @@ export const PacksContainer = () => {
         setUserID(authID);
     }
 
-
     const addPacks = () => {
         setShowAddModal(true);
     };
