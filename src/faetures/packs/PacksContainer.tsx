@@ -21,7 +21,6 @@ import s from './../../style/Packs.module.css';
 
 export const PacksContainer = () => {
     const [addPrivatePack, setAddPrivatePack] = useState(false);
-    const [rangeValue, setRangeValue] = useState<[number, number]>([0, 200]);
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const [pageCount, setPageCount] = useState(10);
     const currentPage: number = useSelector<AppRootStateType, number>(state => state.packs.page);
@@ -45,10 +44,6 @@ export const PacksContainer = () => {
     const packName = useSelector<AppRootStateType, string>(state => state.searchPack.packName);
     const error: string = useSelector<AppRootStateType, string>(state => state.app.error);
     const [userID, setUserID] = useState<string | undefined>(undefined);
-
-    const changeRangeValue = (value: [number, number]) => {
-        setRangeValue(value);
-    }
 
     const onChangeAddPrivatePack = (e: ChangeEvent<HTMLInputElement>) => {
         setAddPrivatePack(e.currentTarget.checked);
@@ -193,8 +188,6 @@ export const PacksContainer = () => {
                 options={options}
                 changePageCount={changePageCount}
                 pageCount={pageCount}
-                changeRangeValue={changeRangeValue}
-                rangeValue={rangeValue}
                 changeShowDeleteModal={changeShowDeleteModal}
             />
         </div>
