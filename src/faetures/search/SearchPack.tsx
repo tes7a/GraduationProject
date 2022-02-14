@@ -13,12 +13,12 @@ import {AppRootStateType} from "../../app/store";
 export const SearchPack = () => {
     const dispatch = useDispatch();
     const [textSearch, setTextSearch] = useState<string>("");
-    const minValueRange = useSelector<AppRootStateType, number>(state => state.searchPack.minCardsCount);
-    const maxValueRange = useSelector<AppRootStateType, number>(state => state.searchPack.maxCardsCount);
+    const minRangeValue = useSelector<AppRootStateType, number>(state => state.searchPack.minCardsCount);
+    const maxRangeValue = useSelector<AppRootStateType, number>(state => state.searchPack.maxCardsCount);
     const maxValuePack = useSelector<AppRootStateType, number>(state => state.packs.maxCardsCount);
     const minValuePack = useSelector<AppRootStateType, number>(state => state.packs.minCardsCount);
     const stepRange = 1;
-    const [valueRange, setValueRange] = useState<[number, number]>([minValueRange, maxValueRange]);
+    const [rangeValues, setRangeValues] = useState<[number, number]>([minRangeValue, maxRangeValue]);
 
     function valueInputDebounce(value: string) {
         dispatch(setSoughtPackNameAC(value));
@@ -28,20 +28,22 @@ export const SearchPack = () => {
         dispatch(setSoughtMinMaxCountCardsAC(value));
     }
 
-    const debouncedInputFunc = useDebounce(valueInputDebounce, 2000);
-    const debouncedRangeFunc = useDebounce(valueRangeDebounce, 2000);
+    const [debouncedInputFunc, clearTimerInput] = useDebounce(valueInputDebounce, 2000);
+    const [debouncedRangeFunc, clearTimerRange] = useDebounce(valueRangeDebounce, 2000);
 
-    const searchPackBouncing = (text: string) => {
+    const searchPackDebounce = (text: string) => {
         setTextSearch(text);
         debouncedInputFunc(textSearch)
     };
 
     const searchPackClick = () => {
         dispatch(setSoughtPackNameAC(textSearch));
+        clearTimerRange();
+        clearTimerInput();
     };
 
     const onChangeRange = (newValue: [number, number]) => {
-        setValueRange(newValue);
+        setRangeValues(newValue);
         debouncedRangeFunc(newValue);
     };
 
@@ -50,13 +52,8 @@ export const SearchPack = () => {
         <div>
             <label className={s.packsAsideTitle} htmlFor="fieldSearch">Search</label>
             <div className={s.searchBlock}>
-                <SuperInputText
-                    className={s.searchInput}
-                    placeholder='Search pack name'
-                    onChangeText={searchPackBouncing}
-                    id="fieldSearch"
-                    value={textSearch}
-                />
+                <SuperInputText className={s.searchInput} placeholder='Search' value={textSearch} onChangeText={searchPackDebounce}
+                                id="fieldSearch"/>
             </div>
             <h3 className={s.packsAsideTitle}>Number of cards</h3>
             <div className={s.wrapSlider}>
@@ -65,10 +62,11 @@ export const SearchPack = () => {
                     className={s.range}
                     min={minValuePack}
                     max={maxValuePack}
-                    defaultValue={[minValueRange, maxValueRange]}
+                    defaultValue={[minValuePack, maxValuePack]}
                     step={stepRange}
                     onChange={onChangeRange}
-                    value={valueRange}
+                    value={rangeValues}
+
                     handleStyle={[{background: '#9A91C8', borderColor: '#9A91C8'}, {
                         background: '#9A91C8',
                         borderColor: '#9A91C8'
@@ -77,7 +75,7 @@ export const SearchPack = () => {
                 />
 
                 <div className={s.minAndMaxValue}>
-                    <span>Min:{minValueRange}</span>
+                    <span>Min:{minValuePack}</span>
                     <span>Max:{maxValuePack}</span>
                 </div>
 
@@ -86,3 +84,11 @@ export const SearchPack = () => {
         </div>
     )
 };
+
+// type SearchPackPropsType = {
+//     changeRangeValue: (value: [number, number]) => void
+//     rangeValue: [number, number]
+//     searchPacks: (value: string) => void
+//     searchValue: string
+//     onChangeSearchValue: (value: string) => void
+// }

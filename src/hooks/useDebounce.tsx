@@ -14,9 +14,9 @@ export const useDebounce = (func: any, delay: number, cleanUp: boolean = false) 
 
     useEffect(() => (cleanUp ? clearTimer : undefined),[cleanUp]);
 
-    return (...args: any) => {
+    return [(...args: any) => {
         clearTimer();
 
         timerRef.current = setTimeout(() => func(...args), delay);
-    }
+    }, clearTimer]
 };

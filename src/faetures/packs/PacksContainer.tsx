@@ -13,7 +13,6 @@ export const PacksContainer = () => {
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const [pageCount, setPageCount] = useState(10);
     const currentPage: number = useSelector<AppRootStateType, number>(state => state.packs.page);
-    const [searchValue, setSearchValue] = useState('');
     const [showMyPacksPage, setShowMyPacksPage] = useState(false);
     const [cardName, setCardName] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
@@ -37,7 +36,7 @@ export const PacksContainer = () => {
 
     const changePageCount = (value: number) => {
         setPageCount(+value);
-    };
+    }
 
     const changeNumberPage = useCallback((value: number) => {
         dispatch(setPacksPageAC(value));
