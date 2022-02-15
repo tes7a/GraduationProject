@@ -15,8 +15,8 @@ export const SearchPack = () => {
     const [textSearch, setTextSearch] = useState<string>("");
     const minRangeValue = useSelector<AppRootStateType, number>(state => state.searchPack.minCardsCount);
     const maxRangeValue = useSelector<AppRootStateType, number>(state => state.searchPack.maxCardsCount);
-    const maxValuePack = useSelector<AppRootStateType, number>(state => state.packs.maxCardsCount);
-    const minValuePack = useSelector<AppRootStateType, number>(state => state.packs.minCardsCount);
+    const maxValuePack = useSelector<AppRootStateType, number>(state => state.packs.setting.maxCardsCount);
+    const minValuePack = useSelector<AppRootStateType, number>(state => state.packs.setting.minCardsCount);
     const stepRange = 1;
     const [rangeValues, setRangeValues] = useState<[number, number]>([minRangeValue, maxRangeValue]);
 

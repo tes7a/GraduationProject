@@ -10,7 +10,7 @@ import {
     changePackTitleTC,
     removePackTC,
     setPacksPageAC,
-    setSortPacks,
+    setSortPacks, setShowMyPacksAC, setPacksPageCountAC,
 } from "./PacksReducer";
 import {PackDataType} from "../../api/packsAPI";
 import {InputModal} from "../../components/modals/InputModal";
@@ -20,11 +20,20 @@ import classes from './../../style/Auth.module.css';
 import s from './../../style/Packs.module.css';
 
 export const PacksContainer = () => {
+    const pageCount = useSelector<AppRootStateType, number>(state => state.packs.setting.pageCount);
+    const page: number = useSelector<AppRootStateType, number>(state => state.packs.setting.page);
+    const showMyPacksPage = useSelector<AppRootStateType, boolean>(state => state.packs.setting.showMyPacks);
+    const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.setting.totalCount);
+    const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.setting.sortMethod);
+    const min = useSelector<AppRootStateType, number>(state => state.searchPack.minCardsCount);
+    const max = useSelector<AppRootStateType, number>(state => state.searchPack.maxCardsCount);
+    const packName = useSelector<AppRootStateType, string>(state => state.searchPack.packName);
+    const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
+    const packs: Array<PackDataType> = useSelector<AppRootStateType, Array<PackDataType>>(state => state.packs.packs);
+
     const [addPrivatePack, setAddPrivatePack] = useState(false);
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const [pageCount, setPageCount] = useState(10);
-    const currentPage: number = useSelector<AppRootStateType, number>(state => state.packs.page);
-    const [showMyPacksPage, setShowMyPacksPage] = useState(false);
+
     const [cardName, setCardName] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -34,14 +43,9 @@ export const PacksContainer = () => {
     const [editName, setEditName] = useState('');
     const [packId, setPackId] = useState('');
     const dispatch = useDispatch();
-    const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
-    const packs: Array<PackDataType> = useSelector<AppRootStateType, Array<PackDataType>>(state => state.packs.packs);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
-    const totalCount: number = useSelector<AppRootStateType, number>(state => state.packs.totalCount);
-    const sortType = useSelector<AppRootStateType, string | undefined>(state => state.packs.sortMethod);
-    const min = useSelector<AppRootStateType, number>(state => state.searchPack.minCardsCount);
-    const max = useSelector<AppRootStateType, number>(state => state.searchPack.maxCardsCount);
-    const packName = useSelector<AppRootStateType, string>(state => state.searchPack.packName);
+
+
     const error: string = useSelector<AppRootStateType, string>(state => state.app.error);
     const [userID, setUserID] = useState<string | undefined>(undefined);
 
@@ -50,21 +54,19 @@ export const PacksContainer = () => {
     }
 
     const changePageCount = (value: number) => {
-        setPageCount(+value);
+        dispatch(setPacksPageCountAC(value));
     }
 
-    const changeNumberPage = useCallback((value: number) => {
+    const changeNumberPage = (value: number) => {
         dispatch(setPacksPageAC(value));
-    }, [currentPage]);
+    }
 
     const getAllPacks = () => {
-        setShowMyPacksPage(false);
-        setUserID(undefined);
+        dispatch(setShowMyPacksAC(false));
     }
 
     const getMyPacks = () => {
-        setShowMyPacksPage(true);
-        setUserID(authID);
+        dispatch(setShowMyPacksAC(true));
     }
 
     const addPacks = () => {
@@ -78,7 +80,7 @@ export const PacksContainer = () => {
     }
 
     const addPack = () => {
-        dispatch(createPackTC(cardName, showMyPacksPage, addPrivatePack, authID));
+        dispatch(createPackTC(cardName, addPrivatePack));
         setShowAddModal(false);
         setCardName('');
     }
@@ -110,15 +112,15 @@ export const PacksContainer = () => {
         dispatch(setSortPacks(sort))
     }
     const removePack = useCallback(() => {
-        dispatch(removePackTC(elementIdForDelete, currentPage, showMyPacksPage, authID));
+        dispatch(removePackTC(elementIdForDelete));
         closeModal();
-    }, [elementIdForDelete, currentPage, showMyPacksPage, authID]);
+    }, [elementIdForDelete]);
 
     useEffect(() => {
         if (isLoggedIn) {
-            dispatch(getPacksTC({id: userID, sortType, currentPage, pageCount, min, max, packName}));
+            dispatch(getPacksTC());
         }
-    }, [dispatch, isLoggedIn, currentPage, sortType, pageCount, min, max, showMyPacksPage, userID, packName]);
+    }, [dispatch, isLoggedIn, page, sortType, pageCount, min, max, showMyPacksPage, userID, packName]);
 
 
     const onChangePackNameHandler = (value: string) => setCardName(value);
@@ -181,7 +183,7 @@ export const PacksContainer = () => {
                 editHandler={editHandler}
                 removePack={removePack}
                 totalCount={totalCount}
-                currentPage={currentPage}
+                currentPage={page}
                 changeNumberPage={changeNumberPage}
                 getMyPacks={getMyPacks}
                 showMyPacksPage={showMyPacksPage}

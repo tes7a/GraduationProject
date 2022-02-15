@@ -42,7 +42,7 @@
     background: #9A91C8;
 }
 
-.searchBlock{
+.searchBlock {
     width: 100%;
     height: 40px;
     display: flex;
@@ -52,57 +52,57 @@
     margin: 20px 0;
 }
 
-.searchButton{
+.searchButton {
     width: 100%;
     height: 40px;
     margin: 20px 0;
     cursor: pointer;
     transition: .3s;
-    border:2px solid #9A91C8;
+    border: 2px solid #9A91C8;
     background: #f3f3f3;
     color: #2D2E46;
 }
 
 .searchButton:focus,
-.searchButton:hover{
+.searchButton:hover {
     color: #f3f3f3;
     background: #9A91C8;
 }
 
-.searchInput{
+.searchInput {
     width: 100%;
     height: 100%;
     margin: 0;
-    color:#2D2E46;
+    color: #2D2E46;
     background: #ECECF9;
     border: 1px solid #635D80;
     padding: 0 5px;
     transition: .3s;
 }
 
-.searchInput:focus{
+.searchInput:focus {
     border: 1px solid #9A91C8;
-    color:#2D2E46;
+    color: #2D2E46;
 }
 
-.wrapSlider{
+.wrapSlider {
 
     width: 100%;
 }
 
-.minAndMaxValue{
+.minAndMaxValue {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 20px 0;
 }
 
-.range{
+.range {
     width: 95%;
     margin: 0;
 }
 
-.packsMain{
+.packsMain {
     width: 75%;
     padding: 33px 24px;
 }
@@ -113,24 +113,24 @@
     margin-bottom: 20px;
 }
 
-.table{
+.table {
     width: 100%;
     box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
     margin-bottom: 20px;
 }
 
-.thead{
-    color:#2D2E46;
+.thead {
+    color: #2D2E46;
     font-weight: 600;
     height: 48px;
     background: #ECECF9;
 }
 
-.thead tr{
+.thead tr {
     height: 100%;
 }
 
-.thead tr td{
+.thead tr td {
     height: 100%;
     padding: 0 10px;
     text-align: left;
@@ -138,35 +138,35 @@
     overflow: hidden;
 }
 
-.thead tr td:last-child{
+.thead tr td:last-child {
     text-align: center;
 }
 
-.privatePack{
+.privatePack {
     background: #9A91C8;
 }
 
-.privateCheckBoxBlock{
+.privateCheckBoxBlock {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.privateCheckBoxBlock input{
+.privateCheckBoxBlock input {
     width: 20px;
     height: 20px;
     margin-right: 5px;
 }
 
-.tbody{
+.tbody {
     background: #F8F7FD;
 }
 
-.tbody tr{
+.tbody tr {
     height: 50px;
 }
 
-.tbody tr td{
+.tbody tr td {
     height: 100%;
     padding: 20px 10px;
     text-align: left;
@@ -174,52 +174,56 @@
     white-space: break-spaces;
 }
 
-.tbody tr td:last-child{
+.tbody tr td:last-child {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.tbody tr:nth-child(2n){
+.tbody tr:nth-child(2n) {
     background: #f3f3f3;
 }
 
-.packsButton{
-    color:#21268F;
+.tbody tr.privatePack {
+    background: #9A91C8;
+}
+
+.packsButton {
+    color: #21268F;
     background: #D7D8EF;
-    border:none;
+    border: none;
     margin-right: 5px;
     cursor: pointer;
     transition: .3s;
 }
 
 .packsButton:focus,
-.packsButton:hover{
-    color:#f3f3f3;
+.packsButton:hover {
+    color: #f3f3f3;
     background: #21268F;
 }
 
-.packsButtonDelete{
-    color:#fff;
+.packsButtonDelete {
+    color: #fff;
     background: #ff0000;
-    border:none;
+    border: none;
     margin-right: 5px;
     cursor: pointer;
     transition: .3s;
 }
 
 .packsButtonDelete:focus,
-.packsButtonDelete:hover{
+.packsButtonDelete:hover {
     background: #e30808;
 }
 
-.navigationBlock{
+.navigationBlock {
     display: flex;
     justify-content: start;
     align-items: center;
 }
 
-.addPackButton{
+.addPackButton {
     display: block;
     margin: 0 0 30px;
     height: 36px;
@@ -227,14 +231,14 @@
 
     background: #21268F;
     box-shadow: 0 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
-    border:none;
+    border: none;
     border-radius: 2px;
-    color:#fff;
+    color: #fff;
     transition: .3s;
     cursor: pointer;
 }
 
-.addPackButton:hover,.addPackButton:focus{
+.addPackButton:hover, .addPackButton:focus {
     background: #2D2E46;
 }
 
