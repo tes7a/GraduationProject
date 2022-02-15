@@ -5,7 +5,7 @@ import {log} from "util";
 export const PacksAPI = {
     getPacks(data: GetDateType) {
         const newData = {
-            page: data.currentPage || 1,
+            page: data.page || 1,
             pageCount:data.pageCount || defaultPacksPageCount,
             user_id:data.id,
             sortPacks:data.sortType || '',
@@ -81,7 +81,6 @@ export type ResponseForDeletedPackDate = {
 export type GetDateType = {
     packName?: string
     id?: string
-    currentPage?: number
     pageCount?: number
     page?: number
     sortType?: string
