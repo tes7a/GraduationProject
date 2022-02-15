@@ -45,10 +45,6 @@ export const PacksContainer = () => {
     const dispatch = useDispatch();
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
 
-
-    const error: string = useSelector<AppRootStateType, string>(state => state.app.error);
-    const [userID, setUserID] = useState<string | undefined>(undefined);
-
     const onChangeAddPrivatePack = (e: ChangeEvent<HTMLInputElement>) => {
         setAddPrivatePack(e.currentTarget.checked);
     }
@@ -120,7 +116,7 @@ export const PacksContainer = () => {
         if (isLoggedIn) {
             dispatch(getPacksTC());
         }
-    }, [dispatch, isLoggedIn, page, sortType, pageCount, min, max, showMyPacksPage, userID, packName]);
+    }, [dispatch, isLoggedIn, page, sortType, pageCount, min, max, showMyPacksPage, packName]);
 
 
     const onChangePackNameHandler = (value: string) => setCardName(value);
