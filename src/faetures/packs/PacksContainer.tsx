@@ -32,9 +32,11 @@ export const PacksContainer = () => {
     const packs: Array<PackDataType> = useSelector<AppRootStateType, Array<PackDataType>>(state => state.packs.packs);
 
     const [textSearch, setTextSearch] = useState<string>("");
+    const minRangeValue = useSelector<AppRootStateType, number>(state => state.searchPack.minCardsCount);
+    const maxRangeValue = useSelector<AppRootStateType, number>(state => state.searchPack.maxCardsCount);
     const maxValuePack = useSelector<AppRootStateType, number>(state => state.packs.setting.maxCardsCount);
     const minValuePack = useSelector<AppRootStateType, number>(state => state.packs.setting.minCardsCount);
-    const [rangeValues, setRangeValues] = useState<[number, number]>([minValuePack, maxValuePack]);
+    const [rangeValues, setRangeValues] = useState<[number, number]>([minRangeValue, maxRangeValue]);
     const onChangeRange = (value: [number, number]) => {
         setRangeValues(value);
     }

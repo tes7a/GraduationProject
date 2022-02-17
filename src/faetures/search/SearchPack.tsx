@@ -1,19 +1,16 @@
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {useDebounce} from "../../hooks/useDebounce";
 import SuperButton from "../../components/SuperButton/SuperButton";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {Slider} from "antd";
 import 'antd/dist/antd.css';
 import {setSoughtMinMaxCountCardsAC, setSoughtPackNameAC} from "./search-pack-reducer";
 import s from "../../style/Packs.module.css";
-import {AppRootStateType} from "../../app/store";
 
-
-export const SearchPack = React.memo(({maxValuePack, minValuePack, rangeValues, textSearch,...props}: SearchPackPropsType) => {
+export const SearchPack = React.memo(({minValuePack,maxValuePack,textSearch,rangeValues,...props}:SearchPackPropsType) => {
     const dispatch = useDispatch();
     const stepRange = 1;
-
 
     function valueInputDebounce(value: string) {
         dispatch(setSoughtPackNameAC(value));
@@ -89,3 +86,11 @@ type SearchPackPropsType = {
     textSearch: string
     onChangeTextSearch: (value: string) => void
 }
+
+// type SearchPackPropsType = {
+//     changeRangeValue: (value: [number, number]) => void
+//     rangeValue: [number, number]
+//     searchPacks: (value: string) => void
+//     searchValue: string
+//     onChangeSearchValue: (value: string) => void
+// }
