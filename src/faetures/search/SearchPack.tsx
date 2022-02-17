@@ -1,5 +1,5 @@
 import SuperInputText from "../../components/SuperInputText/SuperInputText";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useDebounce} from "../../hooks/useDebounce";
 import SuperButton from "../../components/SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,15 +10,10 @@ import s from "../../style/Packs.module.css";
 import {AppRootStateType} from "../../app/store";
 
 
-export const SearchPack = () => {
+export const SearchPack = React.memo(({maxValuePack, minValuePack, rangeValues, textSearch,...props}: SearchPackPropsType) => {
     const dispatch = useDispatch();
-    const [textSearch, setTextSearch] = useState<string>("");
-    const minRangeValue = useSelector<AppRootStateType, number>(state => state.searchPack.minCardsCount);
-    const maxRangeValue = useSelector<AppRootStateType, number>(state => state.searchPack.maxCardsCount);
-    const maxValuePack = useSelector<AppRootStateType, number>(state => state.packs.setting.maxCardsCount);
-    const minValuePack = useSelector<AppRootStateType, number>(state => state.packs.setting.minCardsCount);
     const stepRange = 1;
-    const [rangeValues, setRangeValues] = useState<[number, number]>([minRangeValue, maxRangeValue]);
+
 
     function valueInputDebounce(value: string) {
         dispatch(setSoughtPackNameAC(value));
@@ -32,7 +27,7 @@ export const SearchPack = () => {
     const [debouncedRangeFunc, clearTimerRange] = useDebounce(valueRangeDebounce, 2000);
 
     const searchPackDebounce = (text: string) => {
-        setTextSearch(text);
+        props.onChangeTextSearch(text);
         debouncedInputFunc(textSearch)
     };
 
@@ -43,7 +38,7 @@ export const SearchPack = () => {
     };
 
     const onChangeRange = (newValue: [number, number]) => {
-        setRangeValues(newValue);
+        props.onChangeRange(newValue);
         debouncedRangeFunc(newValue);
     };
 
@@ -52,7 +47,8 @@ export const SearchPack = () => {
         <div>
             <label className={s.packsAsideTitle} htmlFor="fieldSearch">Search</label>
             <div className={s.searchBlock}>
-                <SuperInputText className={s.searchInput} placeholder='Search' value={textSearch} onChangeText={searchPackDebounce}
+                <SuperInputText className={s.searchInput} placeholder='Search' value={textSearch}
+                                onChangeText={searchPackDebounce}
                                 id="fieldSearch"/>
             </div>
             <h3 className={s.packsAsideTitle}>Number of cards</h3>
@@ -83,12 +79,13 @@ export const SearchPack = () => {
             <SuperButton className={s.searchButton} onClick={searchPackClick} type="submit">Search</SuperButton>
         </div>
     )
-};
+});
 
-// type SearchPackPropsType = {
-//     changeRangeValue: (value: [number, number]) => void
-//     rangeValue: [number, number]
-//     searchPacks: (value: string) => void
-//     searchValue: string
-//     onChangeSearchValue: (value: string) => void
-// }
+type SearchPackPropsType = {
+    maxValuePack: number
+    minValuePack: number
+    rangeValues: [number, number]
+    onChangeRange: (rangeValues: [number, number]) => void
+    textSearch: string
+    onChangeTextSearch: (value: string) => void
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {PackDataType} from "../../api/packsAPI";
 import {Pack} from "./Pack";
 import s from './../../style/Packs.module.css';
@@ -32,12 +32,17 @@ export const Packs = React.memo(function (
         changePageCount,
         pageCount,
         changeShowDeleteModal,
+        maxValuePack,
+        minValuePack,
+        rangeValues,
+        onChangeRange,
+        textSearch,
+        onChangeTextSearch,
         ...props
     }: PacksPropsType
 ) {
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
     const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
-
 
     if (status === 'loading') {
         return <Spin size={'large'} tip="Loading..."/>
@@ -57,7 +62,14 @@ export const Packs = React.memo(function (
                     <SuperButton className={`${s.packsAsideButton} ${showMyPacksPage ? s.active : ''}`}
                                  onClick={getMyPacks}>My Packs</SuperButton>
                 </div>
-                <SearchPack/>
+                <SearchPack
+                    textSearch={textSearch}
+                    onChangeTextSearch={onChangeTextSearch}
+                    minValuePack={minValuePack}
+                    maxValuePack={maxValuePack}
+                    onChangeRange={onChangeRange}
+                    rangeValues={rangeValues}
+                />
             </div>
             <div className={s.packsMain}>
                 <h3 className={s.packsMainTitle}>Cards Packs list</h3>
@@ -124,4 +136,10 @@ type PacksPropsType = {
     changePageCount: (value: number) => void
     pageCount: number
     changeShowDeleteModal: (name: string, id: string) => void
+    maxValuePack: number
+    minValuePack: number
+    rangeValues: [number, number]
+    onChangeRange: (rangeValues: [number, number]) => void
+    textSearch: string
+    onChangeTextSearch: (value: string) => void
 }
