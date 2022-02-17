@@ -31,6 +31,17 @@ export const PacksContainer = () => {
     const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
     const packs: Array<PackDataType> = useSelector<AppRootStateType, Array<PackDataType>>(state => state.packs.packs);
 
+    const [textSearch, setTextSearch] = useState<string>("");
+    const maxValuePack = useSelector<AppRootStateType, number>(state => state.packs.setting.maxCardsCount);
+    const minValuePack = useSelector<AppRootStateType, number>(state => state.packs.setting.minCardsCount);
+    const [rangeValues, setRangeValues] = useState<[number, number]>([minValuePack, maxValuePack]);
+    const onChangeRange = (value: [number, number]) => {
+        setRangeValues(value);
+    }
+    const onChangeTextSearch = (value:string) => {
+        setTextSearch(value);
+    }
+
     const [addPrivatePack, setAddPrivatePack] = useState(false);
     const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -44,10 +55,6 @@ export const PacksContainer = () => {
     const [packId, setPackId] = useState('');
     const dispatch = useDispatch();
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
-
-
-    const error: string = useSelector<AppRootStateType, string>(state => state.app.error);
-    const [userID, setUserID] = useState<string | undefined>(undefined);
 
     const onChangeAddPrivatePack = (e: ChangeEvent<HTMLInputElement>) => {
         setAddPrivatePack(e.currentTarget.checked);
@@ -116,13 +123,6 @@ export const PacksContainer = () => {
         closeModal();
     }, [elementIdForDelete]);
 
-    useEffect(() => {
-        if (isLoggedIn) {
-            dispatch(getPacksTC());
-        }
-    }, [dispatch, isLoggedIn, page, sortType, pageCount, min, max, showMyPacksPage, userID, packName]);
-
-
     const onChangePackNameHandler = (value: string) => setCardName(value);
     const onChangeEditNameHandler = (value: string) => setEditName(value);
 
@@ -131,6 +131,16 @@ export const PacksContainer = () => {
         setPackId(id);
         setShowEditModal(true);
     }
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            dispatch(getPacksTC());
+        }
+    }, [dispatch, isLoggedIn, page, sortType, pageCount, min, max, showMyPacksPage, packName]);
+
+    useEffect(() => {
+        setRangeValues([minValuePack, maxValuePack]);
+    }, [minValuePack, maxValuePack]);
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -174,6 +184,12 @@ export const PacksContainer = () => {
                 show={showDeleteModal}
             />
             <Packs
+                textSearch={textSearch}
+                onChangeTextSearch={onChangeTextSearch}
+                maxValuePack={maxValuePack}
+                minValuePack={minValuePack}
+                onChangeRange={onChangeRange}
+                rangeValues={rangeValues}
                 getPacks={getAllPacks}
                 sortCallback={sortCallBack}
                 sortMethod={sortType}
