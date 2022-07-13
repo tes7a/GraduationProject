@@ -26,7 +26,7 @@ export const setAppErrorAC = (error: string) => ({type: 'app/SET-ERROR', error} 
 // type
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
-type initialStateAppType = {
+export type initialStateAppType = {
     status: RequestStatusType
     error: string
     isInitialized: boolean

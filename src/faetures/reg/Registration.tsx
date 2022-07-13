@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from "react";
-import {Link, Navigate, NavLink} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {registerTC} from "./reg-reducer";
-import SuperInputText from "../../components/SuperInputText/SuperInputText";
-import { AppRootStateType } from "../../app/store";
-import {PATH} from "../../routes/routes";
-import classes from "../../style/Auth.module.css";
-import {RequestStatusType} from "../../app/app-reducer";
-import {Spin} from "antd";
+import React, {useEffect, useState} from 'react';
+import {Navigate, NavLink} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {registerTC} from './reg-reducer';
+import SuperInputText from '../../components/SuperInputText/SuperInputText';
+import {AppRootStateType} from '../../app/store';
+import {PATH} from '../../routes/routes';
+import classes from '../../style/Auth.module.css';
+import {RequestStatusType} from '../../app/app-reducer';
+import {Spin} from 'antd';
 
 
 export const Registration = () => {

@@ -48,7 +48,6 @@ export const Cards: React.FC<CardsType> = (
         navigate
     }
 ) => {
-//test
     return (
         <div className={s.cards}>
             <div className={s.hoverImg}>

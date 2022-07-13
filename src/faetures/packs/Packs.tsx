@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {PackDataType} from "../../api/packsAPI";
 import {Pack} from "./Pack";
 import s from './../../style/Packs.module.css';

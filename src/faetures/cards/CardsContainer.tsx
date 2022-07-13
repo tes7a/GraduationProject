@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Card} from "../../api/cards.API";
 import {AppRootStateType} from "../../app/store";
 import {Cards} from "./Cards";
-import {deleteCard, getCards, intialCardsStateType, postCard, putCard, setCardsCountOnPage, setSortCards} from "./cards-reducer";
+import {deleteCard, getCards, initialCardsStateType, postCard, putCard, setCardsCountOnPage, setSortCards} from "./cards-reducer";
 import {RequestStatusType} from "../../app/app-reducer";
 import {Spin} from "antd";
 import {Navigate, useNavigate, useParams} from "react-router-dom";
@@ -21,7 +21,7 @@ export const CardsContainer: React.FC = () => {
         page,
         packUserId,
         sortCardsMethod
-    } = useSelector<AppRootStateType, intialCardsStateType>(state => state.cards);
+    } = useSelector<AppRootStateType, initialCardsStateType>(state => state.cards);
     const authID: string = useSelector<AppRootStateType, string>(state => state.auth.user._id);
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
     const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);

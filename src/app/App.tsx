@@ -26,6 +26,8 @@ export function App() {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
     const error = useSelector<AppRootStateType, string>(state => state.app.error);
+    const card = useSelector<AppRootStateType,any>(state => state.cards);
+    console.log(card);
     const logout = () => {
         dispatch(logoutTC());
     }
