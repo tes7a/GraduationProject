@@ -93,7 +93,6 @@ export const getPacksTC = () => (dispatch: Dispatch, getState: () => AppRootStat
             dispatch(setStatusAppAC('idle'));
         })
 }
-
 export const createPackTC = (value: string, isPrivate: boolean): ThunkActionType =>
     (dispatch,getState:() => AppRootStateType) => {
         dispatch(setStatusAppAC('loading'));
@@ -155,7 +154,7 @@ export const removePackTC = (id: string): ThunkActionType =>
 
 
 //Types
-type PacksReducerStateType = {
+export type PacksReducerStateType = {
     packs: Array<PackDataType>
     setting: SettingPacksType
 }

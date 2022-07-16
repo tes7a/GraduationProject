@@ -22,7 +22,7 @@ export const forgotPasswordReducer = (state: initialForgotPasswordStateType = in
 };
 
 //action
-const setStatusAC = (status: RequestStatusType) => ({type: "forgotPasswordReducer/SET-STATUS", status} as const);
+export const setStatusAC = (status: RequestStatusType) => ({type: "forgotPasswordReducer/SET-STATUS", status} as const);
 export const setIsCreateForgotPasswordRequestAC = (isCreateForgotPasswordRequest: boolean) =>
     ({type: "forgotPasswordReducer/SET-IS-CREATED-PASSWORD-REQUEST", isCreateForgotPasswordRequest} as const);
 export const setForgotPasswordErrorAC = (error: string) => ({type: 'forgotPasswordReducer/SET-ERROR', error} as const);
@@ -50,7 +50,7 @@ export const createForgotPasswordRequestTC = (data: DataForgotPasswordType) => (
 
 
 //type
-type initialForgotPasswordStateType = typeof initialForgotPasswordState;
+export type initialForgotPasswordStateType = typeof initialForgotPasswordState;
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
 export type DataForgotPasswordType = {
     email: string,

@@ -22,7 +22,7 @@ export const newPasswordReducer = (state: initialNewPasswordStateType = initialN
 };
 
 //action
-const setStatusAC = (status: RequestStatusType) => ({type: "newPasswordReducer/SET-STATUS", status} as const);
+export const setStatusAC = (status: RequestStatusType) => ({type: "newPasswordReducer/SET-STATUS", status} as const);
 export const setIsChangedPasswordAC = (isChangedPassword: boolean) =>
     ({type: "newPasswordReducer/SET-IS-CHANGED-PASSWORD", isChangedPassword} as const);
 export const setNewPasswordErrorAC = (error: string) => ({type: 'newPasswordReducer/SET-ERROR', error} as const);
@@ -50,7 +50,7 @@ export const createNewPasswordTC = (data: any) => (dispatch: ThunkDispatch) => {
 
 
 //type
-type initialNewPasswordStateType = typeof initialNewPasswordState;
+export type initialNewPasswordStateType = typeof initialNewPasswordState;
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
 export type DataNewPasswordType = {
     password: string
