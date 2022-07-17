@@ -4,12 +4,12 @@ import {loginTC} from "../../api/AuthReducer";
 import {setAppErrorAC, setStatusAppAC} from "../../app/app-reducer";
 
 
-type StateType = {
+export type RegStateType = {
     toggleRegistration: boolean
     errMsg: string
 };
 
-const initialStateReg: StateType = {
+const initialStateReg: RegStateType = {
     toggleRegistration: false,
     errMsg: '',
 }
@@ -26,8 +26,8 @@ export const RegReducer = (state = initialStateReg, action: RegistrationReducerA
 }
 
 // actionCreator
-const toggleIsRegistration = (value: boolean) => ({type: "TOGGLE_IS_REGISTRATION", value} as const);
-const setErrRequest = (value: string) => ({type: 'SET_ERR_REQUEST', value} as const);
+export const toggleIsRegistration = (value: boolean) => ({type: "TOGGLE_IS_REGISTRATION", value} as const);
+export const setErrRequest = (value: string) => ({type: 'SET_ERR_REQUEST', value} as const);
 
 // thunk
 

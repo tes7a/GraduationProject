@@ -6,9 +6,9 @@ let initialState = {
     packName: ""
 };
 
-export type InitialStateType = typeof initialState;
+export type SearchPackStateType = typeof initialState;
 
-export const searchPackReducer = (state: InitialStateType = initialState, action: SearchPackReducerActionsType): InitialStateType => {
+export const searchPackReducer = (state: SearchPackStateType = initialState, action: SearchPackReducerActionsType): SearchPackStateType => {
     switch (action.type) {
         case "searchPack/SET-SOUGHT-PACK-NAMES":
             return {...state, packName: action.packName};
