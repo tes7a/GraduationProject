@@ -3,21 +3,21 @@ import {authAPI, LoginUserInfo, updateUserInfoDataType} from './authAPI';
 import {setAppErrorAC, setInitialized, setStatusAppAC} from "../app/app-reducer";
 import {ThunkActionType} from "../app/store";
 
-export type initialStateType = {
+export type AuthReducerStateType = {
     isLoggedIn: boolean
     user: LoginUserInfo
     error: string,
     profileError: string
 }
 
-const initialStateProfile: initialStateType = {
+const initialStateProfile: AuthReducerStateType = {
     isLoggedIn: false,
     error: '',
     profileError: '',
     user: {} as LoginUserInfo
 }
 
-export const AuthReducer = (state = initialStateProfile, action: AuthReducerActionsType): initialStateType => {
+export const AuthReducer = (state = initialStateProfile, action: AuthReducerActionsType): AuthReducerStateType => {
     switch (action.type) {
         case "profile/TAKE-PROFILE-INFO":
             return {...state, user: action.data};
@@ -51,6 +51,7 @@ export const profileInfoTC = () => (dispatch: Dispatch) => {
     dispatch(setStatusAppAC('loading'));
     authAPI.checkUserInfo()
         .then(res => {
+            console.log(res.data);
             dispatch(setLoggedInAC(true));
             dispatch(takeProfileInfo(res.data));
             dispatch(setLoginErrorAC(''));
