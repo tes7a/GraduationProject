@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Card} from "../../api/cards.API";
+import {Card} from "../../api/cardsAPI";
 import {AppRootStateType} from "../../app/store";
 import {Cards} from "./Cards";
 import {deleteCard, getCards, initialCardsStateType, postCard, putCard, setCardsCountOnPage, setSortCards} from "./cards-reducer";

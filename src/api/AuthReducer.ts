@@ -51,7 +51,6 @@ export const profileInfoTC = () => (dispatch: Dispatch) => {
     dispatch(setStatusAppAC('loading'));
     authAPI.checkUserInfo()
         .then(res => {
-            console.log(res.data);
             dispatch(setLoggedInAC(true));
             dispatch(takeProfileInfo(res.data));
             dispatch(setLoginErrorAC(''));
@@ -115,6 +114,7 @@ export const logoutTC = () => (dispatch: Dispatch) => {
     dispatch(setStatusAppAC('loading'));
     authAPI.logout()
         .then(res => {
+            console.log(res);
             dispatch(logoutAC());
             dispatch(setLoggedInAC(false));
             dispatch(setLoginErrorAC(''));

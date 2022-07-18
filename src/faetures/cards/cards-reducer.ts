@@ -1,4 +1,4 @@
-import {CardsAPI, CardsResp, GetDataType, GradeData, PostCardData, PutDataType} from '../../api/cards.API';
+import {cardsAPI, CardsResp, GetDataType, GradeData, PostCardData, PutDataType} from '../../api/cardsAPI';
 import {setAppErrorAC, setStatusAppAC} from '../../app/app-reducer';
 import {AppDispatch, AppRootStateType, ThunkActionType} from '../../app/store';
 
@@ -15,7 +15,7 @@ const initialCardsState: initialCardsStateType = {
     sortCardsMethod: undefined,
     currentGrade: [0, 0],
     countPerPage: [10, 25, 50]
-}
+};
 
 export const CardsReducers = (state = initialCardsState, action: ActionsCardsType): initialCardsStateType => {
     switch (action.type) {
@@ -58,9 +58,9 @@ export const setGrade = (values: number[]) => ({type: 'cards/GRADE', values} as 
 
 //thunk
 export const getCards = (data?: GetDataType,) => async (dispatch: AppDispatch, getState: () => AppRootStateType) => {
-    const cards = getState().cards
+    const cards = getState().cards;
     try {
-        const response = await CardsAPI.getCards({
+        const response = await cardsAPI.getCards({
             cardsPack_id: cards.currentCardsPackID || data?.cardsPack_id,
             page: cards.page,
             pageCount: data?.pageCount || cards.pageCount,
@@ -69,8 +69,9 @@ export const getCards = (data?: GetDataType,) => async (dispatch: AppDispatch, g
             cardQuestion: data?.cardQuestion || undefined,
             cardAnswer: data?.cardAnswer || undefined,
             sortCards: cards.sortCardsMethod
-        })
-        dispatch(setCards(response.data))
+        });
+        console.log(response);
+        dispatch(setCards(response.data));
         dispatch(setAppErrorAC(''));
     } catch (e) {
         dispatch(setStatusAppAC('failed'))
@@ -78,7 +79,7 @@ export const getCards = (data?: GetDataType,) => async (dispatch: AppDispatch, g
 }
 export const postCard = (data?: PostCardData, pack_ID?: string): ThunkActionType => async dispatch => {
     try{
-        await CardsAPI.postCard(data)
+        await cardsAPI.postCard(data)
         await dispatch(getCards({
             cardsPack_id: pack_ID
         }))
@@ -89,7 +90,7 @@ export const postCard = (data?: PostCardData, pack_ID?: string): ThunkActionType
 }
 export const deleteCard = (id: string, pack_ID: string): ThunkActionType => async dispatch => {
    try {
-       await CardsAPI.deleteCard(id)
+       await cardsAPI.deleteCard(id)
        await dispatch(getCards({
            cardsPack_id: pack_ID
        }))
@@ -100,7 +101,7 @@ export const deleteCard = (id: string, pack_ID: string): ThunkActionType => asyn
 }
 export const putCard = (data: PutDataType, pack_ID: string): ThunkActionType => async dispatch => {
     try {
-        await CardsAPI.putCard(data)
+        await cardsAPI.putCard(data)
         await dispatch(getCards({
             cardsPack_id: pack_ID
         }))
@@ -111,13 +112,13 @@ export const putCard = (data: PutDataType, pack_ID: string): ThunkActionType => 
 }
 export const gradeCards = (data: GradeData): ThunkActionType => async dispatch => {
     try {
-        await CardsAPI.grade(data)
+        await cardsAPI.grade(data)
         await dispatch(getCards())
         dispatch(setAppErrorAC(''))
     }catch (e) {
         dispatch(setStatusAppAC('failed'));
     }
-}
+};
 
 //type
 export type ActionsCardsType =

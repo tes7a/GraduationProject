@@ -6,7 +6,7 @@ import {
     setCardsPage,
     setCardsTotalCount, setCurrentCardsPackID, setGrade, setMinMaxGrade, setSortCards
 } from './cards-reducer';
-import {Card, CardsResp} from '../../api/cards.API';
+import {Card, CardsResp} from '../../api/cardsAPI';
 
 const initialCards: Card[] = [
     {

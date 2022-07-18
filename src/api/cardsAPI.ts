@@ -1,8 +1,8 @@
-import axios, {AxiosResponse} from "axios";
-import {instance} from "./authAPI";
+import {AxiosResponse} from 'axios';
+import {instance} from './authAPI';
 
 //dal
-export const CardsAPI = {
+export const cardsAPI = {
     getCards(data?: GetDataType) {
         return instance.get<CardsResp>(`/cards/card`, {params: data})
     },
@@ -10,7 +10,6 @@ export const CardsAPI = {
         return instance.post<PostCardData, AxiosResponse<Card>>('/cards/card', data)
     },
     deleteCard(id: string) {
-        console.log(id,'ID')
         return instance.delete<Card>(`/cards/card?id=${id}`)
     },
     putCard(data: PutDataType) {
@@ -21,7 +20,7 @@ export const CardsAPI = {
     }
 }
 
-//type
+//Types
 export type CardsResp = {
     cards: Card[]
     cardsTotalCount: number
@@ -30,9 +29,10 @@ export type CardsResp = {
     page: number
     pageCount: number
     packUserId: string
-}
-
+};
 export type Card = {
+    more_id: string
+    comments: ''
     answer: string
     question: string
     cardsPack_id: string
@@ -45,8 +45,7 @@ export type Card = {
     updated: string
     __v: number
     _id: string
-}
-
+};
 export type GetDataType = {
     cardAnswer?: string
     cardQuestion?: string
@@ -56,7 +55,7 @@ export type GetDataType = {
     sortCards?: string
     page?: number
     pageCount?: number
-}
+};
 export type PostCardData = {
     card: {
         cardsPack_id: string
@@ -71,21 +70,18 @@ export type PostCardData = {
         answerVideo?: string
         type?: string
     }
-}
-
+};
 export type PutDataType = {
     card: {
         _id: string,
         question: string,
         comments?: string
     }
-}
-
+};
 export type GradeData = {
     grade: number,
     card_id: string
-}
-
+};
 export type GradeResponse = {
     _id: string
     cardsPack_id: string
@@ -93,4 +89,4 @@ export type GradeResponse = {
     user_id: string
     grade: number
     shots: number
-} 
+};
