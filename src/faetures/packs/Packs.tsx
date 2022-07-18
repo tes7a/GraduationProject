@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from "react";
-import {PackDataType} from "../../api/packsAPI";
-import {Pack} from "./Pack";
+import React from 'react';
+import {PackDataType} from '../../api/packsAPI';
+import {Pack} from './Pack';
 import s from './../../style/Packs.module.css';
-import SuperButton from "../../components/SuperButton/SuperButton";
-import {MyPagination} from "../../components/pagination/MyPagination";
-import {Sort} from "../../components/sort/Sort";
-import {SearchPack} from "../search/SearchPack";
-import {Spin} from "antd";
-import SuperSelect from "../../components/SuperSelect/SuperSelect";
-import {RequestStatusType} from "../../app/app-reducer";
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../app/store";
+import SuperButton from '../../components/SuperButton/SuperButton';
+import {MyPagination} from '../../components/pagination/MyPagination';
+import {Sort} from '../../components/sort/Sort';
+import {SearchPack} from '../search/SearchPack';
+import {Spin} from 'antd';
+import SuperSelect from '../../components/SuperSelect/SuperSelect';
+import {RequestStatusType} from '../../app/app-reducer';
+import {useSelector} from 'react-redux';
+import {AppRootStateType} from '../../app/store';
 
 
 export const Packs = React.memo(function (
@@ -37,20 +37,14 @@ export const Packs = React.memo(function (
         rangeValues,
         onChangeRange,
         textSearch,
-        onChangeTextSearch,
-        ...props
+        onChangeTextSearch
     }: PacksPropsType
 ) {
     const status: RequestStatusType = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
-    const isLoggedIn: boolean = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
 
     if (status === 'loading') {
         return <Spin size={'large'} tip="Loading..."/>
     }
-
-    // if (!isLoggedIn) {
-    //     return <Navigate to={PATH.LOGIN}/>
-    // }
 
     return (
         <div className={s.packs}>

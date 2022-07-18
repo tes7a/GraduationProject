@@ -1,4 +1,4 @@
-import {Card} from "../api/cards.API";
+import {Card} from "../api/cardsAPI";
 
 export const getRandomCard = (cards: Card[]):Card => {
     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);

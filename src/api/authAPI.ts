@@ -1,4 +1,4 @@
-import axios, {AxiosResponse} from "axios"
+import axios, {AxiosResponse} from 'axios'
 
 //const DEV_VERSION = false;
 //! DEV_VERSION ? "http://localhost:7542/2.0/" : "https://neko-back.herokuapp.com/2.0/";
@@ -12,16 +12,16 @@ export const instance = axios.create({
 // dal
 export const authAPI = {
     checkUserInfo() {
-        return instance.post<{}, AxiosResponse<LoginUserInfo>>(`auth/me`, {})
+        return instance.post<{}, AxiosResponse<LoginUserInfo>>(`auth/me`, {});
     },
     updateUserInfo({name, avatar}: updateUserInfoDataType) {
-        return instance.put<{}, AxiosResponse<responseUpdateUserInfoType>>('auth/me', {name, avatar});
+        return instance.put<{}, AxiosResponse<ResponseUpdateUserInfoType>>('auth/me', {name, avatar});
     },
     login(email: string, password: string, rememberMe: boolean) {
-        return instance.post<{}, AxiosResponse<LoginUserInfo>>('auth/login', {email, password, rememberMe})
+        return instance.post<{}, AxiosResponse<LoginUserInfo>>('auth/login', {email, password, rememberMe});
     },
     logout() {
-        return instance.delete('/auth/me');
+        return instance.delete<{},AxiosResponse<LogoutUserInfo>>('/auth/me');
     }
 }
 
@@ -41,8 +41,11 @@ export type LoginUserInfo = {
     verified: boolean
     __v: number
     _id: string
-}
-export type responseUpdateUserInfoType = {
+};
+export type LogoutUserInfo = {
+    info:string
+};
+export type ResponseUpdateUserInfoType = {
     token: string
     tokenDeathTime: number
     updateUser:LoginUserInfo

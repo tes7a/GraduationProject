@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {Link, Navigate, useNavigate} from "react-router-dom";
-import {Card, CardsAPI} from "../../api/cards.API";
+import {Card, cardsAPI} from "../../api/cardsAPI";
 import {MyPagination} from "../../components/pagination/MyPagination";
 import {Sort} from "../../components/sort/Sort";
 import SuperButton from "../../components/SuperButton/SuperButton";
@@ -48,7 +48,6 @@ export const Cards: React.FC<CardsType> = (
         navigate
     }
 ) => {
-//test
     return (
         <div className={s.cards}>
             <div className={s.hoverImg}>

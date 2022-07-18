@@ -1,17 +1,12 @@
-import React, {FC} from "react";
-import { Login } from "../faetures/login/Login";
-import { Profile } from "../faetures/profile/Profile";
-import { Registration } from "../faetures/reg/Registration";
-import { TestComponent } from "../trash/TestComponent";
-import { Err404 } from "../utils/Err404";
-import {ForgotPassword} from "../faetures/forgotPassword/ForgotPassword";
-import {NewPassword} from "../faetures/newPassword/NewPassword";
-import { LoginContainer } from "../faetures/login/LoginContainer";
-import { ProfileContainer } from "../faetures/profile/ProfileContainer";
-import {PacksContainer} from "../faetures/packs/PacksContainer";
-import { Search } from "../faetures/search/Search";
-import { CardsContainer } from "../faetures/cards/CardsContainer";
-import {LearningProcess} from "../faetures/learning-process/LearningProcess";
+import {Registration} from '../faetures/reg/Registration';
+import {TestComponent} from '../trash/TestComponent';
+import {Err404} from '../utils/Err404';
+import {ForgotPassword} from '../faetures/forgotPassword/ForgotPassword';
+import {NewPassword} from '../faetures/newPassword/NewPassword';
+import {LoginContainer} from '../faetures/login/LoginContainer';
+import {ProfileContainer} from '../faetures/profile/ProfileContainer';
+import {PacksContainer} from '../faetures/packs/PacksContainer';
+import {CardsContainer} from '../faetures/cards/CardsContainer';
 
 export const PATH = {
     ERROR: '/404',

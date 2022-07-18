@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {setGradeTC} from "./learrning-process-reducer";
 import {AppRootStateType} from "../../app/store";
 import {useParams} from "react-router-dom";
-import {Card} from "../../api/cards.API";
+import {Card} from "../../api/cardsAPI";
 import {getCards} from "../cards/cards-reducer";
 import stylesButtons from "../../style/Packs.module.css";
 import {getRandomCard} from "../../utils/randomCard";

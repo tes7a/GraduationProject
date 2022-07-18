@@ -1,6 +1,6 @@
 import {instance} from "./authAPI";
 
-export const registerApi = {
+export const registerAPI = {
     register(data: RegisterRequestType) {
         return instance.post('auth/register', data)
     }

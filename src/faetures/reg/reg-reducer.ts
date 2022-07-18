@@ -1,15 +1,15 @@
-import {registerApi, RegisterRequestType} from "../../api/registerApi";
+import {registerAPI, RegisterRequestType} from "../../api/registerAPI";
 import {ThunkActionType} from "../../app/store";
 import {loginTC} from "../../api/AuthReducer";
 import {setAppErrorAC, setStatusAppAC} from "../../app/app-reducer";
 
 
-type StateType = {
+export type RegStateType = {
     toggleRegistration: boolean
     errMsg: string
 };
 
-const initialStateReg: StateType = {
+const initialStateReg: RegStateType = {
     toggleRegistration: false,
     errMsg: '',
 }
@@ -26,15 +26,15 @@ export const RegReducer = (state = initialStateReg, action: RegistrationReducerA
 }
 
 // actionCreator
-const toggleIsRegistration = (value: boolean) => ({type: "TOGGLE_IS_REGISTRATION", value} as const);
-const setErrRequest = (value: string) => ({type: 'SET_ERR_REQUEST', value} as const);
+export const toggleIsRegistration = (value: boolean) => ({type: "TOGGLE_IS_REGISTRATION", value} as const);
+export const setErrRequest = (value: string) => ({type: 'SET_ERR_REQUEST', value} as const);
 
 // thunk
 
 export const registerTC = (data: RegisterRequestType): ThunkActionType =>
     (dispatch) => {
         dispatch(setStatusAppAC('loading'));
-        registerApi.register(data)
+        registerAPI.register(data)
             .then(res => {
                 dispatch(toggleIsRegistration(true));
                 dispatch(loginTC(data.email, data.password, false));
