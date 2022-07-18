@@ -31,8 +31,6 @@ export type CardsResp = {
     packUserId: string
 };
 export type Card = {
-    more_id: string
-    comments: ''
     answer: string
     question: string
     cardsPack_id: string

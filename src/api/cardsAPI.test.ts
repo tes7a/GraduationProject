@@ -6,10 +6,8 @@ const getCardsResolved: CardsResp = {
         {
             answer: 'no answer',
             cardsPack_id: '62d2a43c2cc4cb00046b1cd0',
-            comments: '',
             created: '2022-07-18T21:03:31.288Z',
             grade: 0,
-            more_id: '6267b5e97120840004ab3366',
             question: 'no question',
             rating: 0,
             shots: 0,
