@@ -24,7 +24,7 @@ const getCardsResolved: CardsResp = {
     packUserId: '123',
     page: 1,
     pageCount: 10,
-}
+};
 
 jest.mock('axios');
 describe('Testing cards API', () => {

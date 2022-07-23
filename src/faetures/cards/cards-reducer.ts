@@ -70,7 +70,6 @@ export const getCards = (data?: GetDataType,) => async (dispatch: AppDispatch, g
             cardAnswer: data?.cardAnswer || undefined,
             sortCards: cards.sortCardsMethod
         });
-        console.log(response);
         dispatch(setCards(response.data));
         dispatch(setAppErrorAC(''));
     } catch (e) {

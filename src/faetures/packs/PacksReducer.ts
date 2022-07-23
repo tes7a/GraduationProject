@@ -1,6 +1,6 @@
 import {setAppErrorAC, setStatusAppAC} from '../../app/app-reducer';
 import {Dispatch} from "redux";
-import {defaultPacksPageCount, GetDateType, PackDataType, PacksAPI, PacksDataType} from "../../api/packsAPI";
+import {defaultPacksPageCount, GetDateType, PackDataType, packsAPI, PacksDataType} from "../../api/packsAPI";
 import {AppRootStateType, ThunkActionType} from "../../app/store";
 
 let initialState: PacksReducerStateType = {
@@ -75,8 +75,9 @@ export const getPacksTC = () => (dispatch: Dispatch, getState: () => AppRootStat
     }
 
     dispatch(setStatusAppAC('loading'));
-    PacksAPI.getPacks(newData)
+    packsAPI.getPacks(newData)
         .then(res => {
+            console.log(res);
             dispatch(setPacksNamesAC(newData.packName));
             dispatch(setPacksTotalCountAC(res.data.cardPacksTotalCount));
             dispatch(setMinMaxCardsCountsAC(res.data.minCardsCount, res.data.maxCardsCount));
@@ -96,7 +97,7 @@ export const getPacksTC = () => (dispatch: Dispatch, getState: () => AppRootStat
 export const createPackTC = (value: string, isPrivate: boolean): ThunkActionType =>
     (dispatch,getState:() => AppRootStateType) => {
         dispatch(setStatusAppAC('loading'));
-        PacksAPI.addPack(value, isPrivate)
+        packsAPI.addPack(value, isPrivate)
             .then(res => {
                 dispatch(setSortPacks('0updated'));
                 dispatch(setPacksPageAC(1));
@@ -116,7 +117,7 @@ export const createPackTC = (value: string, isPrivate: boolean): ThunkActionType
 
 export const changePackTitleTC = (id: string, name: string) => (dispatch: Dispatch) => {
     dispatch(setStatusAppAC('loading'));
-    PacksAPI.changePack(id, name)
+    packsAPI.changePack(id, name)
         .then(res => {
             dispatch(changePackTitleAC(id, name));
             dispatch(setAppErrorAC(''));
@@ -136,7 +137,7 @@ export const changePackTitleTC = (id: string, name: string) => (dispatch: Dispat
 export const removePackTC = (id: string): ThunkActionType =>
     (dispatch) => {
         dispatch(setStatusAppAC('loading'));
-        PacksAPI.removePack(id)
+        packsAPI.removePack(id)
             .then(res => {
                 dispatch(getPacksTC());
                 dispatch(setAppErrorAC(''));

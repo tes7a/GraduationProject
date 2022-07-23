@@ -2,7 +2,7 @@ import {instance} from "./authAPI";
 import {AxiosResponse} from "axios";
 import {log} from "util";
 
-export const PacksAPI = {
+export const packsAPI = {
     getPacks(data: GetDateType) {
         const newData = {
             page: data.page || 1,
